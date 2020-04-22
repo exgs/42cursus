@@ -33,7 +33,7 @@ t_node *list_get(t_linked_list *list, int n)
 	t_node 		*curr;
 	unsigned int i;
 
-	if (list == NULL || list->head == NULL || list_size(list) <= n)
+	if (list == NULL || list->head == NULL)
 		return (NULL);
 	i = 0;
 	curr = list->head;
@@ -77,6 +77,35 @@ int list_size(t_linked_list *list)
 	return (size);
 }
 
+int ft_add_sub(t_linked_list *list, t_node *add_list, int n)
+{
+	t_node *prev;
+	t_node *next;
+	int index_n;
+
+	index_n = n % list_size(list);
+	if (index_n >= 0)
+	{
+		prev = list_get(list, index_n-1);
+		next = prev->next;
+		prev->next = add_list;
+		add_list->prev = prev;
+		next->prev = add_list;
+		add_list->next = next;
+		return (index_n);
+	}
+	else if (index_n < 0)
+	{
+		next = list_get(list, index_n + 1);
+		prev = next->prev;
+		next->prev = add_list;
+		add_list->next = next;
+		prev->next = add_list;
+		add_list->prev = prev;
+		return (list_size(list) + index_n);
+	}
+}
+
 int list_add(t_linked_list *list, void *data, int n)
 {
 	t_node *add_list;
@@ -95,42 +124,20 @@ int list_add(t_linked_list *list, void *data, int n)
 		add_list->prev = add_list;
 		return (0);
 	}
-	if (n >= 0)
-	{
-		if (n > list_size(list) ) //같은 경우 한바퀴돌아 자기자신을가리키므로
-			return(-1);
-		prev = list_get(list, n-1);
-		next = prev->next;
-		prev->next = add_list;
-		add_list->prev = prev;
-		next->prev = add_list;
-		add_list->next = next;
-		return (n);
-	}
-	else if (n < 0)
-	{
-		if ((n*-1) >= list_size(list))
-			return (-1);
-		next = list_get(list, n + 1);
-		prev = next->prev;
-		next->prev = add_list;
-		add_list->next = next;
-		prev->next = add_list;
-		add_list->prev = prev;
-		return (list_size(list)+n);
-	}
+	return(ft_add_sub(list, add_list,n));
 }
+
+
 void list_remove(t_linked_list *list, int n, void (*free_data)(void *))
 {
 	t_node *del_list;
 	t_node *prev;
 	t_node *next;
-	unsigned int abs;
+	int index_n;
 	if (list == NULL || free_data == NULL)
 		return ;
-	if (abs = (n >=0 ? n : (n*-1)) >= list_size(list))
-		return ;
-	del_list = list_get(list, n);
+	index_n = n % list_size(list);
+	del_list = list_get(list, index_n);
 	prev = del_list->prev;
 	next = del_list->next;
 	prev->next = next;
