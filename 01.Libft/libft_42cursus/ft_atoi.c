@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yunslee <yunslee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 22:32:36 by yunslee           #+#    #+#             */
-/*   Updated: 2020/04/13 19:59:45 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/06/12 22:52:30 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ static int	atoi_while(const char *str, int i, int sign)
 		sum += str[i] - 48;
 		i++;
 	}
-	if (sum > LLONG_MAX - 1 && sign == -1)
+	/*엄청 긴 숫자 text에 대해서 Overflow가 날 수 있어서 처리한 것이지만,
+	LLONG_MIN에 대해서는 처리할 수 가 없다.*/
+	if (sum > LLONG_MAX  && sign == -1) 
 		return (0);
 	if (sum > LLONG_MAX && sign == 1)
 		return (-1);
@@ -37,7 +39,7 @@ int			ft_atoi(const char *str)
 
 	sign = 1;
 	i = 0;
-	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13)) //space and whitespace 건너뛰기
 		i++;
 	if (str[i] == '-')
 	{
