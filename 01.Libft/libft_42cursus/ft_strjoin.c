@@ -30,7 +30,7 @@ char			*ft_strjoin(char const *s1, char const *s2)
 	unsigned int	j;
 	char			*str_join;
 
-	if (s1 == NULL || s2 == NULL)
+	if (s1 == NULL || s2 == NULL)// XOR가 true인 상황에서 각 string원형을 return할지는 undefined behavior
 		return (NULL);
 	str_join = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (str_join == NULL)
