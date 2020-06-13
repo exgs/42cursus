@@ -23,10 +23,9 @@ void	*ft_memccpy(void *dst, const void *src, int c, size_t len)
 	i = 0;
 	while (i < len)
 	{
-		*str1 = str2[i];
-		if (*str1 == (char)c)
-			return (++str1);
-		str1++;
+		str1[i] = str2[i];
+		if (str1[i] == (char)c)
+			return (str1 + i + 1);
 		i++;
 	}
 	return (NULL);
