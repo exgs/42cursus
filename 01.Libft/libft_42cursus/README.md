@@ -25,5 +25,5 @@
    https://github.com/nadarm/42Seoul-42cursus/blob/master/libft/ft_split.c
 
 ---
-
+추가 설명
 https://yunslee-42seoul.tistory.com/category/42cursus/libft
