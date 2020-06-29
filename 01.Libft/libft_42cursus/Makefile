@@ -15,19 +15,21 @@ OBJS_ALL = $(SRCS:%.c=%.o)
 #OBJS_ALL = $(SRCS: .c=.o) Same
 all : $(NAME)
 
-# %.o : %.c
-# 	$(CC) $(CFLAGS) -c $< -o $@
-# %.o : %.c 와 같은 식
-$(OBJS_ALL) : $(SRCS)
-	$(CC) $(CFLAGS) -c $(SRCS)
-$(OBJS) : $(SRCS)
-	$(CC) $(CFLAGS) -c $(OBJS:%.o=%.c)
-# $(OBJS_ALL) : $(SRCS)와 $(OBJS) : $(SRCS)의 줄 순서를 바꾸면, make all에서 lst 함수까지 컴파일된다.
+%.o : %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+#%.o : %.c 와 같은 식
+#$(OBJS_ALL) : $(SRCS)
+#	$(CC) $(CFLAGS) -c $(SRCS)
+#$(OBJS) : $(SRCS)
+#	$(CC) $(CFLAGS) -c $(OBJS:%.o=%.c)
+
 
 $(NAME) : $(OBJS)
 	ar rc $(NAME) $(OBJS)
 	ranlib $(NAME)
-
+# $(OBJS_ALL) : $(SRCS)와 $(OBJS) : $(SRCS)의 줄 순서를 바꾸면, make all에서 lst 함수까지 컴파일된다.
+# 게다가 overwriting이라는 문제도 발생함.
 .PHONY: clean bonus re fclean all
 
 bonus : $(NAME) $(OBJS_ALL)
