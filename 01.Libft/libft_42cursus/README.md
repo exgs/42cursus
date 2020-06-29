@@ -24,3 +24,6 @@
    https://github.com/365kim/42_cursus/blob/master/1_libft/ft_split.c  
    https://github.com/nadarm/42Seoul-42cursus/blob/master/libft/ft_split.c
 
+---
+
+https://yunslee-42seoul.tistory.com/category/42cursus/libft
