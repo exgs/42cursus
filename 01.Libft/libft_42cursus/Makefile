@@ -11,15 +11,24 @@ OBJS = ft_memset.o ft_bzero.o  ft_memcpy.o  ft_memccpy.o  ft_memmove.o  ft_memch
 			ft_isalnum.o ft_isascii.o ft_isprint.o ft_toupper.o ft_tolower.o ft_calloc.o ft_strdup.o \
 				 ft_substr.o  ft_strjoin.o  ft_strtrim.o  ft_split.o  ft_itoa.o ft_strmapi.o ft_putchar_fd.o ft_putstr_fd.o ft_putendl_fd.o ft_putnbr_fd.o
 
-OBJS_ALL = $(SRCS:.c=.o)
+OBJS_ALL = $(SRCS:%.c=%.o)
+#OBJS_ALL = $(SRCS: .c=.o) Same
 all : $(NAME)
-%.o : %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+
+# %.o : %.c
+# 	$(CC) $(CFLAGS) -c $< -o $@
+# %.o : %.c 와 같은 식
+$(OBJS_ALL) : $(SRCS)
+	$(CC) $(CFLAGS) -c $(SRCS)
+$(OBJS) : $(SRCS)
+	$(CC) $(CFLAGS) -c $(OBJS:%.o=%.c)
+# $(OBJS_ALL) : $(SRCS)와 $(OBJS) : $(SRCS)의 줄 순서를 바꾸면, make all에서 lst 함수까지 컴파일된다.
+
 $(NAME) : $(OBJS)
 	ar rc $(NAME) $(OBJS)
 	ranlib $(NAME)
 
-.PHONY: clean fclean bonus
+.PHONY: clean bonus re fclean all
 
 bonus : $(NAME) $(OBJS_ALL)
 	ar rc $(NAME) $(OBJS_ALL)
