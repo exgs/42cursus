@@ -2,7 +2,7 @@
 
 - 목표 : 🚀탈출속도에 도달하자!🚀 
 
-  ![Conquer the planet](C:\Users\이윤성\Desktop\github_42cursus\Colony\Conquer the planet.gif)
+  ![Conquer the planet](https://user-images.githubusercontent.com/56223639/86539220-c0615e80-bf35-11ea-95b6-e487b27ffe0b.gif)
 
 - 공부 컨셉(1) (헨젤과 그레텔 스타일)
   1. 과제를 해결하면서, 다른 사람의 코드와 도움을 받는다.
