@@ -1,0 +1,2 @@
+gg ft_printf.c main.c ../libft/ft_strlcpy.c ../libft/ft_putstr_fd.c ../libft/ft_strlen.c ../libft/ft_itoa.c csdiu_specifier.c pxX%_specifier.c pxX%_specifier_sub.c ft_utoa.c
+gcc ft_printf.c main.c ../libft/ft_strlcpy.c ../libft/ft_putstr_fd.c ../libft/ft_strlen.c ../libft/ft_itoa.c csdiu_specifier.c pxX%_specifier.c pxX%_specifier_sub.c ft_utoa.c
