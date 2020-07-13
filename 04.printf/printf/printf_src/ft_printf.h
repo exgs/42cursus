@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/09 02:30:02 by yunslee           #+#    #+#             */
-/*   Updated: 2020/07/10 19:53:46 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/07/13 22:01:33 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void x_specifier(char *s, va_list *ap);
 void X_specifier(char *s, va_list *ap);
 void percent_specifier(char *s, va_list *ap);
 
-void write_deical_to_hex(unsigned int n, char *hex_array);
+void write_deical_to_hex(unsigned int n, char *hex_array, int num);
 void charge_hex_array(char *array, char flag);
  
 #endif

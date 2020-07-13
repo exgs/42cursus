@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/10 16:53:41 by yunslee           #+#    #+#             */
-/*   Updated: 2020/07/10 17:44:02 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/07/13 22:24:35 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,20 @@ void charge_hex_array(char *array, char flag)
 	return ;
 }
 
-void write_deical_to_hex(unsigned int n, char *hex_array)
+void write_deical_to_hex(unsigned int n, char *hex_array, int num)
 {
 	int remainder;
 	
-	if (n == 0)
+	if (n == 0 && num == 0)
 		return ;
+	else if (n == 0 && num != 0)
+	{
+		write(1, "0", 1);
+		write_deical_to_hex(n, hex_array, --num);
+		return ;
+	}
 	remainder = n % 16;
-	write_deical_to_hex(n / 16, hex_array);
+	write_deical_to_hex(n / 16, hex_array, --num);
 	write(1, &hex_array[remainder], 1);
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/09 13:48:15 by yunslee           #+#    #+#             */
-/*   Updated: 2020/07/10 19:53:07 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/07/13 21:25:27 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ void s_specifier(char *s, va_list *ap)
 	char *str;
 
 	str = (char *)va_arg(*ap, char *);
+	if (str == NULL)
+	{
+		write(1, "(null)", 6);
+		return ;
+	}
 	ft_putstr_fd(str, 1);
 	return ;
 }
