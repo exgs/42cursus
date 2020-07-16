@@ -42,6 +42,17 @@ int		get_next_line(int fd, char **line)
 	//++ 아쉬운점 get_next_line(int fd, char **line)의 return이 마지막에 한번 실행된다는 건 일반적인 코드와는 상이한 것 같아서 아쉽다.
 }
 
+int		if_newline_remain_in_buffer(char *buffer, char **line)
+{
+	if (change_newline_to_zero(buffer))
+	{
+		*line = ft_strdup(buffer);
+		ft_strlcpy_buff(buffer, ft_strchr(buffer, 0) + 1, BUFFER_SIZE + 1);
+		return (1);
+	}
+	return (0);
+}
+
 int		change_newline_to_zero(char *buffer)
 {
 	int i;
@@ -82,17 +93,6 @@ size_t	ft_strlcpy_buff(char *dst, char *src, size_t dstsize)
 		i++;
 	}
 	return (src_len);
-}
-
-int		if_newline_remain_in_buffer(char *buffer, char **line)
-{
-	if (change_newline_to_zero(buffer))
-	{
-		*line = ft_strdup(buffer);
-		ft_strlcpy_buff(buffer, ft_strchr(buffer, 0) + 1, BUFFER_SIZE + 1);
-		return (1);
-	}
-	return (0);
 }
 
 int		read_until_newline(char **connect_string, char *buffer, char **line)

@@ -30,29 +30,19 @@ char		*ft_strchr(const char *s, int c)
 	return (0);
 }
 
-size_t		ft_strlcpy_buff(char *dst, char *src, size_t dstsize)
+void		*ft_memset(void *dest, int c, size_t len)
 {
-	size_t			i;
-	unsigned int	src_len;
+	unsigned int	i;
+	char			*str;
 
-	if (src == 0 || dst == 0)
-		return (0);
 	i = 0;
-	src_len = ft_strlen(src);
-	if (dstsize == 0)
-		return (src_len);
-	while (src[i] && i < dstsize - 1)
+	str = dest;
+	while (i < len)
 	{
-		dst[i] = src[i];
+		str[i] = (unsigned char)c;
 		i++;
 	}
-	dst[i] = '\0';
-	while (i < dstsize)
-	{
-		dst[i] = 0;
-		i++;
-	}
-	return (src_len);
+	return (dest);
 }
 
 char		*ft_strjoin(char const *s1, char const *s2)
