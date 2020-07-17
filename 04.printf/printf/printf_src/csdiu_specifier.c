@@ -6,36 +6,45 @@
 /*   By: yunslee <yunslee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/09 13:48:15 by yunslee           #+#    #+#             */
-/*   Updated: 2020/07/13 21:25:27 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/07/18 01:04:06 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void c_specifier(char *s, va_list *ap)
+void c_specifier(char *str_tag, va_list *ap)
 {
-	char c;
-	// printf("---\n");
-	c = (char)va_arg(*ap, int);
-	write(1, &c, 1);
+	t_flag flag;
+	
+	ft_memset(&flag, 0, sizeof(t_flag));
+	flag_decision(str_tag, &flag);
+	if (flag.dot > 0 || flag.zero > 0 || flag.star > 2)
+		c_print_normal(&flag, ap);
+	else
+		c_flag_unnormal(str_tag, &flag, ap);
 	return ;
 }
 
-void s_specifier(char *s, va_list *ap)
+void s_specifier(char *str_tag, va_list *ap)
 {
-	char *str;
+	t_flag flag;
+	t_data data;
 
-	str = (char *)va_arg(*ap, char *);
-	if (str == NULL)
+	ft_memset(&flag, 0 ,sizeof(t_flag));
+	ft_memset(&data, 0 ,sizeof(t_data));
+	flag_decision(str_tag, &flag);
+	if (flag.dot == 1 && flag.star == 1)
 	{
-		write(1, "(null)", 6);
-		return ;
+		data.precision = flag_return_atoi(str_tag);
 	}
-	ft_putstr_fd(str, 1);
+	if (flag.dot > 1 || flag.zero > 0 || flag.star > 2)
+		s_print_normal(&flag, ap);
+	else
+		s_flag_unnormal(str_tag, &flag, ap);
 	return ;
 }
 
-void d_specifier(char *s, va_list *ap)
+void d_specifier(char *str_tag, va_list *ap)
 {
 	int integer;
 	char *str;
@@ -47,7 +56,7 @@ void d_specifier(char *s, va_list *ap)
 	return ;	
 }
 
-void i_specifier(char *s, va_list *ap)
+void i_specifier(char *str_tag, va_list *ap)
 {
 	int integer;
 	char *str;
@@ -59,7 +68,7 @@ void i_specifier(char *s, va_list *ap)
 	return ;
 }
 
-void u_specifier(char *s, va_list *ap)
+void u_specifier(char *str_tag, va_list *ap)
 {
 	int integer;
 	char *str;
