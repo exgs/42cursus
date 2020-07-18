@@ -1,9 +1,5 @@
 ## printf
 
-1.
+1. Makefile_연습
 
 ---
-
-Test
-
-- NULL
