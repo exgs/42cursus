@@ -15,11 +15,11 @@
 int		get_next_line_sub(int fd, char **line)
 {
 	char		buffer[BUFFER_SIZE + 1];//-D BUFFER_SIZE 만큼 읽음.
-	char		*oneline_string; // *line = oneline_string; line에 값을 할당해주기 위한 변수.
-	static char	*remain_string[1000] = {0, }; // 여러파일을 읽으면 각각의 개행이후의 값을 저장하는 static이 배열로써 존재함.
-	int			validation; // read의 return 값;
+	char		*oneline_string; // *line = oneline_string; line에 값을 할당해주기 위한 변수. line 29
+	static char	*remain_string[1000] = {0, }; // 파일을 읽어서 얻은 fd와 remain_string의 index와 일치시킴. element는 개행이후의 값을 저장하는 static char *
+	int			validation; // read의 return 값
 
-	if (exist_newline_in_remain_string(remain_string, fd, line) == 1)//buffer_size가 매우 큰 경우 static에 개행이 몇개 들어와있을 수 있다. 이때 read함수를 실행시키지 않고, 맨 처음에 있는 개행문자를 기준으로 분절시키는 함수
+	if (exist_newline_in_remain_string(remain_string, fd, line) == 1)
 		return (1);
 	ft_memset(buffer, 0, (BUFFER_SIZE + 1)); //read로 담기 이전에 buffer를 깨끗이 청소해줌
 	while ((validation = read(fd, buffer, BUFFER_SIZE)) > 0)
@@ -31,7 +31,7 @@ int		get_next_line_sub(int fd, char **line)
 		}
 		ft_memset(buffer, 0, BUFFER_SIZE);
 	}
-	if (validation == -1) //open으로 fd에 할당되지않은 임의의 정수일 때
+	if (validation == -1) //open으로 fd에 할당되지않은 임의의 정수일 때, read에서도 open과 같은 에러값(-1)을 반환해준다. read에서 에러발생시 빠져나오도록하기
 	{
 		// *line = ft_strdup(""); 넣어주면 좋긴한데, 줄 수 제한때문에 빼도록한다.
 		return (-1);
@@ -59,7 +59,7 @@ int		get_next_line(int fd, char **line)
 	return(-1);
 }
 
-//buffer_size가 매우 큰 경우 static에 개행이 몇개 들어와있을 수 있다. 이때 read함수를 실행시키지 않고, 맨 처음에 있는 개행문자를 기준으로 분절시키는 함수
+//buffer_size가 매우 큰 경우, static에 개행이 여러개 들어와있을 수 있다. 이때 read함수를 실행시키지 않고, 맨 처음에 있는 개행문자를 기준으로 앞과 뒤를 분절시키는 함수
 int exist_newline_in_remain_string(char **remain_string, int fd, char **line)
 {
 	char *remain_string_shadow;
@@ -86,8 +86,8 @@ int exist_newline_in_remain_string(char **remain_string, int fd, char **line)
 	return (0);
 }
 
-//buffer에 있는 내용을 읽으면서 개행이 있으면, 가장 앞에오는 개행에 대해서만 '\0'으로 바꿔주고 return(true);
-int		change_newline_to_zero(char *buffer)
+//두가지 기능을 가지고 있다. 1) buffer에 개행이 있는지 T/F return. 2) buffer에 있는 첫번째 개행을 '\0'로 바꾸어줌
+int		change_newline_to_zero(char *buffer) 
 {
 	int i;
 
@@ -104,7 +104,7 @@ int		change_newline_to_zero(char *buffer)
 	return (0);
 }
 
-// change_newline_to_zero()함수를 통해 개행이 있을 때 return(1)(=gnl함수의 탈출조건),otherwise staitc variable에 계속 내용을 붙여줌
+// change_newline_to_zero()함수를 통해 개행이 있을 때, return_line과 static_line으로 분절시키고, 개행이 없으면 staitc variable에 계속 문장을 붙여줌(ft_strjoin)
 int		read_until_newline(char *buffer, int fd, char **oneline_string, char **remain_string)
 {
 	char *remain_string_shadow;
