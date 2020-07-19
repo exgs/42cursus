@@ -3,22 +3,20 @@ CFLAG = -Wall -Wextra -Werror
 
 SRCS_PRINTF = s_flag_test.c ft_printf.c ft_printf_sub.c csdiu_specifier.c pxX%_specifier.c pxX%_specifier_sub.c c_specifier_flag.c specifier_flag_common.c s_specifier_flag.c
 OBJS_PRINTF = $(SRCS_PRINTF:.c=.o)
-#OBJS_PRINTF = $(subst .c,.o,$(SRCS_PRINFT))도 가능
 WHERE_OBJS_PRINTF = $(addprefix ./printf_src/, $(OBJS_PRINTF))
+
 SRCS_LIBFT_PLUS = ft_utoa.c
 OBJS_LIBFT_PLUS = $(SRCS_LIBFT_PLUS:.c=.o)
 WHERE_OBJS_LIBFT_PLUS = $(addprefix ./libft_plus/, $(OBJS_LIBFT_PLUS))
 
-
+# $(subst .c, .o, $(SRCS_PRINFT)) == $(SRCS_LIBFT_PLUS:.c=.o)
 
 WHERE_LIBFT = ./libft/libft.a
-
-#../libft/ft_strlcpy.c ../libft/ft_putstr_fd.c ../libft/ft_strlen.c ../libft/ft_itoa.c ../libft/ft_memset.c ../libft/ft_atoi.c ../libft/ft_strchr.c
 
 all : $(NAME)
 
 $(NAME) : ./libft_plus/libft_plus.a $(WHERE_OBJS_PRINTF)
-#	ar -x ./libft_plus/libft_plus.a 
+#	ar -x ./libft_plus/libft_plus.a
 	ar rcs $(NAME) ./libft_plus/*.o ./libft/*.o $(WHERE_OBJS_PRINTF)
 
 ./libft_plus/libft_plus.a : ./libft/libft.a $(WHERE_OBJS_LIBFT_PLUS)
@@ -51,4 +49,4 @@ fclean : clean
 	rm -f ./libftprintf.a
 re : fclean all
 
-.PHONY : all fclean clean
+.PHONY : all fclean clean re
