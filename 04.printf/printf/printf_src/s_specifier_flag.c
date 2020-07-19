@@ -38,7 +38,7 @@ void s_flag_unnormal(char *str_tag, t_flag *flag, va_list *ap)
 		if (flag->star == 1)
 		{
 			space = va_arg(*ap, int);
-			str = (char *)va_arg(*ap, int);
+			str = (char *)va_arg(*ap, char *);
 			strlen = ft_strlen(str);
 			temp = space - strlen;
 			while (temp-- > 0)
@@ -81,7 +81,7 @@ void s_flag_minus(char*str_tag, t_flag *flag, va_list *ap)//앞선 가정에서 
 	if (flag->star == 1)
 	{
 		space = (int)va_arg(*ap, int);
-		str= (char *)va_arg(*ap, int);
+		str= (char *)va_arg(*ap, char *);
 		ft_putstr_fd(str, 1);
 		space = space - 1;//문자 갯수 하나 빼기
 		while (space--> 0)
@@ -89,7 +89,7 @@ void s_flag_minus(char*str_tag, t_flag *flag, va_list *ap)//앞선 가정에서 
 	}
 	else
 	{
-		str = (char *)va_arg(*ap, int);
+		str = (char *)va_arg(*ap, char *);
 		ft_putstr_fd(str, 1);
 		flag_printspace(str_tag);
 	}

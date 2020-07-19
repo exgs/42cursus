@@ -15,6 +15,8 @@
  #define LOWERCASE 0
  #define UPPERCASE 1
  #include "../libft/libft.h"//temporary
+ #include "../libft_plus/libft_plus.h"//temporary
+
  #include <stdio.h>//temporary
  #include <stdlib.h>
  #include <unistd.h>
