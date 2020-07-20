@@ -12,15 +12,15 @@
   1. 과제를 해결한 이후에, 다른 사람의 코드와 도움을 받는다.
   2. 진도가 느리더라도 프로그래머로써 새로운 것을 해결해나가는 방법/자세를 배우는 과정이라고 생각한다.
   
-  |    Project    | Mark  | Validation |                     Keyword                      | closing date |
-  | :-----------: | :---: | :--------: | :----------------------------------------------: | ------------ |
-  |     libft     | 115%  |            |               makefile, headerfile               |              |
-  | get_next_line | 100%/ |            | static variable, read(), open(), buffer의 추상화 | 7.05~7.11    |
-  |    netwhat    | 100%  |     1      |             ip, 공유기, DNS, netmask             | 6.29~7.03    |
-  |   ft_printf   |       |            |                                                  |              |
-  |   ft_server   |       |            |                                                  |              |
-  |     cub3d     |       |            |                                                  |              |
-  |    libasm     |       |            |                                                  |              |
+  |    Project    | Mark  |                     Keyword                      | closing date |
+  | :-----------: | :---: | :----------------------------------------------: | ------------ |
+  |     libft     | 115%  |               makefile, headerfile               |              |
+  | get_next_line | 100%/115% |            | static variable, read(), open(), buffer의 추상화 | 7.05~7.11~7.17 |
+  |    netwhat    | 100%  |             ip, 공유기, DNS, netmask               | 6.29~7.03    |
+  |   ft_printf   |       |                                                  | 7.18~     |
+  |   ft_server   |       |                                                  |              |
+  |     cub3d     |       |                                                  |              |
+  |    libasm     |       |                                                  |              |
 
 tistory : https://yunslee-42seoul.tistory.com/  
 github : https://github.com/exgs/42cursus
