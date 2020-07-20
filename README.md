@@ -15,7 +15,7 @@
   |    Project    | Mark  |                     Keyword                      | closing date |
   | :-----------: | :---: | :----------------------------------------------: | ------------ |
   |     libft     | 115%  |               makefile, headerfile               |              |
-  | get_next_line | 100%/115% |static variable, read(), open(), buffer의 추상화 | 7.05~7.11~7.17 |
+  | get_next_line | 100%/115% |static variable, read(), open(), buffer의 추상화 | 7.05\~7.11\~7.17 |
   |    netwhat    | 100%  |             ip, 공유기, DNS, netmask               | 6.29~7.03    |
   |   ft_printf   |       |                                                  | 7.18~     |
   |   ft_server   |       |                                                  |              |
