@@ -15,67 +15,78 @@
 void c_specifier(char *str_tag, va_list *ap)
 {
 	t_flag flag;
-	
+
+	// printf("%s\n",str_tag);
 	ft_memset(&flag, 0, sizeof(t_flag));
 	flag_decision(str_tag, &flag);
-	if (flag.dot > 0 || flag.zero > 0 || flag.star > 2)
-		c_print_normal(&flag, ap);
+	flag_decision_more(str_tag, &flag);
+
+	if (flag.d_star_sum == 0)
+		c_flag_nostar(&flag, ap);
+	else if (flag.d_star_sum == 1)
+		c_flag_onestar(&flag, ap);
 	else
-		c_flag_unnormal(str_tag, &flag, ap);
+		c_flag_twostar(&flag, ap);
 	return ;
 }
 
 void s_specifier(char *str_tag, va_list *ap)
 {
 	t_flag flag;
-	t_data data;
 
 	ft_memset(&flag, 0 ,sizeof(t_flag));
-	ft_memset(&data, 0 ,sizeof(t_data));
 	flag_decision(str_tag, &flag);
-	if (flag.dot == 1 && flag.star == 1)
-	{
-		data.precision = flag_return_atoi(str_tag);
-	}
-	if (flag.dot > 1 || flag.zero > 0 || flag.star > 2)
-		s_print_normal(&flag, ap);
+	flag_decision_more(str_tag, &flag);
+
+	if (flag.d_star_sum == 0)
+		s_flag_nostar(&flag, ap);
+	else if (flag.d_star_sum == 1)
+		s_flag_onestar(&flag, ap);
 	else
-		s_flag_unnormal(str_tag, &flag, ap);
+		s_flag_twostar(&flag, ap);
 	return ;
 }
 
 void d_specifier(char *str_tag, va_list *ap)
 {
-	int integer;
-	char *str;
-	
-	integer = va_arg(*ap, int);
-	str = ft_itoa(integer);
-	ft_putstr_fd(str, 1);
-	free(str);
-	return ;	
+	t_flag flag;
+
+	ft_memset(&flag, 0 ,sizeof(t_flag));
+	flag_decision(str_tag, &flag);
+	flag_decision_more(str_tag, &flag);
+	// printf("check\n");
+	if (flag.d_left == 1 && flag.d_zero == 1)
+		flag.d_zero = 0;
+	if (flag.d_star_sum == 0)
+		d_flag_nostar(&flag, ap, 1);
+	else if (flag.d_star_sum == 1)
+		d_flag_onestar(&flag, ap, 1);
+	else
+		d_flag_twostar(&flag, ap, 1);
+	return ;
 }
 
 void i_specifier(char *str_tag, va_list *ap)
 {
-	int integer;
-	char *str;
-	
-	integer = va_arg(*ap, int);
-	str = ft_itoa(integer);
-	ft_putstr_fd(str, 1);
-	free(str);
+	d_specifier(str_tag, ap);
 	return ;
 }
 
 void u_specifier(char *str_tag, va_list *ap)
 {
-	int integer;
-	char *str;
+	t_flag flag;
 
-	integer = va_arg(*ap, unsigned int); //bit 값을 복사하는것 뿐이라서.. i,d 와는 다른프로세스를 거쳐야함
-	str = ft_utoa(integer);
-	ft_putstr_fd(str, 1);
-	free(str);
+	ft_memset(&flag, 0 ,sizeof(t_flag));
+	flag_decision(str_tag, &flag);
+	flag_decision_more(str_tag, &flag);
+	// printf("check\n");
+	if (flag.d_left == 1 && flag.d_zero == 1)
+		flag.d_zero = 0;
+	if (flag.d_star_sum == 0)
+		d_flag_nostar(&flag, ap, 0);
+	else if (flag.d_star_sum == 1)
+		d_flag_onestar(&flag, ap, 0);
+	else
+		d_flag_twostar(&flag, ap, 0);
 	return ;
 }

@@ -12,63 +12,77 @@
 
 #include "ft_printf.h"
 
-void c_print_normal(t_flag *flag, va_list *ap)
+void c_flag_nostar(t_flag *flag, va_list *ap)
 {
 	char c;
-	
-	while (flag->star > 0)
-	{
-		c = (char)va_arg(*ap, int);
-		flag->star--;
-	}
+	int temp;
+	// printf("I'm nostar\n");
 	c = (char)va_arg(*ap, int);
-	write(1, &c, 1);
-	return ;
-}
-
-void c_flag_unnormal(char *str, t_flag *flag, va_list *ap)
-{
-	char c;
-	int count;
-
-	if (flag->minus == 1)
-	{
-		c_flag_minus(str, flag, ap);
-		return ;
-	}
-	if (flag->star == 1)
-	{
-		count = (int)va_arg(*ap, int);
-		count--;
-		while (count-- > 0)
-			write(1," ", 1);
-	}
-	else
-		flag_printspace(str);
-	c = va_arg(*ap, int);
-	write(1, &c, 1);
-	return ;
-}
-
-void c_flag_minus(char*str, t_flag *flag, va_list *ap)//앞선 가정에서 star가 1개인경우만
-{
-	char c;
-	int count;
-
-	if (flag->star == 1)
-	{
-		count = (int)va_arg(*ap, int);
-		c = (char)va_arg(*ap, int);
+	if (flag->d_left == 1)
 		write(1, &c, 1);
-		count = count - 1;//문자 갯수 하나 빼기
-		while (count--> 0)
+	if ((flag->d_width - 1) > 0)
+	{
+		temp = flag->d_width -1;
+		while (temp > 0)
+		{
 			write(1, " ", 1);
+			temp--;
+		}
 	}
+	if (flag->d_left == 0)
+		write(1, &c , 1);
+	return ;
+}
+
+void c_flag_onestar(t_flag *flag, va_list *ap)
+{
+	char c;
+	int temp;
+	// printf("I'm onestar\n");
+	if (flag->d_dot == 1)
+		flag->d_precision = (int)va_arg(*ap, int);
 	else
-	{
-		c = (char)va_arg(*ap, int);
+		flag->d_width = (int)va_arg(*ap, int);
+	c = (char)va_arg(*ap, int);
+
+	if (flag->d_left == 1)
 		write(1, &c, 1);
-		flag_printspace(str);
+	if ((flag->d_width - 1) > 0)
+	{
+		temp = flag->d_width -1;
+		while (temp > 0)
+		{
+			write(1, " ", 1);
+			temp--;
+		}
 	}
+	// printf("flag->d_left : %d\n",flag->d_left);
+	if (flag->d_left == 0)
+		write(1, &c , 1);
+	return ;
+}
+
+void c_flag_twostar(t_flag *flag, va_list *ap)
+{
+	char c;
+	int temp;
+	// printf("I'm twostar\n");
+	flag->d_width = (int)va_arg(*ap, int);
+	flag->d_precision = (int)va_arg(*ap, int);
+	c = (char)va_arg(*ap, int);
+
+	if (flag->d_left == 1)
+		write(1, &c, 1);
+	if ((flag->d_width - 1) > 0)
+	{
+		temp = flag->d_width -1;
+		while (temp > 0)
+		{
+			write(1, " ", 1);
+			temp--;
+		}
+	}
+	if (flag->d_left == 0)
+		write(1, &c , 1);
 	return ;
 }

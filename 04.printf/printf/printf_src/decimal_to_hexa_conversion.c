@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void charge_hex_array(char *array, char flag)
+void	charge_hexa_table(char *array, char flag)
 {
 	int i;
 	int j;
@@ -38,20 +38,48 @@ void charge_hex_array(char *array, char flag)
 	return ;
 }
 
-void write_deical_to_hex(unsigned int n, char *hex_array, int num)
+void	charge_hexa_str(long unsigned int n, char *hexa_str,
+							int hexa_size, char *table)
 {
-	int remainder;
-	
-	if (n == 0 && num == 0)
+	int	remainder;
+
+	if (n == 0)
 		return ;
-	else if (n == 0 && num != 0)
-	{
-		write(1, "0", 1);
-		write_deical_to_hex(n, hex_array, --num);
-		return ;
-	}
 	remainder = n % 16;
-	write_deical_to_hex(n / 16, hex_array, --num);
-	write(1, &hex_array[remainder], 1);
-	return ;
+	hexa_str[hexa_size - 1] = table[remainder];
+	charge_hexa_str(n / 16, hexa_str, --hexa_size, table);
+}
+
+char	*return_hexa_str(long unsigned int value, char *hexa_table)
+{
+	char *address;
+	int size;
+	int remainder;
+	char *strdup;
+	size = hexa_size(value);
+	address = malloc(sizeof(char) * size + 1);
+	// printf("printf %%lx : %lx\n", value);
+	// printf("address_size : %d\n", size);
+	address[size] = '\0';
+	charge_hexa_str(value, address, size, hexa_table);
+	strdup = ft_strdup(address);
+	// printf("address : %s\n", address);
+	// printf("strdup : %s\n", strdup);
+	free(address);
+	return (strdup);
+}
+
+int		hexa_size(long unsigned int address)
+{
+	int size;
+
+	size = 0;
+	if (address == 0)
+		return (1);
+	while (address != 0)
+	{
+		address /= 16;
+		size++;
+	}
+	return (size);
 }

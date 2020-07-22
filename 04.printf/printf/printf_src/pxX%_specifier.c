@@ -12,51 +12,75 @@
 
 #include "ft_printf.h"
 
-void x_specifier(char *s, va_list *ap)
+void x_specifier(char *str_tag, va_list *ap)
 {
-	unsigned int memeory;
-	char hex_array[16];
-	int num;
-	
-	num = -1;
-	charge_hex_array(hex_array, LOWERCASE);
-	memeory = (unsigned int)va_arg(*ap, char *);
-	write_deical_to_hex(memeory, hex_array, num);
+	t_flag flag;
+	char hexa_table[16];
+
+	charge_hexa_table(hexa_table, LOWERCASE);
+	ft_memset(&flag, 0 ,sizeof(t_flag));
+	flag_decision(str_tag, &flag);
+	flag_decision_more(str_tag, &flag);
+	if (flag.d_zero == 1 && flag.d_left == 1)
+		flag.d_zero = 0;
+	if (flag.d_star_sum == 0)
+		x_flag_nostar(&flag, hexa_table, ap);
+	else if (flag.d_star_sum == 1)
+		x_flag_onestar(&flag, hexa_table, ap);
+	else
+		x_flag_twostar(&flag, hexa_table, ap);
 	return ;
 }
 
-void X_specifier(char *s, va_list *ap)
+void X_specifier(char *str_tag, va_list *ap)
 {
-	unsigned int memeory;
-	char hex_array[16];
-	int num;
+	t_flag flag;
+	char hexa_table[16];
 
-	num = -1;
-	charge_hex_array(hex_array, UPPERCASE);
-	memeory = (unsigned int)va_arg(*ap, char *);
-	write_deical_to_hex(memeory, hex_array, num);
+	charge_hexa_table(hexa_table, UPPERCASE);
+	ft_memset(&flag, 0 ,sizeof(t_flag));
+	flag_decision(str_tag, &flag);
+	flag_decision_more(str_tag, &flag);
+	if (flag.d_zero == 1 && flag.d_left == 1)
+		flag.d_zero = 0;
+	if (flag.d_star_sum == 0)
+		x_flag_nostar(&flag, hexa_table, ap);
+	else if (flag.d_star_sum == 1)
+		x_flag_onestar(&flag, hexa_table, ap);
+	else
+		x_flag_twostar(&flag, hexa_table, ap);
 	return ;
 }
 
-void p_specifier(char *s, va_list *ap)
+void p_specifier(char *str_tag, va_list *ap)
 {
-	unsigned int memeory;
-	char hex_array[16];
-	int num;
-	// write(1, "00", 2);window 4byte
-	// write(1, "0", 1);
-	// write(1, "x", 1); // 6byte
-	num = 8;
-	charge_hex_array(hex_array, UPPERCASE);
-	memeory = (unsigned int)va_arg(*ap, char *);
-	write_deical_to_hex(memeory, hex_array, num);
-	/*p 주소 값계산할 때 앞에 00 붙는 이슈에 대해서...*/
+	t_flag flag;
+	char hexa_table[16];
+
+	charge_hexa_table(hexa_table, LOWERCASE);
+	ft_memset(&flag, 0 ,sizeof(t_flag));
+	flag_decision(str_tag, &flag);
+	flag_decision_more(str_tag, &flag);
+
+	if (flag.d_star_sum == 0)
+		p_flag_nostar(&flag, hexa_table, ap);
+	else if (flag.d_star_sum == 1)
+		p_flag_onestar(&flag, hexa_table, ap);
 	return ;
 }
 
-void percent_specifier(char *s, va_list *ap)
+void percent_specifier(char *str_tag, va_list *ap)
 {
-	write(1, ap, 0);
-	write(1, "%", 1);
+	t_flag flag;
+
+	ft_memset(&flag, 0 ,sizeof(t_flag));
+	flag_decision(str_tag, &flag);
+	flag_decision_more(str_tag, &flag);
+	if (flag.d_star_sum == 0)
+		percent_flag_nostar(&flag, ap);
+	else if (flag.d_star_sum == 1)
+		percent_flag_onestar(&flag, ap);
+	else
+		percent_flag_twostar(&flag, ap);
 	return ;
 }
