@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/09 02:30:02 by yunslee           #+#    #+#             */
-/*   Updated: 2020/07/18 01:05:54 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/07/23 20:45:07 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
  #define FT_PRINTF_H
  #define LOWERCASE 0
  #define UPPERCASE 1
+ #define FORMAT_U 0
+ #define FORMAT_D 1
+ #define SPEr_d 1
  #include "../libft/libft.h"//location
  #include "../libft_plus/libft_plus.h"//location
 
@@ -81,9 +84,12 @@ int		d_specifier(char *s, va_list *ap);
 int		d_flag_nostar(t_flag *flag, va_list *ap, char d_flag);
 int		d_flag_onestar(t_flag *flag, va_list *ap, char d_flag);
 int		d_flag_twostar(t_flag *flag, va_list *ap, char d_flag);
+int		negative_to_positive_with_flags(t_flag *flag, va_list *ap, char d_u, unsigned int *num);
+
 int		d_flag_precision_most(t_flag *flag, char *int_str);
 int		d_flag_strlen_most(t_flag *flag, char *int_str);
 int		d_flag_width_most(t_flag *flag, char *int_str);
+void	when_d_left_one(char *utoa_str, t_flag *flag, int precision_zero, int width_space);
 void	when_d_left_zero(char *int_str, t_flag *flag, int precision_zero, int width_space);
 
 int		i_specifier(char *s, va_list *ap);
@@ -107,10 +113,11 @@ void	when_x_left_zero(char *hexa_str, t_flag *flag, int precision_zero);
 
 int		X_specifier(char *s, va_list *ap);
 
-int		percent_specifier(char *s, va_list *ap);
-int		percent_flag_nostar(t_flag *flag, va_list *ap);
-int		percent_flag_onestar(t_flag *flag, va_list *ap);
-int		percent_flag_twostar(t_flag *flag, va_list *ap);
+int		per_specifier(char *s, va_list *ap);
+int		per_flag_nostar(t_flag *flag, va_list *ap);
+int		per_flag_onestar(t_flag *flag, va_list *ap);
+int		per_flag_twostar(t_flag *flag, va_list *ap);
+void	per_width_space(t_flag *flag, int *width_space, int *len);
 
 void	charge_hexa_str(long unsigned int n, char *hexa_str,
 							int hexa_size, char *table);

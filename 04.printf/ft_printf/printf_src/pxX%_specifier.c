@@ -75,7 +75,7 @@ int p_specifier(char *str_tag, va_list *ap)
 	return (len);
 }
 
-int percent_specifier(char *str_tag, va_list *ap)
+int per_specifier(char *str_tag, va_list *ap)
 {
 	t_flag flag;
 	int len;
@@ -84,11 +84,15 @@ int percent_specifier(char *str_tag, va_list *ap)
 	ft_memset(&flag, 0 ,sizeof(t_flag));
 	flag_decision(str_tag, &flag);
 	flag_decision_more(str_tag, &flag);
+	if (flag.d_precision < 0)
+		flag.d_precision = -1;
+	if (flag.d_left == 1 && flag.d_zero == 1)
+		flag.d_zero = 0;
 	if (flag.d_star_sum == 0)
-		len += percent_flag_nostar(&flag, ap);
+		len += per_flag_nostar(&flag, ap);
 	else if (flag.d_star_sum == 1)
-		len += percent_flag_onestar(&flag, ap);
+		len += per_flag_onestar(&flag, ap);
 	else
-		len += percent_flag_twostar(&flag, ap);
+		len += per_flag_twostar(&flag, ap);
 	return (len);
 }

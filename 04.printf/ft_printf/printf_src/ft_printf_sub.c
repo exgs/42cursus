@@ -34,7 +34,7 @@ void charge_specifier_struct(t_specifier *matchup_array)
 	matchup_array->function_specifier[5] = u_specifier;
 	matchup_array->function_specifier[6] = x_specifier;
 	matchup_array->function_specifier[7] = X_specifier;
-	matchup_array->function_specifier[8] = percent_specifier;
+	matchup_array->function_specifier[8] = per_specifier;
 	matchup_array->function_specifier[9] = 0;
 	return ;
 }

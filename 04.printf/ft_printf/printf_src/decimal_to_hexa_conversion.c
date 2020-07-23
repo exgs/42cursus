@@ -43,7 +43,7 @@ void	charge_hexa_str(long unsigned int n, char *hexa_str,
 {
 	int	remainder;
 
-	if (n == 0)
+	if (n == 0 && hexa_size == 0)//hexa_size가 추가되어야 NULL처리가 가능
 		return ;
 	remainder = n % 16;
 	hexa_str[hexa_size - 1] = table[remainder];

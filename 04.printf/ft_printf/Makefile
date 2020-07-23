@@ -4,7 +4,7 @@ COPTION = -I./printf_src -L. -lftprintf
 
 SRCS_PRINTF = ft_printf.c ft_printf_sub.c csdiu_specifier.c pxX%_specifier.c decimal_to_hexa_conversion.c c_specifier_flag.c \
 				specifier_flag_common.c s_specifier_flag.c p_specifier_flag.c x_specifier_flag.c x_specifier_flag_sub.c \
-					percent_specifier_flag.c d_specifier_flag.c d_specifier_flag_sub.c
+					per_specifier_flag.c d_specifier_flag.c d_specifier_flag_sub.c
 OBJS_PRINTF = $(SRCS_PRINTF:.c=.o)
 WHERE_OBJS_PRINTF = $(addprefix ./printf_src/, $(OBJS_PRINTF))
 

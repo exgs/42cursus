@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   csdiu_specifier.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/09 13:48:15 by yunslee           #+#    #+#             */
-/*   Updated: 2020/07/18 01:04:06 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/07/23 20:33:47 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,16 @@ int d_specifier(char *str_tag, va_list *ap)
 	ft_memset(&flag, 0 ,sizeof(t_flag));
 	flag_decision(str_tag, &flag);
 	flag_decision_more(str_tag, &flag);
-	if (flag.d_precision < 0)
-		flag.d_precision = -1;
-	// printf("check\n");
-	if (flag.d_left == 1 && flag.d_zero == 1)
-		flag.d_zero = 0;
+	// if (flag.d_precision < 0)
+	// 	flag.d_precision = -1;
+	// if (flag.d_left == 1 && flag.d_zero == 1)
+	// 	flag.d_zero = 0;
 	if (flag.d_star_sum == 0)
-		len = d_flag_nostar(&flag, ap, 1);
+		len = d_flag_nostar(&flag, ap, FORMAT_D);
 	else if (flag.d_star_sum == 1)
-		len = d_flag_onestar(&flag, ap, 1);
+		len = d_flag_onestar(&flag, ap, FORMAT_D);
 	else
-		len = d_flag_twostar(&flag, ap, 1);
+		len = d_flag_twostar(&flag, ap, FORMAT_D);
 	return (len);
 }
 
@@ -94,10 +93,10 @@ int u_specifier(char *str_tag, va_list *ap)
 	if (flag.d_left == 1 && flag.d_zero == 1)
 		flag.d_zero = 0;
 	if (flag.d_star_sum == 0)
-		len += d_flag_nostar(&flag, ap, 0);
+		len += d_flag_nostar(&flag, ap, FORMAT_U);
 	else if (flag.d_star_sum == 1)
-		len += d_flag_onestar(&flag, ap, 0);
+		len += d_flag_onestar(&flag, ap, FORMAT_U);
 	else
-		len += d_flag_twostar(&flag, ap, 0);
+		len += d_flag_twostar(&flag, ap, FORMAT_U);
 	return (len);
 }

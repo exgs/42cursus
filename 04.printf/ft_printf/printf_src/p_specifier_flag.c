@@ -41,7 +41,11 @@ int	 p_flag_onestar(t_flag *flag, char *hex_table, va_list *ap)
 	int len;
 
 	len = 0;
-	flag->d_width = va_arg(*ap, int);
+	if ((flag->d_width = va_arg(*ap, int)) < 0)
+	{
+		flag->d_width *= -1;
+		flag->d_left = 1;
+	}
 	address_num = va_arg(*ap, long unsigned);
 	temp_str = return_hexa_str(address_num, hex_table);
 	address_str = ft_strjoin(prefix, temp_str);

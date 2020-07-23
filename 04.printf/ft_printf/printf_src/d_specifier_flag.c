@@ -1,24 +1,19 @@
 #include "ft_printf.h"
 
-int		d_flag_nostar(t_flag *flag, va_list *ap, char d_flag)
+int		d_flag_nostar(t_flag *flag, va_list *ap, char d_u)
 {
-	int num;
 	unsigned int unsigned_num;
 	char *utoa_str;
 	int len;
 
 	len = 0;
-	num = va_arg(*ap, int);
-	if (num < 0 && d_flag == 1)
-	{
-		unsigned_num = -1 * num;
-		flag->d_minus_sign = 1;
-		len = 1;
-	}
-	else
-		unsigned_num = num;
+	len += negative_to_positive_with_flags(flag, ap, d_u, &unsigned_num);
 	utoa_str = ft_utoa(unsigned_num);
 	len += ft_strlen(utoa_str);
+	if (flag->d_precision < 0)
+		flag->d_precision = -1;
+	if (flag->d_left == 1 && flag->d_zero == 1)
+		flag->d_zero = 0;
 	//len 재사용
 	if (flag->d_precision > flag->d_width && flag->d_precision > len)
 		len = d_flag_precision_most(flag, utoa_str);
@@ -30,7 +25,26 @@ int		d_flag_nostar(t_flag *flag, va_list *ap, char d_flag)
 	return (len);
 }
 
-int		d_flag_onestar(t_flag *flag, va_list *ap, char d_flag)
+int negative_to_positive_with_flags(t_flag *flag, va_list *ap, char d_u, unsigned int *positive_num)
+{
+	int num;
+
+	num = va_arg(*ap, int);
+	if (num < 0 && d_u == FORMAT_D)
+	{
+		*positive_num = num * -1;
+		flag->d_minus_sign = 1;
+		return (1);
+	}
+	else
+	{
+		*positive_num = num;
+		return (0);
+	}
+	return (-1);
+}
+
+int		d_flag_onestar(t_flag *flag, va_list *ap, char d_u)
 {
 	int num;
 	unsigned int unsigned_num;
@@ -38,27 +52,14 @@ int		d_flag_onestar(t_flag *flag, va_list *ap, char d_flag)
 	int len;
 
 	len = 0;
-	if (flag->star_front > 0)
-	{
-		if ((flag->d_width = va_arg(*ap, int)) < 0)
-		{
-			flag->d_width *= -1;
-			flag->d_left = 1;
-		}
-	}
-	else
-		flag->d_precision = va_arg(*ap, int);
-	num = va_arg(*ap, int);
-	if (num < 0 && d_flag == 1)
-	{
-		unsigned_num = -1 * num;
-		flag->d_minus_sign = 1;
-		len = 1;
-	}
-	else
-		unsigned_num = num;
+	onestar_replace(flag, ap);
+	len += negative_to_positive_with_flags(flag, ap, d_u, &unsigned_num);
 	utoa_str = ft_utoa(unsigned_num);
 	len += ft_strlen(utoa_str);
+	if (flag->d_precision < 0)
+		flag->d_precision = -1;
+	if (flag->d_left == 1 && flag->d_zero == 1)
+		flag->d_zero = 0;
 	if (flag->d_precision > flag->d_width && flag->d_precision > len)
 		len = d_flag_precision_most(flag, utoa_str);
 	else if (flag->d_width > flag->d_precision && flag->d_width > len)
@@ -69,7 +70,7 @@ int		d_flag_onestar(t_flag *flag, va_list *ap, char d_flag)
 	return (len);
 }
 
-int		d_flag_twostar(t_flag *flag, va_list *ap, char d_flag)
+int		d_flag_twostar(t_flag *flag, va_list *ap, char d_u)
 {
 	int num;
 	unsigned int unsigned_num;
@@ -77,25 +78,13 @@ int		d_flag_twostar(t_flag *flag, va_list *ap, char d_flag)
 	int len;
 
 	len = 0;
-	if ((flag->d_width = va_arg(*ap, int)) < 0)
-	{
-		flag->d_width *= -1;
-		flag->d_left = 1;
-	}
-	flag->d_precision = va_arg(*ap, int);
-	num = va_arg(*ap, int);
-	if (num < 0 && d_flag == 1)
-	{
-		unsigned_num = -1 * num;
-		flag->d_minus_sign = 1;
-		len = 1;
-	}
-	else
-		unsigned_num = num;
-	// printf("-----------------\n");
+	twostar_replace(flag, ap);
+	len += negative_to_positive_with_flags(flag, ap, d_u, &unsigned_num);
 	utoa_str = ft_utoa(unsigned_num);
 	len += ft_strlen(utoa_str);
-	if (flag->d_left == 1 && flag-> d_zero == 1)
+	if (flag->d_precision < 0)
+		flag->d_precision = -1;
+	if (flag->d_left == 1 && flag->d_zero == 1)
 		flag->d_zero = 0;
 	if (flag->d_precision > flag->d_width && flag->d_precision > len)
 		len = d_flag_precision_most(flag, utoa_str);

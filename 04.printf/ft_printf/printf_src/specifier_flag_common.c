@@ -129,11 +129,8 @@ void twostar_replace(t_flag *flag, va_list *ap)
 		flag->d_width *= -1;
 		flag->d_left = 1;
 	}
-	else
-	{
-		if ((flag->d_precision = (int)va_arg(*ap, int)) < 0)
-			flag->d_precision = -1;
-	}
+	if ((flag->d_precision = (int)va_arg(*ap, int)) < 0)
+		flag->d_precision = -1;
 	return ;
 }
 
