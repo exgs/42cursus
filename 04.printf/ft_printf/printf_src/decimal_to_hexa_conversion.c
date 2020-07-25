@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/10 16:53:41 by yunslee           #+#    #+#             */
-/*   Updated: 2020/07/25 15:36:24 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/07/25 22:41:36 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	charge_hexa_str(long unsigned int n, char *hexa_str,
 {
 	int	remainder;
 
-	if (n == 0 && hexa_size == 0)
+	if (n == 0 && hexa_size == 0)//hexa_size가 빠지면 0이 들어왔을 때, 곧바로 return되는 문제가 있음
 		return ;
 	remainder = n % 16;
 	hexa_str[hexa_size - 1] = table[remainder];

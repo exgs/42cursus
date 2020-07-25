@@ -6,13 +6,13 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:22:54 by yunslee           #+#    #+#             */
-/*   Updated: 2020/07/25 16:24:34 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/07/25 22:41:39 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		flag_return_atoi(char *str)
+int		flag_return_atoi(char *str)//형식태그에 존재하는 width와 precision의 정수값을 얻기위한 함수
 {
 	int		i;
 	int		start;
@@ -84,7 +84,7 @@ void	flag_decision_more(char *str_tag, t_flag *flag)
 	return ;
 }
 
-void	onestar_replace(t_flag *flag, va_list *ap)
+void	onestar_replace(t_flag *flag, va_list *ap)// '.'을 기준으로 '*'의 위치에 따라 너비 또는 정밀도에 할당해줌. 또한 음수처리를 해줌
 {
 	if (flag->star_front > 0)
 	{
@@ -102,7 +102,7 @@ void	onestar_replace(t_flag *flag, va_list *ap)
 	return ;
 }
 
-void	twostar_replace(t_flag *flag, va_list *ap)
+void	twostar_replace(t_flag *flag, va_list *ap) //너비와 정밀도에 음수로 들어오는 값에 대해서 처리를 해줌
 {
 	if ((flag->d_width = (int)va_arg(*ap, int)) < 0)
 	{

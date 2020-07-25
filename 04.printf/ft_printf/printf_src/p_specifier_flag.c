@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:10:10 by yunslee           #+#    #+#             */
-/*   Updated: 2020/07/25 19:40:16 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/07/25 22:41:40 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*return_address_str(t_flag *flag, va_list *ap, char *hexa_table)
 	char				*temp_str;
 	char				*address_str;
 
-	address_num = va_arg(*ap, long unsigned);
+	address_num = va_arg(*ap, long unsigned);//OS마다 다르나, MACOS는 메모리주소의 크기를 8byte가짐
 	if (flag->d_dot == 1 && flag->d_precision == 0 && address_num == 0)
 	{
 		temp_str = ft_strdup("");

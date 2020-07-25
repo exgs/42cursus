@@ -6,20 +6,21 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/09 13:48:15 by yunslee           #+#    #+#             */
-/*   Updated: 2020/07/25 15:28:00 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/07/25 22:41:37 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
+/*서식문자 중에서 c,s,d,i,u의 시작함수*/
 int	c_specifier(char *str_tag, va_list *ap)
 {
 	t_flag	flag;
 	int		len;
 
 	ft_memset(&flag, 0, sizeof(t_flag));
-	flag_decision(str_tag, &flag);
-	flag_decision_more(str_tag, &flag);
+	flag_decision(str_tag, &flag);//형식태그를 바탕으로 구조체에 flag데이터를 담는 함수
+	flag_decision_more(str_tag, &flag);//형식태그를 바탕으로 구조체에 flag데이터를 담는 함수
 	if (flag.d_precision < 0)
 		flag.d_precision = -1;
 	if (flag.d_star_sum == 0)

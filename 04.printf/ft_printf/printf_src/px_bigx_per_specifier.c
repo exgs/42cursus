@@ -6,12 +6,13 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/10 16:17:12 by yunslee           #+#    #+#             */
-/*   Updated: 2020/07/25 16:17:14 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/07/25 22:41:39 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
+/*서식문자 중에서 x,X,p,%의 시작함수*/
 int	x_specifier(char *str_tag, va_list *ap)
 {
 	t_flag	flag;
