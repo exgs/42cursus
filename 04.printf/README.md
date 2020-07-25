@@ -1,8 +1,9 @@
 ## printf
 
-1. variadic argument_example
-2. Makefile_example
-3. printf
+1. example_variadic argument
+2. example_Makefile
+3. my_testcase_printf
+4. ft_printf
 ---
-https://github.com/Kwevan/PRINTF_TESTER
+https://github.com/Kwevan/PRINTF_TESTER  
 https://github.com/charMstr/printf_lover_v2
