@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_sub.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/09 02:31:14 by yunslee           #+#    #+#             */
-/*   Updated: 2020/07/15 02:20:15 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/07/25 15:53:09 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void charge_specifier_struct(t_specifier *matchup_array)
+void	charge_specifier_struct(t_specifier *matchup_array)
 {
 	if (matchup_array == NULL)
 		return ;
@@ -33,30 +33,28 @@ void charge_specifier_struct(t_specifier *matchup_array)
 	matchup_array->function_specifier[4] = i_specifier;
 	matchup_array->function_specifier[5] = u_specifier;
 	matchup_array->function_specifier[6] = x_specifier;
-	matchup_array->function_specifier[7] = X_specifier;
+	matchup_array->function_specifier[7] = big_x_specifier;
 	matchup_array->function_specifier[8] = per_specifier;
 	matchup_array->function_specifier[9] = 0;
 	return ;
 }
 
-int matchup_tag(char *tag_string, va_list *ap, t_specifier *matchup_array)
+int		matchup_tag(char *tag_s, va_list *ap, t_specifier *matchup_array)
 {
 	int i;
 	int len;
-	
+
 	i = 0;
 	len = 0;
-	while (tag_string[(ft_strlen(tag_string) -1)] != matchup_array->array_specifier[i])
+	while (tag_s[(ft_strlen(tag_s) - 1)] != matchup_array->array_specifier[i])
 	{
 		i++;
-		// printf("%s %d\n",tag_string, ft_strlen(tag_string));
-		// printf("--%d=\n",i);
 		if (matchup_array->array_specifier[i] == '\0')
 			return (0);
 	}
 	if (NULL != matchup_array->function_specifier[i])
 	{
-		len += matchup_array->function_specifier[i](tag_string, ap);
+		len += matchup_array->function_specifier[i](tag_s, ap);
 	}
 	return (len);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pxX%_specifier_sub.c                               :+:      :+:    :+:   */
+/*   decimal_to_hexa_conversion.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/10 16:53:41 by yunslee           #+#    #+#             */
-/*   Updated: 2020/07/13 22:24:35 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/07/25 15:36:24 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	charge_hexa_table(char *array, char flag)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	if (array == NULL)
 		return ;
@@ -43,7 +43,7 @@ void	charge_hexa_str(long unsigned int n, char *hexa_str,
 {
 	int	remainder;
 
-	if (n == 0 && hexa_size == 0)//hexa_size가 추가되어야 NULL처리가 가능
+	if (n == 0 && hexa_size == 0)
 		return ;
 	remainder = n % 16;
 	hexa_str[hexa_size - 1] = table[remainder];
@@ -52,19 +52,16 @@ void	charge_hexa_str(long unsigned int n, char *hexa_str,
 
 char	*return_hexa_str(long unsigned int value, char *hexa_table)
 {
-	char *address;
-	int size;
-	int remainder;
-	char *strdup;
+	char	*address;
+	int		size;
+	int		remainder;
+	char	*strdup;
+
 	size = hexa_size(value);
 	address = malloc(sizeof(char) * size + 1);
-	// printf("printf %%lx : %lx\n", value);
-	// printf("address_size : %d\n", size);
 	address[size] = '\0';
 	charge_hexa_str(value, address, size, hexa_table);
 	strdup = ft_strdup(address);
-	// printf("address : %s\n", address);
-	// printf("strdup : %s\n", strdup);
 	free(address);
 	return (strdup);
 }

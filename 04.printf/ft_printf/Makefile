@@ -2,7 +2,7 @@ NAME = libftprintf.a
 CFLAG = -Wall -Wextra -Werror
 COPTION = -I./printf_src -L. -lftprintf
 
-SRCS_PRINTF = ft_printf.c ft_printf_sub.c csdiu_specifier.c pxX%_specifier.c decimal_to_hexa_conversion.c c_specifier_flag.c \
+SRCS_PRINTF = ft_printf.c ft_printf_sub.c csdiu_specifier.c px_bigx_per_specifier.c decimal_to_hexa_conversion.c c_specifier_flag.c \
 				specifier_flag_common.c s_specifier_flag.c p_specifier_flag.c x_specifier_flag.c x_specifier_flag_sub.c \
 					per_specifier_flag.c d_specifier_flag.c d_specifier_flag_sub.c
 OBJS_PRINTF = $(SRCS_PRINTF:.c=.o)
@@ -49,8 +49,10 @@ gcc:
 
 clean :
 	rm -f ./libft_plus/*.o
+	rm -f ./libft_plus/libft_plus.h.gch
 	rm -f ./libft/*.o
 	rm -f ./printf_src/*.o
+	rm -f ./printf_src/ft_printf.h.gch
 fclean : clean
 	rm -f ./libft/libft.a
 	rm -f ./libft_plus/libft_plus.a

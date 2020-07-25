@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   s_specifier_flag.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/25 16:18:14 by yunslee           #+#    #+#             */
+/*   Updated: 2020/07/25 16:19:01 by yunslee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 char g_null[7] = "(null)";
 
 int	s_flag_nostar(t_flag *flag, va_list *ap)
 {
-	char *str;
-	int temp;
-	int len;
-	
+	char	*str;
+	int		temp;
+	int		len;
+
 	len = 0;
 	if (NULL == (str = (char *)va_arg(*ap, char *)))
 		str = g_null;
@@ -26,11 +38,11 @@ int	s_flag_nostar(t_flag *flag, va_list *ap)
 	return (len + ft_strlen(str));
 }
 
-int	 s_flag_onestar(t_flag *flag, va_list *ap)
+int	s_flag_onestar(t_flag *flag, va_list *ap)
 {
-	char *str;
-	int temp;
-	int len;
+	char	*str;
+	int		temp;
+	int		len;
 
 	len = 0;
 	onestar_replace(flag, ap);
@@ -40,7 +52,7 @@ int	 s_flag_onestar(t_flag *flag, va_list *ap)
 		str = ft_substr(str, 0, flag->d_precision);
 	if (flag->d_left == 1)
 		ft_putstr_fd(str, 1);
-	if ((temp = flag->d_width -ft_strlen(str)) > 0)
+	if ((temp = flag->d_width - ft_strlen(str)) > 0)
 	{
 		len = temp;
 		while (temp-- > 0)
@@ -48,16 +60,16 @@ int	 s_flag_onestar(t_flag *flag, va_list *ap)
 	}
 	if (flag->d_left == 0)
 		ft_putstr_fd(str, 1);
-	if (flag->d_precision >= 0 && (int)ft_strlen(str) > flag->d_precision) // 정밀도에 의해 문자열이 잘렸을 경우
+	if (flag->d_precision >= 0 && (int)ft_strlen(str) > flag->d_precision)
 		free(str);
 	return (len + ft_strlen(str));
 }
 
 int	s_flag_twostar(t_flag *flag, va_list *ap)
 {
-	char *str;
-	int temp;
-	int len;
+	char	*str;
+	int		temp;
+	int		len;
 
 	len = 0;
 	twostar_replace(flag, ap);
