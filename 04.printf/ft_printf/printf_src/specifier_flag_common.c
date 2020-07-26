@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/25 16:22:54 by yunslee           #+#    #+#             */
-/*   Updated: 2020/07/25 22:41:39 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/07/26 15:03:03 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	flag_decision_more(char *str_tag, t_flag *flag)
 		flag->d_zero = 1;
 	if (flag->dot > 0)
 		flag->d_dot = 1;
-	if (flag->d_dot == 0)
+	if (flag->d_dot == 0)// '.'을 기준으로 앞의 숫자는 width, 뒤의 숫자는 precision
 	{
 		flag->d_width = flag_return_atoi(str_tag);
 		flag->d_precision = -1;

@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/10 16:17:12 by yunslee           #+#    #+#             */
-/*   Updated: 2020/07/25 22:41:39 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/07/26 15:06:45 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	x_specifier(char *str_tag, va_list *ap)
 	int		len;
 
 	len = 0;
-	charge_hexa_table(hexa_table, LOWERCASE);
+	charge_hexa_table(hexa_table, LOWERCASE);//두번째 파라미터값에 따라서, hexa_table에 대문자 or 소문자
 	ft_memset(&flag, 0, sizeof(t_flag));
 	flag_decision(str_tag, &flag);
 	flag_decision_more(str_tag, &flag);
