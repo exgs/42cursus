@@ -2,7 +2,7 @@
 
 - 목표 : 🚀탈출속도에 도달하자!🚀 
 
-  ![conquer](C:\Users\이윤성\Desktop\42cursus\Colony\conquer.gif)
+  ![conquer](https://user-images.githubusercontent.com/56223639/88498379-ed1d0900-cffd-11ea-92ca-6f22426254d5.gif)
 
 - 공부 컨셉(1) (헨젤과 그레텔)
   
