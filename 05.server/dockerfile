@@ -1,0 +1,48 @@
+FROM debian:buster
+MAINTAINER yunslee <yunlsee@student.42seoul.kr>
+
+RUN apt-get update
+# RUN apt-get install -y apt-utils
+# RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+RUN apt-get install -y nginx \
+				vim \
+				mariadb-server \
+				php7.3-fpm \
+				php-mysql php-mbstring \
+				wget \
+				openssl
+#				ufw
+
+#phpmyadmin 설정
+WORKDIR /tmp
+RUN wget https://files.phpmyadmin.net/phpMyAdmin/4.9.0.1/phpMyAdmin-4.9.0.1-all-languages.tar.gz
+RUN tar xvf phpMyAdmin-4.9.0.1-all-languages.tar.gz
+RUN mv phpMyAdmin-4.9.0.1-all-languages/ /usr/share/phpmyadmin
+RUN mkdir -p /var/lib/phpmyadmin/tmp
+RUN chown -R www-data:www-data /var/lib/phpmyadmin
+RUN ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
+
+RUN wget https://wordpress.org/latest.tar.gz
+RUN tar xvf latest.tar.gz
+RUN mv  ./wordpress /usr/share/wordpress
+RUN chown -R www-data:www-data /usr/share/wordpress
+RUN ln -s /usr/share/wordpress /var/www/html/wordpress
+RUN mkdir /usr/share/wordpress/wp-content/upgrade
+RUN mkdir /usr/share/wordpress/wp-content/uploads
+RUN mkdir /usr/share/wordpress/wp-content/temp
+
+ADD ./src/config.inc.php /usr/share/phpmyadmin/config.inc.php
+ADD ./src/default /etc/nginx/sites-available/default
+ADD ./src/phpinfo.php /var/www/html/phpinfo.php
+ADD ./src/wp-config.php /usr/share/wordpress/wp-config.php
+ADD ./src/service_start.sh /service_start.sh
+ADD ./src/config.sql /config.sql
+
+##Doesn't work
+#ADD ./src/self-signed.conf /etc/nginx/snippets/self-signed.conf
+#ADD ./src/ssl-params.conf /etc/nginx/snippets/ssl-params.conf
+
+##if you want to make container more automatical
+#CMD sh service_start.sh
+##And service_start.sh release #bash at the end of file
+WORKDIR /
