@@ -2,7 +2,7 @@
 
 - 목표 : 🚀탈출속도에 도달하자!🚀 
 
-  ![conquer](https://user-images.githubusercontent.com/56223639/88498379-ed1d0900-cffd-11ea-92ca-6f22426254d5.gif)
+  ![conquer](https://user-images.githubusercontent.com/56223639/89616472-66044680-d8c3-11ea-8cb5-e3ccd057ae23.gif)
 
 - 공부 컨셉(1) (헨젤과 그레텔)
   
@@ -14,10 +14,10 @@
   |    Project    | Mark  |                     Keyword                      | closing date |
   | :-----------: | :---: | :----------------------------------------------: | ------------ |
   |     libft     | 115%  |               makefile, headerfile               |              |
-  | get_next_line | 100%/115% |static variable, read(), open(), buffer의 추상화| 7.05\~7.11\~7.17 |
-  |    netwhat    | 100%  |             ip, 공유기, DNS, netmask               | 6.29~7.03    |
-  |   ft_printf   | 100%  |              귀납적추론, 코딩스킬                     | 7.18~7.26    |
-  |   ft_server   |       |                                                  |              |
+  | get_next_line | 100%/115% |static variable, read(), open(), buffer의 추상화| 6days/6days |
+  |    netwhat    | 100%  |             ip, 공유기, DNS, netmask               | 5days |
+  |   ft_printf   | 100%  |              귀납적추론, 코딩스킬                     | 9days |
+  |   ft_server   | 100% | 새롭게 배우는 것 | 11days |
   |     cub3d     |       |                                                  |              |
   |    libasm     |       |                                                  |              |
 
