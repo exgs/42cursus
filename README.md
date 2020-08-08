@@ -2,7 +2,7 @@
 
 - 목표 : 🚀탈출속도에 도달하자!🚀 
 
-  ![conquer](https://user-images.githubusercontent.com/56223639/89616472-66044680-d8c3-11ea-8cb5-e3ccd057ae23.gif)
+  ![anigif](https://user-images.githubusercontent.com/56223639/89714751-fe8dea00-d9db-11ea-8894-d15f566430e7.gif)
 
 - 공부 컨셉(1) (헨젤과 그레텔)
   
