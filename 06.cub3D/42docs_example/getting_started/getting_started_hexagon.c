@@ -63,25 +63,32 @@ int	main(void)
 	double dir_temp;
 	int i = 0;
 	int count = 6;
-	int scale = 100;
+	double scale = 200;
 	int color = 0x99ccff;
-	while (count > 0)
+
+	while (scale > 0)
 	{
-		i = 0;
-		color -= 0x100010;
-		while (i < scale)
+		count = 6;
+		while (count > 0)
 		{
-			pos[X] += dir[X];
-			pos[Y] += dir[Y];
-			my_mlx_pixel_put(&img, pos[X], pos[Y], color);
-			i++;
+			i = 0;
+			// color -= 0x100010;
+			while (i < scale)
+			{
+				pos[X] += dir[X];
+				pos[Y] += dir[Y];
+				my_mlx_pixel_put(&img, pos[X], pos[Y], color);
+				i++;
+			}
+			dir_temp = dir[X];
+			dir[X] = cos(M_PI/3) * dir[X] - sin(M_PI/3) * dir[Y];
+			dir[Y] = sin(M_PI/3) * dir_temp + cos(M_PI/3) * dir[Y];
+			printf("dir[X] dir[Y] : %f %f\n", dir[X], dir[Y]);
+			count--;
 		}
-		dir_temp = dir[X];
-		dir[X] = cos(M_PI/3) * dir[X] - sin(M_PI/3) * dir[Y];
-		dir[Y] = sin(M_PI/3) * dir_temp + cos(M_PI/3) * dir[Y];
-		printf("dir[X] dir[Y] : %f %f\n", dir[X], dir[Y]);
-		count--;
+		scale -= 0.02;
 	}
+	
 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 	mlx_hook(img.win, 2, 0, mlx_exit, &img);
 	mlx_loop(mlx);

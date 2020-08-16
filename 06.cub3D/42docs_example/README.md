@@ -6,11 +6,9 @@
 
 2. ## Hooks
 
-   ​	a key is pressed, it will print the key code in the terminal.
-
+   - a key is pressed, it will print the key code in the terminal.
    - the mouse if moved, it will print the current position of that mouse in the terminal.
    - a mouse is pressed, it will print the angle at which it moved over the window to the terminal.
-
 3. ## Event
 
    - `ESC` key is pressed, your window should close.
@@ -31,4 +29,6 @@
 
 6. ## Sync
 
-   Now that you have a faint idea of what MLX sync can do, grab your previous tiny circle-game that you made in [loops](https://harm-smits.github.io/42docs/libs/minilibx/loops.html) and add MLX sync to your rendering!
+   Now that you have a faint idea of what MLX sync can do, grab your previous tiny circle-game that you made in [loops](https://harm-smits.github.io/42docs/libs/minilibx/loops.html) and add MLX sync to your rendering!  
+   (page flipping, frame buffer가 발생할 때, 사용해야하는 것 같다...  
+   https://42born2code.slack.com/archives/CMX2R5JSW/p1596962348311000. )
