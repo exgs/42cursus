@@ -67,3 +67,11 @@ int	mlx_sync(int cmd, void *param);
 */
 ```
 
+---
+
+```c
+mlx_do_key_autorepeatoff(void *mlx_ptr);
+mlx_do_key_autorepeaton(void *mlx_ptr);
+```
+
+Key press를 하였을 때, 키를 계속 누르고 있을 때, 입력되도록 하려면 mlx_do_key_autorepeaton을 실행해주어야 한다.
