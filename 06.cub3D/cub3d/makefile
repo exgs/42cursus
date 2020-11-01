@@ -25,12 +25,16 @@ $(NAME) : $(OBJS)
 	gcc -o $@ -c $<
 
 gg :
-	gcc $(CFLAG) $(CMLX) $(CLIBFT_PLUS) $(CFRAMEWORK) $(CCUB3D) main.c
+	gcc $(CFLAG) $(CMLX) $(CLIBFT_PLUS) $(CFRAMEWORK) $(CCUB3D) main2.c
 gcc:
-	gcc $(CMLX) $(CLIBFT_PLUS) $(CFRAMEWORK) $(CCUB3D) main.c
+	gcc $(CMLX) $(CLIBFT_PLUS) $(CFRAMEWORK) $(CCUB3D) main2.c
+test:
+	gcc $(CMLX) $(CLIBFT_PLUS) $(CFRAMEWORK) $(CCUB3D) images-1.c
+test2:
+	gcc $(CMLX) $(CLIBFT_PLUS) $(CFRAMEWORK) $(CCUB3D) pixel_test.c
 
 f_gcc :
-	gcc -fsanitize=address -g3 $(CMLX) $(CLIBFT_PLUS) $(CFRAMEWORK) $(CCUB3D) main.c
+	gcc -fsanitize=address -g3 $(CMLX) $(CLIBFT_PLUS) $(CFRAMEWORK) $(CCUB3D) main2.c
 
 clean :
 	$(MAKE) -C ./libft_plus clean

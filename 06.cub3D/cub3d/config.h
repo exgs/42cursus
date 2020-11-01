@@ -14,11 +14,13 @@ typedef struct s_config
 	char east_texture[100];
 	char sprite_texture[100];
 	char **file;
-	char **map;
-	int map_row;	//한 줄의 벽의 갯수(not index)
-	int map_column;	//세로 줄의 갯수(not index)
+	char **map; //주의사항 char형으로 해도 좋을꺼 같음 valgrind에서만 에러가 발생함.
+	int map_row;	//주의사항 : 한 줄에 있는 벽의 갯수(not index)
+	int map_column;	//주의사항 : 세로 줄의 갯수(not index)(높이)
 	int floor_color;
 	int ceilling_color;
+	double pos_init[2];
+	double dir_init[2];
 }				t_config;
 
 // char **get_datas_linebyline(char *path);

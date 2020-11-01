@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/05 19:06:24 by yunslee           #+#    #+#             */
-/*   Updated: 2020/08/13 16:10:26 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/10/28 22:09:47 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ char **get_datas_linebyline(char *path)
 	int ret;
 	int i = 0;
 	char **lines; // 1000 sentences
-	lines = malloc(sizeof(char *) * 1000);
+	lines = malloc(sizeof(char *) * 500);
 
 	fd = open(path, O_RDONLY);
 	while ((ret = get_next_line(fd, &line)))
@@ -143,6 +143,7 @@ char **get_datas_linebyline(char *path)
 	free(line);
 	line = NULL;
 	lines[i + 1] = NULL;
+	close(fd);
 	return (lines);
 }
 

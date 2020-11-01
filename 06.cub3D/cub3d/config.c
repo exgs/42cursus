@@ -12,7 +12,6 @@ int free_map(t_config *configs)
 		free(map[i]);
 		i++;
 	}
-	// free(map[i]);
 	free(map);
 	configs->map = NULL;
 	return (1);
@@ -252,6 +251,7 @@ int extract_map_data(char **config_lines, t_config *configs, int map_start)
 	}
 	configs->map_row = max_row;
 	configs->map_column = column;
+	i = 0;
 	//예외처리
 	if (max_row <= 0 || column <= 0)
 	{
@@ -260,11 +260,13 @@ int extract_map_data(char **config_lines, t_config *configs, int map_start)
 	}
 	else
 	{
-		map = malloc(sizeof(char *) * column + 1);
-		for (size_t i = 0; i < column; i++)
+		map = malloc(sizeof(int *) * (column + 1));
+		// for (size_t i = 0; i < column; i++)
+		while (i < column)
 		{
-			map[i] = malloc(sizeof(char) * max_row + 1);
-			map[i][max_row] = '\0';
+			map[i] = malloc(sizeof(char *) * (max_row + 1));
+			map[i][max_row] = 0;
+			i++;
 		}
 		map[column] = NULL;
 		configs->map = map;
@@ -295,14 +297,6 @@ void fill_in_map(char **config_lines, t_config *configs, int map_start)
 			{
 				configs->map[i][map_j] = blank;
 			}
-			else if (str[j] == '0')
-			{
-				configs->map[i][map_j] = 0;
-			}
-			else if (str[j] == '1')
-			{
-				configs->map[i][map_j] = 1;
-			}
 			else if (str[j] == '\t')
 			{
 				for (size_t z = 0; z < 4; z++)
@@ -312,6 +306,10 @@ void fill_in_map(char **config_lines, t_config *configs, int map_start)
 				}
 				j++;
 				continue ;
+			}
+			else if (str[j] >= '0' && str[j] <= '9')
+			{
+				configs->map[i][map_j] = str[j] - 48;
 			}
 			else
 			{
@@ -326,7 +324,7 @@ void fill_in_map(char **config_lines, t_config *configs, int map_start)
 	return ;
 }
 
-void flush_string(char *str)
+void flush_string(char *str)//해상도 같이 영어가 섞인 string에서 영어를 없애주기 위함. 파싱에 해당하는 부분임
 {
 	int i = 0;
 	if (str == NULL)

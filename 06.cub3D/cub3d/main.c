@@ -97,12 +97,12 @@ void loop_hook(void *param)
 
 void map_pixel_put(t_data *data)
 {
-
+	//??
 }
 //움직일 때마다 background
 // void background
 
-int     main(void)
+int	main(void)
 {
 	t_config config;
 	if (default_setting_config_data(&config) == 1)
@@ -112,9 +112,10 @@ int     main(void)
 		printf("setting bad config\n");
 		return (0);
 	}
-	config.file = get_datas_linebyline("./srcs/map/map1");
+	config.file = get_datas_linebyline("./srcs/map/map2");
 	extract_configs_from_line(config.file, &config);
 	print_config_data(&config);
+	// printf("%d\n", config.map[0][0]);
 	free_map(&config);
 	get_free_all_linebyline(config.file);
 
@@ -147,9 +148,6 @@ int     main(void)
 	//
 	img_idx = input_newimage(&data, mlx_xpm_file_to_image(data.mlx, "./srcs/wall/벽.xpm",
 					&data.imgdata[2].width, &data.imgdata[2].height));
-	// printf("%d\n", data.imgdata[2].size_line);
-	// printf("%d\n", data.imgdata[2].width);
-	// printf("%d\n", data.imgdata[2].height);
 	int interval_width= data.win_width / config.map_row;
 	int interval_height= data.win_height / config.map_column;
 	for (size_t i = 0; i < interval_width; i++)
@@ -169,14 +167,13 @@ int     main(void)
 		mlx_put_image_to_window(data.mlx, data.win, data.imgdata[2].img, data.win_width - 100, 0 + i * 100);	
 	}
 
-
 	mlx_put_image_to_window(data.mlx, data.win, data.imgdata[0].img, 0, 0);
 	mlx_put_image_to_window(data.mlx, data.win, data.imgdata[1].img, 0, 0);
 	
 
 	mlx_hook(data.win, 2, 0, key_press, &data);
 	mlx_loop_hook(data.mlx, loop_hook ,&data);
-	free_imgname(img_names);
 	mlx_loop(data.mlx);
+	free_imgname(img_names);
 	return (1);
 }
