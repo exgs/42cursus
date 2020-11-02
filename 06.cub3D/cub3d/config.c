@@ -1,19 +1,18 @@
 #include "config.h"
 
-int free_map(t_config *configs)
+int free_map(char **map)
 {
-	char **map = configs->map;
 	int i = 0;
 
 	if (map == NULL)
 		return (0);
-	while (i < configs->map_column)
+	while (map[i] != NULL)
 	{
 		free(map[i]);
+		map[i] = 0;
 		i++;
 	}
 	free(map);
-	configs->map = NULL;
 	return (1);
 }
 
@@ -260,15 +259,15 @@ int extract_map_data(char **config_lines, t_config *configs, int map_start)
 	}
 	else
 	{
-		map = malloc(sizeof(int *) * (column + 1));
-		// for (size_t i = 0; i < column; i++)
-		while (i < column)
+		map = malloc(sizeof(char *) * (max_row + 1));
+		// for (size_t i = 0; i < max_row; i++)
+		while (i < max_row)
 		{
-			map[i] = malloc(sizeof(char *) * (max_row + 1));
-			map[i][max_row] = 0;
+			map[i] = malloc(sizeof(char *) * (column + 1));
+			map[i][column] = 0;
 			i++;
 		}
-		map[column] = NULL;
+		map[max_row] = NULL;
 		configs->map = map;
 	}
 	printf("가로 : %d 세로 : %d\n",max_row, column);
@@ -280,45 +279,78 @@ void fill_in_map(char **config_lines, t_config *configs, int map_start)
 {
 	int i = 0;
 	int j = 0;
-	int map_i;
+	int file_i;
+	int file_j;
 	int blank = 9;
-	int map_j;
 	char *str;
 
-	map_i = map_start;
-	while (config_lines[map_i] != NULL && config_lines[map_i][0] != '\0' && config_lines[map_i][0] != '\n')
+	file_i = map_start;
+	while (config_lines[file_i] != NULL && config_lines[file_i][0] != '\0' && config_lines[file_i][0] != '\n')
 	{
 		j = 0;
-		map_j = 0;
-		str = config_lines[map_i];
+		file_j = 0;
+		str = config_lines[file_i];
 		while (j < configs->map_row)
 		{
-			if (str[j] == ' ')
+			if (str[file_j] == '\0')
 			{
-				configs->map[i][map_j] = blank;
+				while (file_j < configs->map_row)
+				{
+					configs->map[j][i] = blank;
+					j++;
+					file_j++;
+				}
+				break;
 			}
-			else if (str[j] == '\t')
+			else if (str[file_j] == ' ')
+			{
+				configs->map[j][i] = blank;
+			}
+			else if (str[file_j] == '\t')
 			{
 				for (size_t z = 0; z < 4; z++)
 				{
-					configs->map[i][map_j] = blank;
-					map_j++;
+					configs->map[j][i] = blank;
+					file_j++;
 				}
-				j++;
+				file_j++;
 				continue ;
 			}
-			else if (str[j] >= '0' && str[j] <= '9')
+			else if (str[file_j] >= '0' && str[file_j] <= '9')
 			{
-				configs->map[i][map_j] = str[j] - 48;
+				configs->map[j][i] = str[file_j] - 48;
 			}
-			else
+			else if (str[file_j] == 'N' || str[file_j] == 'S' || str[file_j] == 'W' || str[file_j] == 'E')
 			{
-				configs->map[i][map_j] = blank;
+				configs->map[j][i] = 0;
+				if (str[file_j] == 'N')
+				{
+					configs->dir_init[X] = 0.0;
+					configs->dir_init[Y] = -1.0;
+				}
+				else if(str[file_j] == 'S')
+				{
+					configs->dir_init[X] = 0.0;
+					configs->dir_init[Y] = 1.0;
+				}
+				else if(str[file_j] == 'W')
+				{
+					configs->dir_init[X] = -1.0;
+					configs->dir_init[Y] = 0.0;
+				}
+				else if(str[file_j] == 'E')
+				{
+					configs->dir_init[X] = 1.0;
+					configs->dir_init[Y] = 0.0;
+				}
+				configs->pos_init[X] = j + 0.3; //0.5 , 1처럼 딱 떨어지게하면, 맨처음에 이동시 벽 뚫음
+				configs->pos_init[Y] = i + 0.3;
+				//사용자 초기 위치 일떄를 위해서
 			}
-			map_j++;
+			file_j++;
 			j++;
 		}
-		map_i++;
+		file_i++;
 		i++;
 	}
 	return ;
@@ -397,10 +429,10 @@ void print_config_data(t_config *configs)
 	printf("-----------map-----------\n");
 	if (map != NULL)
 	{
-		while (map[i] != NULL)
+		while (i < configs->map_row)
 		{
 			j = 0;
-			while (j < configs->map_row)
+			while (j < configs->map_column)
 			{
 				printf("%d ", map[i][j]);
 				j++;
@@ -410,3 +442,4 @@ void print_config_data(t_config *configs)
 		}
 	}
 }
+

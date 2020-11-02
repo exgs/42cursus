@@ -365,11 +365,12 @@ void ray_casting2(void *param)
 	// mlx_put_image_to_window(data->mlx, data->win, data->imgdata[0].img, 0, 0);
 
 	/*스프라이트 색칠*/
-	// for (size_t i = 0; i < 50; i++)
-	// {
-	// 	data->sprite_order[i] = 0;
-	// 	data->sprite_distance[i] = 0;
-	// }
+	// printf("%d\n", data->sprite_num);
+	for (size_t i = 0; i < 50; i++)
+	{
+		data->sprite_order[i] = 0;
+		data->sprite_distance[i] = 0;
+	}
 	
 	for(int i = 0; i < data->sprite_num; i++)
 	{
@@ -378,7 +379,7 @@ void ray_casting2(void *param)
 										(data->obj.pos[Y] - data->spritedata[i].y) * (data->obj.pos[Y] - data->spritedata[i].y);
 	}
 	sortSprites(data->sprite_order, data->sprite_distance, data->sprite_num);
-	// printf("sprtie_num %d\n", data->sprite_num);
+	printf("sprtie_num %d\n", data->sprite_num);
 	for (int i = 0; i < data->sprite_num; i++)
     {
 		//translate sprite position to relative to camera
@@ -397,23 +398,19 @@ void ray_casting2(void *param)
 		#define vMove 0.0
 		int vMoveScreen = (int)(vMove / transformY);
 
-		int spriteHeight = (int)fabs((h / (transformY))/ vDiv); //using 'transformY' instead of the real distance prevents fisheye
+		int spriteHeight = (int)fabs((h / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = -spriteHeight / 2 + h / 2 + vMoveScreen; 
-		// if (drawStartY < 0)
-		// 	drawStartY = 0;
-		int drawEndY = spriteHeight / 2 + h / 2 + vMoveScreen;
-		// if (drawEndY >= h)
-		// 	drawEndY = h - 1;
+		int drawStartY = -spriteHeight / 2 + h / 2;
+		if(drawStartY < 0) drawStartY = 0;
+		int drawEndY = spriteHeight / 2 + h / 2;
+		if(drawEndY >= h) drawEndY = h - 1;
 
 		//calculate width of the sprite
-		int spriteWidth = (int)fabs((h / (transformY))/ uDiv);
+		int spriteWidth = (int)fabs((h / (transformY)));
 		int drawStartX = -spriteWidth / 2 + spriteScreenX;
-		// if(drawStartX < 0)
-		// 	drawStartX = 0;
+		if(drawStartX < 0) drawStartX = 0;
 		int drawEndX = spriteWidth / 2 + spriteScreenX;
-		// if(drawEndX >= WIDTH)
-		// 	drawEndX = WIDTH - 1;
+		if(drawEndX >= WIDTH) drawEndX = WIDTH - 1;
 
 		//loop through every vertical stripe of the sprite on screen
 		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
@@ -428,7 +425,7 @@ void ray_casting2(void *param)
 			{
 				for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 				{
-					int d = (y - vMoveScreen) * 256 - h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+					int d = (y) * 256 - h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 					int texY = ((d * TEXHEIGHT) / spriteHeight) / 256;
 					unsigned int color;
 					// color = texture[sprite[spriteOrder[i]].texture][texWidth * texY + texX]; //get current color from the texture
@@ -531,7 +528,7 @@ int	main(void)
 		printf("setting bad config\n");
 		return (0);
 	}
-	config.file = get_datas_linebyline("./srcs/map/map4");
+	config.file = get_datas_linebyline("./srcs/map/map3");
 	extract_configs_from_line(config.file, &config);
 	print_config_data(&config);
 	get_free_all_linebyline(config.file);
@@ -579,13 +576,13 @@ int	main(void)
 	// img_idx = input_newimage(&data, mlx_new_image(data.mlx, WIDTH, HEIGHT));
 
 	/*pixel 찍는 방법*/
-	// my_mlx_pixel_put(&data.imgdata[0], WIDTH/4, HEIGHT/2, 0xffffff);
-	// mlx_put_image_to_window(data.mlx, data.win, data.imgdata[0].img, 0, 0);
+	my_mlx_pixel_put(&data.imgdata[0], WIDTH/4, HEIGHT/2, 0xffffff);
+	mlx_put_image_to_window(data.mlx, data.win, data.imgdata[0].img, 0, 0);
 	mlx_hook(data.win, 2, 0, key_press, &data);
 	mlx_loop_hook(data.mlx, ray_casting2, &data);
 	/*event코드가 겹치면 안되는 거 같다.*/
 	// mlx_hook(data.win, 2, 0, pos_moving, &data);
 	// mlx_hook(data.win, 2, 0, dir_rotating, &data);
 	mlx_loop(data.mlx);
-	return (1);
+		return (1);
 }

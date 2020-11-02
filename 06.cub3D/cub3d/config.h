@@ -42,9 +42,10 @@ void fill_in_map(char **config_lines, t_config *configs, int map_start);
 
 void print_config_data(t_config *configs);
 void flush_string(char *str);
-int free_map(t_config *configs);
+int free_map(char **map);
 
 static int	atoi_while_cub(const char *str, int i, int sign, int *idx);
 int			ft_atoi_cub(const char *str, int *idx);
+
 #endif
 	

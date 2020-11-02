@@ -12,12 +12,13 @@
 # define Y 1
 # define WIDTH 1000
 # define HEIGHT 1000
-# define TEXWIDTH 200
-# define TEXHEIGHT 200
+# define TEXWIDTH 64
+# define TEXHEIGHT 64
 
 typedef struct s_ray{
 	double dir[2];
 	double plane[2];
+	char NSWE;
 	int w;
 }				t_ray;
 
@@ -53,10 +54,23 @@ typedef struct s_data{
 	double zbuffer[WIDTH];
 	struct s_object obj;
 	struct s_image imgdata[10];
-	struct s_sprite spritedata[10];
+	struct s_sprite spritedata[50];
+	int		sprite_order[50];
+	double	sprite_distance[50];
+	int		sprite_num;
 }				t_data;
+
+typedef struct		s_pair
+{
+	double	first; //거리비교
+	int		second; //인덱스
+}					t_pair;
 
 
 void		my_mlx_pixel_put(t_image *imgdata, int x, int y, int color);
 unsigned int	my_mlx_pixel_get(t_image *imgdata, int x, int y);
+int count_sprite(t_data *data, struct s_config *config);
+static int	compare(const void *first, const void *second);
+void	sort_order(t_pair *orders, int amount);
+void	sortSprites(int *order, double *dist, int amount);
 #endif

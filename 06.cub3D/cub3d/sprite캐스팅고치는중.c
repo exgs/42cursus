@@ -37,34 +37,6 @@ int ray_matrix(char dir, double *x, double *y)
 	return (1);
 }
 
-char init_NSWE(t_data *data)
-{
-	char c;
-	if (data == NULL)
-		return 0;
-	if (data->obj.ray.dir[X] == 1)
-	{
-		c = 'E';
-		data->obj.ray.NSWE = 'E';
-	}
-	else if (data->obj.ray.dir[X] == -1)
-	{
-		c = 'W';
-		data->obj.ray.NSWE = 'W';
-	}
-	else if (data->obj.ray.dir[Y] == 1)
-	{
-		c = 'S';
-		data->obj.ray.NSWE = 'S';
-	}
-	else if (data->obj.ray.dir[Y] == -1)
-	{
-		c = 'N';
-		data->obj.ray.NSWE = 'N';
-	}
-	return c;
-}
-
 int is_wall(double x, double y, t_data *data)
 {
 	if (data->map[(int)x][(int)y] != 0)
@@ -80,12 +52,8 @@ void obj_moving(int keycode, t_data *param)
 	double angle;
 	double pos_x;
 	double pos_y;
+	angle = -M_PI/2; //뒤집어진 세계
 
-	angle = -M_PI/2;
-	// if (obj->ray.NSWE == 'W' || obj->ray.NSWE == 'S')
-	// 	angle = M_PI/2;
-	// else
-	// 	angle = -M_PI/2;
 	printf("Before X:%f Y:%f\n", obj->pos[X], obj->pos[Y]);
 	if (keycode == 0)
 	{
@@ -139,36 +107,33 @@ void obj_moving(int keycode, t_data *param)
 void ray_rotating(int keycode, void *param)
 {
 	t_ray *ray = param;
-	printf("Before dirX : %f dirY : %f\n", ray->dir[X], ray->dir[Y]);
 	if (keycode == 123)
 	{
 		printf("<-\n");
-		// if (ray->NSWE == 'W' || ray->NSWE == 'S')
-		// {
-		// 	ray_matrix(1, &ray->dir[X], &ray->dir[Y]);
-		// 	ray_matrix(1, &ray->plane[X], &ray->plane[Y]);
-		// }
-		// else
-		// {
-		ray_matrix(-1, &ray->dir[X], &ray->dir[Y]);
-		ray_matrix(-1, &ray->plane[X], &ray->plane[Y]);
-		// }
-		printf("After dirX : %f dirY : %f\n", ray->dir[X], ray->dir[Y]);
+		if (ray->reverse = 0)
+		{
+			ray_matrix(1, &ray->dir[X], &ray->dir[Y]);
+			ray_matrix(1, &ray->plane[X], &ray->plane[Y]);
+		}
+		else
+		{
+			ray_matrix(-1, &ray->dir[X], &ray->dir[Y]);
+			ray_matrix(-1, &ray->plane[X], &ray->plane[Y]);
+		}
 	}
 	else if (keycode == 124)
 	{	
 		printf("->\n");
-		// if (ray->NSWE == 'W' || ray->NSWE == 'S')
-		// {
-		// 	ray_matrix(-1, &ray->dir[X], &ray->dir[Y]);
-		// 	ray_matrix(-1, &ray->plane[X], &ray->plane[Y]);
-		// }
-		// else
-		// {
-		ray_matrix(1, &ray->dir[X], &ray->dir[Y]);
-		ray_matrix(1, &ray->plane[X], &ray->plane[Y]);
-		// }
-		printf("After dirX : %f dirY : %f\n", ray->dir[X], ray->dir[Y]);
+		if (ray->reverse = 0)
+		{
+			ray_matrix(-1, &ray->dir[X], &ray->dir[Y]);
+			ray_matrix(-1, &ray->plane[X], &ray->plane[Y]);
+		}
+		else
+		{
+			ray_matrix(1, &ray->dir[X], &ray->dir[Y]);
+			ray_matrix(1, &ray->plane[X], &ray->plane[Y]);
+		}
 	}
 	return ;
 }
@@ -182,7 +147,6 @@ void key_press(int keycode, void *param)
 	// printf("data->obj : %p\n", data->obj);
 	if (keycode == 53)//esc
 	{
-		free_map(data->map);
 		exit(0);
 		return ;
 	}
@@ -320,28 +284,23 @@ void ray_casting2(void *param)
 
 		//x coordinate on the texture
 		int texX = (int)(wallX * (double)TEXWIDTH);
-		if(side == 0 && rayDirX > 0)
-			texX = TEXWIDTH - texX - 1;
-		if(side == 1 && rayDirY < 0)
-			texX = TEXWIDTH - texX - 1;
+		// if(side == 0 && rayDirX > 0)
+		// 	texX = TEXWIDTH - texX - 1;
+		// if(side == 1 && rayDirY < 0)
+		// 	texX = TEXWIDTH - texX - 1;
 
 		double step = 0.9 * (double)TEXHEIGHT/lineHeight; //여기가 형변환이 문제였네!
 		double texPos = (drawStart - h/2 + lineHeight/2) * step;
 		// double texPos = 0;
 		unsigned int get_color;
-		// int win_x;
-		// if (data->obj.ray.NSWE == 'S' || data->obj.ray.NSWE == 'W')
-		// 	win_x = data->obj.ray.w - x;
-		// else
-		// 	win_x = x;
 		if (hit != 0)
 		{
 			while (drawStart < drawEnd)
 			{
-				int texY = (int)texPos & (TEXHEIGHT -1);
+				// int texY = (int)texPos & (TEXHEIGHT -1);
 				texPos += step;
-				get_color = my_mlx_pixel_get(&(data->imgdata[1]), texX, texY);
-				// get_color = my_mlx_pixel_get(&(data->imgdata[1]), texX, (int)texPos);
+				// get_color = my_mlx_pixel_get(&(data->imgdata[1]), texX, texY);
+				get_color = my_mlx_pixel_get(&(data->imgdata[1]), texX, (int)texPos);
 				my_mlx_pixel_put(&(data->imgdata[0]), x ,drawStart, get_color);
 				drawStart++;
 			}
@@ -365,12 +324,7 @@ void ray_casting2(void *param)
 	// mlx_put_image_to_window(data->mlx, data->win, data->imgdata[0].img, 0, 0);
 
 	/*스프라이트 색칠*/
-	// for (size_t i = 0; i < 50; i++)
-	// {
-	// 	data->sprite_order[i] = 0;
-	// 	data->sprite_distance[i] = 0;
-	// }
-	
+	// printf("%d\n", data->sprite_num);
 	for(int i = 0; i < data->sprite_num; i++)
 	{
 		data->sprite_order[i] = i;
@@ -378,8 +332,7 @@ void ray_casting2(void *param)
 										(data->obj.pos[Y] - data->spritedata[i].y) * (data->obj.pos[Y] - data->spritedata[i].y);
 	}
 	sortSprites(data->sprite_order, data->sprite_distance, data->sprite_num);
-	// printf("sprtie_num %d\n", data->sprite_num);
-	for (int i = 0; i < data->sprite_num; i++)
+	for(int i = 0; i < data->sprite_num; i++)
     {
 		//translate sprite position to relative to camera
 		double spriteX = data->spritedata[data->sprite_order[i]].x - data->obj.pos[X];
@@ -389,36 +342,27 @@ void ray_casting2(void *param)
 		double transformX = invDet * (data->obj.ray.dir[Y] * spriteX - data->obj.ray.dir[X] * spriteY);
 		double transformY = invDet * (-data->obj.ray.plane[Y] * spriteX + data->obj.ray.plane[X] * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
 
-		int spriteScreenX = (int)((WIDTH / 2) * (1 + transformX / transformY));
+		int spriteScreenX = (int)((WIDTH / 2) * (1 + (double)transformX / transformY));
 
 		//calculate height of the sprite on screen
-		#define uDiv 1
-		#define vDiv 1
-		#define vMove 0.0
-		int vMoveScreen = (int)(vMove / transformY);
-
-		int spriteHeight = (int)fabs((h / (transformY))/ vDiv); //using 'transformY' instead of the real distance prevents fisheye
+		int spriteHeight = abs((int)(h / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = -spriteHeight / 2 + h / 2 + vMoveScreen; 
-		// if (drawStartY < 0)
-		// 	drawStartY = 0;
-		int drawEndY = spriteHeight / 2 + h / 2 + vMoveScreen;
-		// if (drawEndY >= h)
-		// 	drawEndY = h - 1;
+		int drawStartY = -spriteHeight / 2 + h / 2;
+		if(drawStartY < 0) drawStartY = 0;
+		int drawEndY = spriteHeight / 2 + h / 2;
+		if(drawEndY >= h) drawEndY = h - 1;
 
 		//calculate width of the sprite
-		int spriteWidth = (int)fabs((h / (transformY))/ uDiv);
+		int spriteWidth = abs((int)(h / (transformY)));
 		int drawStartX = -spriteWidth / 2 + spriteScreenX;
-		// if(drawStartX < 0)
-		// 	drawStartX = 0;
+		if(drawStartX < 0) drawStartX = 0;
 		int drawEndX = spriteWidth / 2 + spriteScreenX;
-		// if(drawEndX >= WIDTH)
-		// 	drawEndX = WIDTH - 1;
+		if(drawEndX >= WIDTH) drawEndX = WIDTH - 1;
 
 		//loop through every vertical stripe of the sprite on screen
 		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
 		{
-			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * TEXWIDTH / spriteWidth / 256);
+			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * (double)TEXWIDTH / spriteWidth) / 256;
 			//the conditions in the if are:
 			//1) it's in front of camera plane so you don't see things behind you
 			//2) it's on the screen (left)
@@ -428,7 +372,7 @@ void ray_casting2(void *param)
 			{
 				for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 				{
-					int d = (y - vMoveScreen) * 256 - h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+					int d = (y) * 256 - h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 					int texY = ((d * TEXHEIGHT) / spriteHeight) / 256;
 					unsigned int color;
 					// color = texture[sprite[spriteOrder[i]].texture][texWidth * texY + texX]; //get current color from the texture
@@ -498,7 +442,7 @@ char **map_xy_reverse(char **map, t_config* config)
 
 	i = 0;
 	j = 0;
-	reverse_map = (char **)malloc(sizeof(char *) * (config->map_row + 1));
+	reverse_map = (char **)malloc(sizeof(char *) * config->map_row + 1);
 	while (i < config->map_row)
 	{
 		reverse_map[i] = (char *)malloc(sizeof(char) * config->map_column + 1);
@@ -531,7 +475,7 @@ int	main(void)
 		printf("setting bad config\n");
 		return (0);
 	}
-	config.file = get_datas_linebyline("./srcs/map/map4");
+	config.file = get_datas_linebyline("./srcs/map/map1");
 	extract_configs_from_line(config.file, &config);
 	print_config_data(&config);
 	get_free_all_linebyline(config.file);
@@ -549,10 +493,12 @@ int	main(void)
 	data.obj.pos[Y] = config.pos_init[Y];
 	data.obj.ray.dir[X] = config.dir_init[X];
 	data.obj.ray.dir[Y] = config.dir_init[Y];
-	init_NSWE(&data);
-
-	data.obj.ray.plane[X] = (data.obj.ray.dir[X]*cos(M_PI/2) - sin(M_PI/2)*data.obj.ray.dir[Y])*0.6;
-	data.obj.ray.plane[Y] = (data.obj.ray.dir[X]*sin(M_PI/2) + cos(M_PI/2)*data.obj.ray.dir[Y])*0.6;
+	if (data.obj.ray.dir[X] > (double)0 || data.obj.ray.dir[Y] > (double)0)
+		data.obj.ray.reverse = 1;
+	else
+		data.obj.ray.reverse = 0;
+	data.obj.ray.plane[X] = 0;
+	data.obj.ray.plane[Y] = 0.5;
 	printf("init_pos[X,Y] = [%f, %f]\n", data.obj.pos[X],data.obj.pos[Y]);
 	printf("init_dir[X,Y] = [%f, %f]\n", data.obj.ray.dir[X],data.obj.ray.dir[Y]);
 	printf("init_plane[X,Y] = [%f, %f]\n", data.obj.ray.plane[X],data.obj.ray.plane[Y]);
@@ -561,10 +507,8 @@ int	main(void)
 	data.obj.map[X] = (int)data.obj.pos[X];
 	data.obj.map[Y] = (int)data.obj.pos[Y]; 
 	data.obj.ray.w= WIDTH;
-	// data.map = map_xy_reverse(config.map, &config); //여기서도 이제 free를 해주어야함.. double free
-	// free_map(&config);
-	data.map = config.map;
-
+	data.map = map_xy_reverse(config.map, &config); //여기서도 이제 free를 해주어야함.. double free
+	free_map(&config);
 	data.sprite_num = count_sprite(&data, &config);
 	// printf("%d\n", count_sprite(&data, &config));
 	double time = 0;
@@ -574,13 +518,13 @@ int	main(void)
 	data.mlx = mlx_init();
 	data.win = mlx_new_window(data.mlx, data.win_width, data.win_height, "Hello world!");
 	img_idx = input_newimage(&data, mlx_new_image(data.mlx, WIDTH, HEIGHT));
-	img_idx = input_newimage(&data, mlx_xpm_file_to_image(data.mlx, "./srcs/item/redbrick.xpm", &data.imgdata[img_idx].width, &data.imgdata[img_idx].height));
+	img_idx = input_newimage(&data, mlx_xpm_file_to_image(data.mlx, "./srcs/item/greystone.xpm", &data.imgdata[img_idx].width, &data.imgdata[img_idx].height));
 	img_idx = input_newimage(&data, mlx_xpm_file_to_image(data.mlx, "./srcs/item/pillar.xpm", &data.imgdata[img_idx].width, &data.imgdata[img_idx].height));
 	// img_idx = input_newimage(&data, mlx_new_image(data.mlx, WIDTH, HEIGHT));
 
 	/*pixel 찍는 방법*/
-	// my_mlx_pixel_put(&data.imgdata[0], WIDTH/4, HEIGHT/2, 0xffffff);
-	// mlx_put_image_to_window(data.mlx, data.win, data.imgdata[0].img, 0, 0);
+	my_mlx_pixel_put(&data.imgdata[0], WIDTH/4, HEIGHT/2, 0xffffff);
+	mlx_put_image_to_window(data.mlx, data.win, data.imgdata[0].img, 0, 0);
 	mlx_hook(data.win, 2, 0, key_press, &data);
 	mlx_loop_hook(data.mlx, ray_casting2, &data);
 	/*event코드가 겹치면 안되는 거 같다.*/
