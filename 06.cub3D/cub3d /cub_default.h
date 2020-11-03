@@ -10,8 +10,8 @@
 
 # define X 0
 # define Y 1
-# define WIDTH 1000
-# define HEIGHT 1000
+# define WIDTH 500
+# define HEIGHT 500
 # define TEXWIDTH 64
 # define TEXHEIGHT 64
 
@@ -19,7 +19,6 @@ typedef struct s_ray{
 	double dir[2];
 	double plane[2];
 	char NSWE;
-	int w;
 }				t_ray;
 
 typedef struct s_object{
