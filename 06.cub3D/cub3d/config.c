@@ -429,12 +429,12 @@ void print_config_data(t_config *configs)
 	printf("-----------map-----------\n");
 	if (map != NULL)
 	{
-		while (i < configs->map_row)
+		while (i < configs->map_column)
 		{
 			j = 0;
-			while (j < configs->map_column)
+			while (j < configs->map_row)
 			{
-				printf("%d ", map[i][j]);
+				printf("%d ", map[j][i]);
 				j++;
 			}
 			printf("\n");

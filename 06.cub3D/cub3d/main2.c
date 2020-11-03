@@ -21,7 +21,7 @@ int input_newimage(t_data *data, void *new_img)
 int ray_matrix(char dir, double *x, double *y)
 {
 	double temp = *x;
-	double angle = M_PI/30;
+	double angle = M_PI/15;
 	
 	if (dir == 1)
 	{
@@ -34,6 +34,16 @@ int ray_matrix(char dir, double *x, double *y)
 		*x = cos(angle)*(*x) - sin(angle)*(*y);
 		*y = sin(angle)*(temp) + cos(angle)*(*y);
 	}
+	return (1);
+}
+
+int ray_180rotatingmatrix(double *x, double *y)
+{
+	double temp = *x;
+	double angle = -M_PI/2;
+	
+	*x = cos(angle)*(*x) - sin(angle)*(*y);
+	*y = sin(angle)*(temp) + cos(angle)*(*y);
 	return (1);
 }
 
@@ -76,7 +86,7 @@ int is_wall(double x, double y, t_data *data)
 void obj_moving(int keycode, t_data *param)
 {
 	t_object *obj = &param->obj;
-	double step_interval = 0.5;
+	double step_interval = 1;
 	double angle;
 	double pos_x;
 	double pos_y;
@@ -371,6 +381,7 @@ void ray_casting2(void *param)
 	// 	data->sprite_distance[i] = 0;
 	// }
 	
+	
 	for(int i = 0; i < data->sprite_num; i++)
 	{
 		data->sprite_order[i] = i;
@@ -381,54 +392,61 @@ void ray_casting2(void *param)
 	// printf("sprtie_num %d\n", data->sprite_num);
 	for (int i = 0; i < data->sprite_num; i++)
     {
-		//translate sprite position to relative to camera
+		// double new_dirX;
+		// double new_dirY;
+		// new_dirX = data->obj.ray.dir[X];
+		// new_dirY = -data->obj.ray.dir[Y];
+		// double spriteX = data->spritedata[data->sprite_order[i]].x - data->obj.pos[X];
+		// double spriteY = (data->spritedata[data->sprite_order[i]].y - data->obj.pos[Y]);
+		// double invDet = (double)1.0 / (data->obj.ray.plane[X] * new_dirY - new_dirX * data->obj.ray.plane[Y]);
+		// double transformX = invDet * (new_dirY * spriteX - new_dirX * spriteY);
+		// double transformY = invDet * (-data->obj.ray.plane[Y] * spriteX + data->obj.ray.plane[X] * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
+		////
 		double spriteX = data->spritedata[data->sprite_order[i]].x - data->obj.pos[X];
-		double spriteY = data->spritedata[data->sprite_order[i]].y - data->obj.pos[Y];
-		double invDet = 1.0 / (data->obj.ray.plane[X] * data->obj.ray.dir[Y] - data->obj.ray.dir[X] * data->obj.ray.plane[Y]); //required for correct matrix multiplication
+		double spriteY = (data->spritedata[data->sprite_order[i]].y - data->obj.pos[Y]);
+		double invDet = (double)1.0 / (data->obj.ray.plane[X] * data->obj.ray.dir[Y] - data->obj.ray.dir[X] * data->obj.ray.plane[Y]); //required for correct matrix multiplication
 
 		double transformX = invDet * (data->obj.ray.dir[Y] * spriteX - data->obj.ray.dir[X] * spriteY);
 		double transformY = invDet * (-data->obj.ray.plane[Y] * spriteX + data->obj.ray.plane[X] * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
+		// ray_180rotatingmatrix(&transformX, &transformY);
+
 
 		int spriteScreenX = (int)((WIDTH / 2) * (1 + transformX / transformY));
 
-		//calculate height of the sprite on screen
-		#define uDiv 1
-		#define vDiv 1
-		#define vMove 0.0
-		int vMoveScreen = (int)(vMove / transformY);
+		//calculate heidsght of the sprite on screen
 
-		int spriteHeight = (int)fabs((h / (transformY))/ vDiv); //using 'transformY' instead of the real distance prevents fisheye
+
+		int spriteHeight = (int)abs((h / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = -spriteHeight / 2 + h / 2 + vMoveScreen; 
-		// if (drawStartY < 0)
-		// 	drawStartY = 0;
-		int drawEndY = spriteHeight / 2 + h / 2 + vMoveScreen;
-		// if (drawEndY >= h)
-		// 	drawEndY = h - 1;
+		int drawStartY = -spriteHeight / 2 + h / 2; 
+		if (drawStartY < 0)
+			drawStartY = 0;
+		int drawEndY = spriteHeight / 2 + h / 2;
+		if (drawEndY >= h)
+			drawEndY = h - 1;
 
 		//calculate width of the sprite
-		int spriteWidth = (int)fabs((h / (transformY))/ uDiv);
+		// int spriteWidth = (int)abs((h / (transformY)));
+		int spriteWidth = (int)abs((WIDTH / (transformY)));
 		int drawStartX = -spriteWidth / 2 + spriteScreenX;
-		// if(drawStartX < 0)
-		// 	drawStartX = 0;
+		if(drawStartX < 0)
+			drawStartX = 0;
 		int drawEndX = spriteWidth / 2 + spriteScreenX;
-		// if(drawEndX >= WIDTH)
-		// 	drawEndX = WIDTH - 1;
-
-		//loop through every vertical stripe of the sprite on screen
+		if(drawEndX >= WIDTH)
+			drawEndX = WIDTH - 1;
+		printf("drawStartX : %d, drawStartY : %d\n", drawStartX, drawStartY);
+		printf("drawEndX : %d, drawEndY : %d\n", drawEndX, drawEndY);
+		printf("transformX : %f, transformY : %f\n", transformX, transformY);
 		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
 		{
-			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * TEXWIDTH / spriteWidth / 256);
-			//the conditions in the if are:
-			//1) it's in front of camera plane so you don't see things behind you
-			//2) it's on the screen (left)
-			//3) it's on the screen (right)
-			//4) ZBuffer, with perpendicular distance
-			if(transformY > 0 && stripe > 0 && stripe < WIDTH && transformY < data->zbuffer[stripe])
+			// printf("stripe : %d\n", stripe);
+			if(transformY > 0 && stripe > 0 && stripe < WIDTH && transformY < data->zbuffer[stripe]) //고쳐준 부분!!!!
 			{
-				for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+				printf("transformY < data->zbuffer[stripe] == %f :%f\n", transformY, data->zbuffer[stripe]);
+				int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * TEXWIDTH / spriteWidth / 256);
+				for (int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 				{
-					int d = (y - vMoveScreen) * 256 - h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+					int d = (y) * 256 - h * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 					int texY = ((d * TEXHEIGHT) / spriteHeight) / 256;
 					unsigned int color;
 					// color = texture[sprite[spriteOrder[i]].texture][texWidth * texY + texX]; //get current color from the texture
@@ -442,6 +460,7 @@ void ray_casting2(void *param)
 			}
 		}
 	}
+
 	mlx_put_image_to_window(data->mlx, data->win, data->imgdata[0].img, 0, 0);
 }
 
@@ -551,8 +570,8 @@ int	main(void)
 	data.obj.ray.dir[Y] = config.dir_init[Y];
 	init_NSWE(&data);
 
-	data.obj.ray.plane[X] = (data.obj.ray.dir[X]*cos(M_PI/2) - sin(M_PI/2)*data.obj.ray.dir[Y])*0.6;
-	data.obj.ray.plane[Y] = (data.obj.ray.dir[X]*sin(M_PI/2) + cos(M_PI/2)*data.obj.ray.dir[Y])*0.6;
+	data.obj.ray.plane[X] = (data.obj.ray.dir[X]*cos(M_PI/2) - sin(M_PI/2)*data.obj.ray.dir[Y]);
+	data.obj.ray.plane[Y] = (data.obj.ray.dir[X]*sin(M_PI/2) + cos(M_PI/2)*data.obj.ray.dir[Y]);
 	printf("init_pos[X,Y] = [%f, %f]\n", data.obj.pos[X],data.obj.pos[Y]);
 	printf("init_dir[X,Y] = [%f, %f]\n", data.obj.ray.dir[X],data.obj.ray.dir[Y]);
 	printf("init_plane[X,Y] = [%f, %f]\n", data.obj.ray.plane[X],data.obj.ray.plane[Y]);

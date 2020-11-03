@@ -34,7 +34,7 @@ int count_sprite(t_data *data, struct s_config *config)
 			if (map[i][j] > 1 && map[i][j] < 9)
 			{
 				data->spritedata[count].x = i + 0.5;
-				data->spritedata[count].y = i + 0.5;
+				data->spritedata[count].y = j + 0.5;
 				data->spritedata[count].texture = map[i][j];
 				count +=1;
 			}
