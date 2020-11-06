@@ -1,0 +1,24 @@
+R 1000 1000
+NO "./srcs/walls/greystone.xpm"
+SO "./srcs/walls/redbrick.xpm"
+WE "./srcs/walls/colorstone.xpm"
+EA "./srcs/walls/mossy.xpm"
+
+S "./srcs/items/pillar.xpm"
+F 128, 43, 0
+C 0, 204, 153
+
+//map이 가장 아래로 가야함
+M
+111111111111
+120000000001
+100000000001
+100000000001
+100000020011
+100000E00021
+100000020011
+100000000001
+100000000001
+100000000001
+100000000001
+111111111111
