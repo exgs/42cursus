@@ -1,5 +1,7 @@
 {
 	"files.associations": {
-		"mlx_hook.h": "c"
+		"mlx_hook.h": "c",
+		"non_mlx.h": "c",
+		"sstream": "c"
 	}
 }

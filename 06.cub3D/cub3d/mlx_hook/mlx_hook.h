@@ -11,13 +11,18 @@
 
 #include "../cub_default.h"
 
-void ray_rotating(int keycode, void *param);
-int is_wall(double x, double y, struct s_data *data);
-void obj_moving(int keycode, struct s_data *param);
-void key_press(int keycode, void *param);
-int ray_matrix(char dir, double *x, double *y);
-void move_left(struct s_data* param, double step_interval);
-void move_right(struct s_data* param, double step_interval);
-void move_forward(struct s_data* param, double step_interval);
-void move_backward(struct s_data* param, double step_interval);
+struct s_data;
+struct s_pair;
+struct s_config;
+
+void	ray_rotating(int keycode, void *param);
+int		is_wall(double x, double y, struct s_data *data);
+void	obj_moving(int keycode, struct s_data *param);
+int		key_press(int keycode, void *param);
+int		ray_matrix(char dir, double *x, double *y);
+void	move_left(struct s_data* param, double step_interval);
+void	move_right(struct s_data* param, double step_interval);
+void	move_forward(struct s_data* param, double step_interval);
+void	move_backward(struct s_data* param, double step_interval);
+int		shut_down(struct s_data *data);
 #endif

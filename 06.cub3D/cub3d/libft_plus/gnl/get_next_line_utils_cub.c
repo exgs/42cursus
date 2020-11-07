@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/05 19:04:52 by yunslee           #+#    #+#             */
-/*   Updated: 2020/08/11 21:25:32 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/07 21:16:49 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char		*ft_strdup2(const char *str)
 	unsigned int	i;
 	unsigned int	str_len;
 
-	if (str == NULL)//EOF까지 도달한 fd에 대해서 한번더 gnl을 실행할 때를 위해서 추가한 예외처리
+	if (str == NULL)
 	{
 		str_dup = malloc(sizeof(char));
 		str_dup[0] = '\0';
@@ -78,8 +78,8 @@ char		*ft_strjoin2(char const *s1, char const *s2)
 	char			*str_join;
 
 	if (s1 == NULL)
-		return (ft_strdup2(s2));//static char*를 처음에 NULL로 초기화했기 때문에 필요함.
-	else if (s2 == NULL)//지역변수 buffer의 주소이기때문에 NULL일 경우는 사실상 없음
+		return (ft_strdup2(s2));
+	else if (s2 == NULL)
 		return (NULL);
 	if (NULL == (str_join = malloc(sizeof(char) *
 						(ft_strlen2(s1) + ft_strlen2(s2) + 1))))

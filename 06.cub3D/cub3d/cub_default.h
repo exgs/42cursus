@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 16:11:30 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/06 14:13:10 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/07 14:56:41 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,23 @@
 # include "./non_mlx/non_mlx.h"
 # include "./mlx_hook/mlx_hook.h"
 # include "./mlx_loop_hook/mlx_loop_hook.h"
-// # include "./non_mlx/non_mlx.h"
 # include <mlx.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <math.h>
 # define X 0
 # define Y 1
-# define WIDTH 1000
-# define HEIGHT 1000
+
 # define TEXWIDTH 64
 # define TEXHEIGHT 64
 
 typedef struct	s_ray{
 	double		dir[2];
 	double		plane[2];
-	char		nswe;
 }				t_ray;
 
 typedef struct		s_object{
 	double			pos[2];
-	int				map[2];
 	struct s_ray	ray;
 }					t_object;
 
@@ -69,7 +65,7 @@ typedef struct	s_data{
 	int				sprite_order[50];
 	double			sprite_distance[50];
 	int				sprite_num;
-	double			zbuffer[WIDTH];
+	double			zbuffer[5000];
 }				t_data;
 
 typedef struct	s_pair
@@ -80,5 +76,12 @@ typedef struct	s_pair
 
 void			my_mlx_pixel_put(t_image *imgdata, int x, int y, int color);
 unsigned int	my_mlx_pixel_get(t_image *imgdata, int x, int y);
+int				config_to_data(t_data* data, struct s_config* configs);
+int				input_newimage(t_data *data, void *new_img);
+int				left_right_valid(char **map, t_data *data);
+int				map_validation(t_data *data);
+int				top_bottom_valid(char **map, t_data *data);
+int				valid_contaminant(char **map, t_data *data);
 
+int				input_newimage2(t_data *data, void *new_img, int img_index);
 #endif

@@ -54,8 +54,10 @@ typedef struct	s_spritecasting
 	int color;
 	int y;
 }				t_spritecasting;
-
-void	raycasting(void *param);
+struct s_data;
+struct s_pair;
+struct s_config;
+int		raycasting(void *param);
 void	sprites_raycasting(struct s_data *data);
 void	walls_raycasting(struct s_data *data);
 int		count_sprite(struct s_data *data, struct s_config *config);
@@ -66,6 +68,7 @@ void	ceiling_paint(struct s_data *data);
 void	floor_paint(struct s_data *data);
 void	until_hit_wall(struct s_data *data, t_raycasting *r);
 void	set_sidedist(struct s_data *data, t_raycasting *r);
+void	set_deltadist(struct s_data *data, t_raycasting *r);
 void	wallx_from_perpwalldist(struct s_data* data, t_raycasting *r);
 void	textured_wall_paint(struct s_data *data, t_raycasting *r, int win_x);
 void	camera_matrix_setting(struct s_data *data, t_spritecasting *r, int i);
