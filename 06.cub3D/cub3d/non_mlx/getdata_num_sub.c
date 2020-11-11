@@ -1,21 +1,27 @@
 #include "non_mlx.h"
 
-void flush_string(char *str)//해상도 같이 영어가 섞인 string에서 영어를 없애주기 위함. 파싱에 해당하는 부분임
+int flush_string(char *str)
 {
-	int i = 0;
+	int i;
+
+	i = 0;
 	if (str == NULL)
 	{
 		printf("string is NULL(flush)\n");
-		return ;
+		return (0);
 	}
 	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')
 		{
-			str[i] = ' ';
+			if (str[i] == ',' || str[i] == '.' || str[i] == '/' || str[i] == ' ')
+				str[i] = ' ';
+			else
+				return (0);
 		}
 		i++;
 	}
+	return (1);
 }
 
 static int	atoi_while_cub(const char *str, int i, int sign, int *idx)

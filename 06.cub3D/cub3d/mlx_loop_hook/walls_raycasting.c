@@ -6,35 +6,11 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 20:56:57 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/07 18:30:49 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/07 21:44:55 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mlx_loop_hook.h"
-
-void	walls_raycasting(struct s_data* data)
-{
-	t_raycasting	r;
-	int				x;
-	int				w;
-
-	w = data->win_width;
-	x = 0;
-	while (x < w)
-	{
-		r.mapX = (int)data->obj.pos[X];
-		r.mapY = (int)data->obj.pos[Y];
-		r.cameraX = 2 * x / (double)w - 1;
-		r.rayDirX = data->obj.ray.dir[X] + data->obj.ray.plane[X] * r.cameraX;
-		r.rayDirY = data->obj.ray.dir[Y] + data->obj.ray.plane[Y] * r.cameraX;
-		set_deltadist(data, &r);
-		set_sidedist(data, &r);
-		until_hit_wall(data, &r);
-		wallx_from_perpwalldist(data, &r);
-		textured_wall_paint(data, &r, x);
-		x++;
-	}
-}
 
 void	set_deltadist(struct s_data *data, t_raycasting *r)
 {
@@ -104,28 +80,23 @@ void	until_hit_wall(struct s_data *data, t_raycasting *r)
 	return ;
 }
 
-
-void	wallx_from_perpwalldist(struct s_data* data, t_raycasting *r)
+void	wallx_from_perpwalldist(struct s_data *data, t_raycasting *r)
 {
-	double wall_x;
-	int w;
-	int h;
+	double	wall_x;
 
-	w = data->win_width;
-	h = data->win_height;
 	if (r->side == 0)
 		r->perpWallDist = ((r->mapX + (1 - r->stepX) / 2) - data->obj.pos[X])
 							/ r->rayDirX;
 	else
 		r->perpWallDist = ((r->mapY + (1 - r->stepY) / 2) - data->obj.pos[Y])
 							/ r->rayDirY;
-	r->lineHeight = (int)(h / r->perpWallDist);
-	r->drawStart = (int)(h / 2 - r->lineHeight / 2);
-	r->drawEnd = (int)(h / 2 + r->lineHeight / 2);
+	r->lineHeight = (int)(data->win_height / r->perpWallDist);
+	r->drawStart = (int)(data->win_height / 2 - r->lineHeight / 2);
+	r->drawEnd = (int)(data->win_height / 2 + r->lineHeight / 2);
 	if (r->drawStart < 0)
 		r->drawStart = 0;
-	if (r->drawEnd >= h)
-		r->drawEnd = h - 1;
+	if (r->drawEnd >= data->win_height)
+		r->drawEnd = data->win_height - 1;
 	if (r->side == 0)
 		wall_x = data->obj.pos[Y] + r->perpWallDist * r->rayDirY;
 	else

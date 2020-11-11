@@ -6,10 +6,10 @@ CCUB3D = -I. -L. -lcub3d
 CFRAMEWORK = -framework OpenGL -framework Appkit
 
 
-SRCS = cub_default.c \
+SRCS = cub_default.c save_bmp.c error.c\
 		./mlx_hook/character_move.c ./mlx_hook/character_rotate.c ./mlx_hook/character_keypress.c \
 		./mlx_loop_hook/walls_raycasting.c ./mlx_loop_hook/sprites_raycasting.c ./mlx_loop_hook/raycasting.c ./mlx_loop_hook/sprites_arrange.c \
-		./non_mlx/getdata_from_file.c ./non_mlx/getdata_from_file_sub.c ./non_mlx/getdata_num.c ./non_mlx/getdata_num_sub.c ./non_mlx/getdata_nswes.c ./non_mlx/getdata_map.c 
+		./non_mlx/getdata_from_file.c ./non_mlx/getdata_from_file_sub.c ./non_mlx/getdata_num.c ./non_mlx/getdata_num_sub.c ./non_mlx/getdata_nswes.c ./non_mlx/getdata_map.c ./non_mlx/map_valid.c ./non_mlx/getimg_xpm.c
 OBJS = $(SRCS:.c=.o)
 
 all : $(NAME) ./libft_plus/libft_plus.a ./opengl/libmlx.a
@@ -46,6 +46,7 @@ fclean : clean
 	rm -f libft_plus.a
 	rm -f ./opengl/libmlx.a
 	rm -f ./cub3D
+	rm -f ./cub3D.bmp
 	rm -f ./a.out
 	rm -f ./libcub3d.a
 re : fclean all

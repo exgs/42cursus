@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycasting.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/07 21:38:06 by yunslee           #+#    #+#             */
+/*   Updated: 2020/11/07 21:44:06 by yunslee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "mlx_loop_hook.h"
 
 int		raycasting(void *param)
@@ -13,6 +25,29 @@ int		raycasting(void *param)
 	return (1);
 }
 
+void	walls_raycasting(struct s_data *data)
+{
+	t_raycasting	r;
+	int				x;
+	int				w;
+
+	w = data->win_width;
+	x = 0;
+	while (x < w)
+	{
+		r.mapX = (int)data->obj.pos[X];
+		r.mapY = (int)data->obj.pos[Y];
+		r.cameraX = 2 * x / (double)w - 1;
+		r.rayDirX = data->obj.ray.dir[X] + data->obj.ray.plane[X] * r.cameraX;
+		r.rayDirY = data->obj.ray.dir[Y] + data->obj.ray.plane[Y] * r.cameraX;
+		set_deltadist(data, &r);
+		set_sidedist(data, &r);
+		until_hit_wall(data, &r);
+		wallx_from_perpwalldist(data, &r);
+		textured_wall_paint(data, &r, x);
+		x++;
+	}
+}
 
 void	floor_paint(struct s_data *data)
 {

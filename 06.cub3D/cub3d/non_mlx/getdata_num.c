@@ -16,6 +16,7 @@ int counting_num(char *str)
 				i++;
 			}
 			count++;
+			continue ;
 		}
 		i++;
 	}
@@ -33,8 +34,8 @@ int extract_floor_color(char *str, t_config *configs)
 
 	idx = 0;
 	color_int = 0;
-	flush_string(str);
-	if (counting_num(str) != 3)
+	str = ft_strchr(str, ' ');
+	if (counting_num(str) != 3 || flush_string(str) == 0)
 		return (0);
 	red = ft_atoi_cub(str, &idx);
 	green = ft_atoi_cub(str + idx, &idx);
@@ -56,8 +57,9 @@ int extract_ceiling_color(char *str, t_config *configs)
 	int blue;
 	int idx = 0;
 	int color_int = 0;
-	flush_string(str);
-	if (counting_num(str) != 3)
+
+	str = ft_strchr(str, ' ');
+	if (counting_num(str) != 3 || flush_string(str) == 0)
 		return (0);
 	red = ft_atoi_cub(str, &idx);
 	green = ft_atoi_cub(str + idx, &idx);
@@ -77,8 +79,8 @@ int extract_resolution(char *str, t_config *configs)
 	int idx;
 
 	idx = 0;
-	flush_string(str);
-	if (counting_num(str) != 2)
+	str = ft_strchr(str, ' ');
+	if (counting_num(str) != 2 || flush_string(str) == 0)
 		return (0);
 	configs->resolution[X] = ft_atoi_cub(str, &idx);
 	configs->resolution[Y] = ft_atoi_cub(str + idx, &idx);
@@ -86,9 +88,12 @@ int extract_resolution(char *str, t_config *configs)
 	{
 		configs->resolution[X] = -1;
 		configs->resolution[Y] = -1;
-		printf("Error : resolution\n");
+		ft_putstr_fd("Error : extract_resolution\n", 1);
 		return (0);
 	}
-	else
-		return (1);
+	if (configs->resolution[X] > 2560)
+		configs->resolution[X] = 2560;
+	if (configs->resolution[Y] > 1440)
+		configs->resolution[Y] = 1440;
+	return (1);
 }

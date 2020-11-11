@@ -12,14 +12,15 @@ int extract_configs(char **config_lines, t_config *configs)
 	while (config_lines[i] != NULL)
 	{
 		config_oneline = config_lines[i];
-		if (extract_config1(config_oneline, configs) == 0 ||
-				extract_config2(config_oneline, configs) == 0)
+		if (extract_config1(config_oneline, configs) == 0
+			|| extract_config2(config_oneline, configs) == 0)
 			return (0);
 		if (config_lines[i][j] == 'M')
 		{
 			map_start = i + 1;
 			if (extract_map_data(config_lines, configs, map_start) == 0)
 				return (0);
+			return (1);
 		}
 		i++;
 	}
@@ -74,10 +75,7 @@ int extract_config1(char *config_oneline, t_config *configs)
 		else
 		{
 			if (extract_sprite_texture(config_oneline, configs) == 0)
-			{
-				printf("test\n");
 				return (0);
-			}
 		}
 	}
 	return (1);

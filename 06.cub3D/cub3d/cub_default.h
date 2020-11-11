@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 16:11:30 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/07 14:56:41 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/11 22:24:35 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ typedef struct	s_ray{
 	double		plane[2];
 }				t_ray;
 
-typedef struct		s_object{
+typedef struct	s_object{
 	double			pos[2];
 	struct s_ray	ray;
-}					t_object;
+}				t_object;
 
 typedef struct	s_image{
 	void		*img;
@@ -53,14 +53,15 @@ typedef struct	s_sprite
 }				t_sprite;
 
 typedef struct	s_data{
-	struct s_object	obj;
-	struct s_image	imgdata[10];
+	char			*filename;
 	struct s_config	*config;
+	struct s_image	imgdata[10];
 	void			*mlx;
 	void			*win;
 	int				win_width;
 	int				win_height;
 	char			**map;
+	struct s_object	obj;
 	struct s_sprite	spritedata[50];
 	int				sprite_order[50];
 	double			sprite_distance[50];
@@ -76,12 +77,12 @@ typedef struct	s_pair
 
 void			my_mlx_pixel_put(t_image *imgdata, int x, int y, int color);
 unsigned int	my_mlx_pixel_get(t_image *imgdata, int x, int y);
-int				config_to_data(t_data* data, struct s_config* configs);
-int				input_newimage(t_data *data, void *new_img);
-int				left_right_valid(char **map, t_data *data);
-int				map_validation(t_data *data);
-int				top_bottom_valid(char **map, t_data *data);
-int				valid_contaminant(char **map, t_data *data);
-
+int				config_to_data(t_data *data, struct s_config *configs);
 int				input_newimage2(t_data *data, void *new_img, int img_index);
+int				save_bmp(t_data *data);
+int				write_bmp_header(int fd, int filesize, t_data *data);
+int				write_bmp_data(int fd, t_data *data, int pad);
+int				load_file_error(t_data *data, struct s_config *config);
+int				xpm_error(t_data *data, struct s_config *config);
+int				argument_error(int argc, char *argv[], t_data *data);
 #endif

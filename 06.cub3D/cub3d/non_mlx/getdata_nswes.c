@@ -60,7 +60,6 @@ int extract_sprite_texture(char *str, t_config *configs)
 	if (ft_strchr(str, ' ') == NULL)
 		return (0);
 	ft_strlcpy(configs->sprite_texture, ft_strchr(str, ' ') + 1, 100);
-	printf("%s\n", configs->sprite_texture);
 	if (configs->sprite_texture == NULL)
 	{
 		ft_putstr_fd("Error : S\n", 1);

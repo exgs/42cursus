@@ -64,10 +64,10 @@ void fill_map_read(char *config_oneline, t_config* configs, t_index* idx)
 	{
 		if (fill_map_space(str, configs, idx) == 1)
 			break;
-		else if (str[idx->file_j] >= '0' && str[idx->file_j] <= '9')
-		{
+		else if (str[idx->file_j] == '9')
+			configs->map[idx->j][idx->i] = 0;
+		else if (str[idx->file_j] >= '0' && str[idx->file_j] < '9')
 			configs->map[idx->j][idx->i] = str[idx->file_j] - 48;
-		}
 		else if (str[idx->file_j] == 'N' || str[idx->file_j] == 'S' || str[idx->file_j] == 'W' || str[idx->file_j] == 'E')
 		{
 			configs->map[idx->j][idx->i] = 0;
@@ -95,7 +95,8 @@ int fill_map_space(char *config_oneline, t_config* configs, t_index* idx)
 	}
 	else if (config_oneline[idx->file_j] == ' ')
 	{
-		configs->map[idx->j][idx->i] = 0;
+		configs->map[idx->j][idx->i] = 9;
+		return (0);
 	}
 	return (0);
 }
@@ -107,7 +108,6 @@ void fill_map(char **config_lines, t_config *configs, int map_start)
 	idx.file_i = map_start;
 	idx.i = 0;
 	idx.j = 0;
-	idx.file_i = map_start;
 	while (config_lines[idx.file_i] != NULL && config_lines[idx.file_i][0] != '\0' && config_lines[idx.file_i][0] != '\n')
 	{
 		idx.j = 0;

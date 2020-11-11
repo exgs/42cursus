@@ -35,30 +35,37 @@ typedef struct s_index
 struct s_data;
 struct s_pair;
 
-int default_setting_config_data(t_config *config_data);
+int		default_setting_config_data(t_config *config_data);
 
-int extract_configs(char **config_lines, t_config *configs);
-int extract_config1(char *config_oneline, t_config *configs);
-int extract_config2(char *config_oneline, t_config *configs);
-int extract_resolution(char *str, t_config *configs);
-int extract_north_texture(char *str, t_config *configs);
-int extract_south_texture(char *str, t_config *configs);
-int extract_west_texture(char *str, t_config *configs);
-int extract_east_texture(char *str, t_config *configs);
-int extract_sprite_texture(char *str, t_config *configs);
-int extract_floor_color(char *str, t_config *configs);
-int extract_ceiling_color(char *str, t_config *configs);
-int counting_num(char *str);
-int extract_map_data(char **config_lines, t_config *configs, int map_start);
-int get_mapsize(char **config_lines, t_config *configs, int map_start);
-int fill_map_space(char *config_oneline, t_config* configs, t_index *idx);
-void fill_map(char **config_lines, t_config *configs, int map_start);
-void set_init_posdir(char dir, t_config *configs, t_index *idx);
-void fill_map_read(char *config_oneline, t_config* configs, t_index* idx);
+int		extract_configs(char **config_lines, t_config *configs);
+int		extract_config1(char *config_oneline, t_config *configs);
+int		extract_config2(char *config_oneline, t_config *configs);
+int		extract_resolution(char *str, t_config *configs);
+int		extract_north_texture(char *str, t_config *configs);
+int		extract_south_texture(char *str, t_config *configs);
+int		extract_west_texture(char *str, t_config *configs);
+int		extract_east_texture(char *str, t_config *configs);
+int		extract_sprite_texture(char *str, t_config *configs);
+int		extract_floor_color(char *str, t_config *configs);
+int		extract_ceiling_color(char *str, t_config *configs);
+int		counting_num(char *str);
+int		extract_map_data(char **config_lines, t_config *configs, int map_start);
+int		get_mapsize(char **config_lines, t_config *configs, int map_start);
+int		fill_map_space(char *config_oneline, t_config* configs, t_index *idx);
+void	fill_map(char **config_lines, t_config *configs, int map_start);
+void	set_init_posdir(char dir, t_config *configs, t_index *idx);
+void	fill_map_read(char *config_oneline, t_config* configs, t_index* idx);
 
-void print_config_data(t_config *configs);
-void flush_string(char *str);
-int free_map(char **map);
+int		map_validation(struct s_data *data);
+int		top_bottom_valid(char **map, struct s_data *data);
+int		left_right_valid(char **map, struct s_data *data);
+int		valid_contaminant(char **map, struct s_data *data);
+void	print_config_data(t_config *configs);
+int		flush_string(char *str);
+int		free_map(char **map);
 
-int			ft_atoi_cub(const char *str, int *idx);
+int		ft_atoi_cub(const char *str, int *idx);
+
+int		getimg_xpm2(struct s_data *data, struct s_config *config, int *i);
+int		getimg_xpm(struct s_data *data, struct s_config *config);
 #endif

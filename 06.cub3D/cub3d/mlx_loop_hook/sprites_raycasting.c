@@ -10,7 +10,6 @@ void sprites_raycasting(struct s_data *data)
 										(data->obj.pos[Y] - data->spritedata[i].y) * (data->obj.pos[Y] - data->spritedata[i].y);
 	}
 	sort_sprites(data->sprite_order, data->sprite_distance, data->sprite_num);
-	// printf("%d\n", data->sprite_num);
 	for (int i = 0; i < data->sprite_num; i++)
 	{
 		camera_matrix_setting(data, &r, i);

@@ -1,40 +1,29 @@
-#include "mlx_loop_hook.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sprites_arrange.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/07 21:39:10 by yunslee           #+#    #+#             */
+/*   Updated: 2020/11/08 19:53:33 by yunslee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int		count_sprite(struct s_data *data, struct s_config *config)
-{
-	char **map = data->map;
-	int i = 0;
-	int j = 0;
-	int count = 0;
-	if (data == NULL || map[i] == NULL)
-		return (-1);
-	while (map[i] != NULL)
-	{
-		j = 0;
-		while (j < config->map_column)
-		{
-			if (map[i][j] > 1 && map[i][j] < 9)
-			{
-				data->spritedata[count].x = i + 0.5;
-				data->spritedata[count].y = j + 0.5;
-				data->spritedata[count].texture = map[i][j] + 3;
-				count +=1;
-			}
-			j++;
-		}
-		i++;
-	}
-	data->sprite_num = count;
-	return count;
-}
+#include "mlx_loop_hook.h"
 
 void	sort_order(struct s_pair *orders, int amount)
 {
 	t_pair	tmp;
+	int		i;
+	int		j;
 
-	for (int i = 0; i < amount; i++)
+	i = 0;
+	j = 0;
+	while (i < amount)
 	{
-		for (int j = 0; j < amount - 1; j++)
+		j = 0;
+		while (j < amount - 1)
 		{
 			if (orders[j].first > orders[j + 1].first)
 			{
@@ -45,8 +34,11 @@ void	sort_order(struct s_pair *orders, int amount)
 				orders[j + 1].first = tmp.first;
 				orders[j + 1].second = tmp.second;
 			}
+			j++;
 		}
+		i++;
 	}
+	return ;
 }
 
 void	sort_sprites(int *order, double *dist, int amount)
@@ -66,4 +58,45 @@ void	sort_sprites(int *order, double *dist, int amount)
 		order[i] = sprites[amount - i - 1].second;
 	}
 	free(sprites);
+}
+
+int		find_sprite(struct s_data *data, struct s_config *config)
+{
+	char	**map;
+	int		i;
+	int		count;
+
+	i = 0;
+	count = 0;
+	map = data->map;
+	if (data == NULL || map[i] == NULL)
+		return (-1);
+	while (data->map[i] != NULL)
+	{
+		count_sprite(i, data, config, &count);
+		i++;
+	}
+	data->sprite_num = count;
+	return (count);
+}
+
+void		count_sprite(int i, struct s_data *data, struct s_config *config, int *count)
+{
+	int		j;
+	char	*str;
+
+	j = 0;
+	str = data->map[i];
+	while (j < config->map_column)
+	{
+		if (str[j] > 1 && str[j] < 9)
+		{
+			data->spritedata[*count].x = i + 0.5;
+			data->spritedata[*count].y = j + 0.5;
+			data->spritedata[*count].texture = data->map[i][j] + 3;
+			(*count)++;
+		}
+		j++;
+	}
+	return ;
 }

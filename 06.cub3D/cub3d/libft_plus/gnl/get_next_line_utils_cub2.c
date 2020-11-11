@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 21:17:46 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/07 21:22:00 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/11 22:10:48 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ char	**get_datas_linebyline(char *path)
 	i = 0;
 	lines = malloc(sizeof(char *) * 500);
 	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return (NULL);
 	while ((ret = get_next_line(fd, &line)))
 	{
 		lines[i] = ft_strdup2(line);
