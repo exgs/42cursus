@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 17:21:25 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/13 17:22:17 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/14 03:20:27 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,36 @@ int	getimg_xpm2(struct s_data *data, struct s_config *config, int *i)
 						&data->imgdata[*i].width, &data->imgdata[*i].height);
 	if (NULL == p)
 		return (0);
-	input_newimage2(data, p, (*i)++);
+	input_newimage(data, p, (*i)++);
 	p = mlx_xpm_file_to_image(data->mlx, config->north_texture,
 						&data->imgdata[*i].width, &data->imgdata[*i].height);
 	if (NULL == p)
 		return (0);
-	input_newimage2(data, p, (*i)++);
+	input_newimage(data, p, (*i)++);
 	p = mlx_xpm_file_to_image(data->mlx, config->sprite_texture,
 						&data->imgdata[*i].width, &data->imgdata[*i].height);
 	if (NULL == p)
 		return (0);
-	input_newimage2(data, p, (*i)++);
+	input_newimage(data, p, (*i)++);
+	p = mlx_xpm_file_to_image(data->mlx, "./srcs/items/barrel.xpm",
+						&data->imgdata[*i].width, &data->imgdata[*i].height);
+	if (NULL == p)
+		return (0);
+	input_newimage(data, p, (*i)++);
+	if (getimg_xpm3(data, config, i) == 0)
+		return (0);
+	return (1);
+}
+
+int	getimg_xpm3(struct s_data *data, struct s_config *config, int *i)
+{
+	void *p;
+
+	p = mlx_xpm_file_to_image(data->mlx, "./srcs/items/greenlight.xpm",
+						&data->imgdata[*i].width, &data->imgdata[*i].height);
+	if (NULL == p)
+		return (0);
+	input_newimage(data, p, (*i)++);
 	return (1);
 }
 
@@ -43,20 +62,18 @@ int	getimg_xpm(struct s_data *data, struct s_config *config)
 	p = mlx_new_image(data->mlx, data->win_width, data->win_height);
 	if (NULL == p)
 		return (0);
-	input_newimage2(data, p, i++);
+	input_newimage(data, p, i++);
 	p = mlx_xpm_file_to_image(data->mlx, config->east_texture,
 						&data->imgdata[i].width, &data->imgdata[i].height);
 	if (NULL == p)
 		return (0);
-	input_newimage2(data, p, i++);
+	input_newimage(data, p, i++);
 	p = mlx_xpm_file_to_image(data->mlx, config->west_texture,
 						&data->imgdata[i].width, &data->imgdata[i].height);
 	if (NULL == p)
 		return (0);
-	input_newimage2(data, p, i++);
+	input_newimage(data, p, i++);
 	if (getimg_xpm2(data, config, &i) == 0)
-	{
 		return (0);
-	}
 	return (1);
 }

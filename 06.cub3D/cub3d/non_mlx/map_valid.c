@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 14:51:49 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/13 20:14:05 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/14 04:46:55 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	map_validation(t_data *data)
 	char **map;
 
 	map = data->map;
+	if (map == NULL)
+		return (0);
 	if (left_right_valid(map, data) == 0 || top_bottom_valid(map, data) == 0)
 		return (0);
 	if (valid_contaminant(map, data) == 0)

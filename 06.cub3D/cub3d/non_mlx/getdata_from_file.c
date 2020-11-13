@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 17:03:31 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/13 17:04:59 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/14 06:45:31 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	extract_configs(char **config_lines, t_config *configs)
 		}
 		i++;
 	}
+	if (configs->map == NULL)
+		return (0);
 	return (1);
 }
 

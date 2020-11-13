@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 16:11:30 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/14 02:20:08 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/14 03:07:10 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <math.h>
 # define X 0
 # define Y 1
+# define SPRITE_NUM 50
+# define IMGDATA_NUM 15
 
 # define TEXWIDTH 64
 # define TEXHEIGHT 64
@@ -54,18 +56,18 @@ typedef struct	s_sprite
 typedef struct	s_data{
 	char			*filename;
 	struct s_config	*config;
-	struct s_image	imgdata[10];
+	struct s_image	imgdata[IMGDATA_NUM];
 	void			*mlx;
 	void			*win;
 	int				win_width;
 	int				win_height;
 	char			**map;
 	struct s_object	obj;
-	struct s_sprite	spritedata[50];
-	int				sprite_order[50];
-	double			sprite_distance[50];
+	struct s_sprite	spritedata[SPRITE_NUM];
+	int				sprite_order[SPRITE_NUM];
+	double			sprite_distance[SPRITE_NUM];
 	int				sprite_num;
-	double			zbuffer[5000];
+	double			zbuffer[3000];
 }				t_data;
 
 typedef struct	s_pair
@@ -77,7 +79,7 @@ typedef struct	s_pair
 void			my_mlx_pixel_put(t_image *imgdata, int x, int y, int color);
 unsigned int	my_mlx_pixel_get(t_image *imgdata, int x, int y);
 int				config_to_data(t_data *data, struct s_config *configs);
-int				input_newimage2(t_data *data, void *new_img, int img_index);
+int				input_newimage(t_data *data, void *new_img, int img_index);
 int				save_bmp(t_data *data);
 int				write_bmp_header(int fd, int filesize, t_data *data);
 int				write_bmp_data(int fd, t_data *data, int pad);

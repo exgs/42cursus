@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 17:09:55 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/13 20:18:53 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/14 06:48:40 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int		extract_map_data(char **config_lines, t_config *configs, int map_start)
 	int		len;
 	char	**map;
 
+	if (configs->map == NULL)
+		return (0);
 	if (get_mapsize(config_lines, configs, map_start) == 0)
 		return (0);
 	max_row = configs->map_row;

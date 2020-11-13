@@ -19,6 +19,9 @@ $(NAME) : $(OBJS)
 	ar rc $(NAME) $(OBJS)
 	ranlib $(NAME)
 
+bonus :
+	gcc $(CFLAG) $(CMLX) $(CLIBFT_PLUS) $(CFRAMEWORK) $(CCUB3D) main.c -o cub3D
+
 ./libft_plus/libft_plus.a :
 	$(MAKE) -C ./libft_plus bonus
 

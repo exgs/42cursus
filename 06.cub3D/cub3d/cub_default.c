@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 22:15:00 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/14 01:29:53 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/14 02:54:52 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int				config_to_data(t_data *data, t_config *configs)
 	return (1);
 }
 
-int				input_newimage2(t_data *data, void *new_img, int img_index)
+int				input_newimage(t_data *data, void *new_img, int img_index)
 {
 	int	bits_per_pixel;
 	int	size_line;

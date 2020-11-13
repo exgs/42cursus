@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 22:11:23 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/14 02:17:22 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/14 06:33:57 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,16 @@ int	error_extension(char *filename, char *extension_name)
 	char	*filename_extension;
 	int		i;
 
+	if (filename == NULL || filename[0] == '\0')
+		return (0);
 	i = 0;
 	while (ft_strchr(filename, '.') != NULL)
 	{
 		filename_extension = ft_strchr(filename, '.');
 		filename++;
 	}
+	if (filename_extension == NULL)
+		return (0);
 	if (ft_strncmp(extension_name, filename_extension, 4) != 0)
 		return (0);
 	return (1);

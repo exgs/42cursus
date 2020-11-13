@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 22:31:47 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/14 01:30:07 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/14 03:20:39 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,16 @@
 # include "../cub_default.h"
 # include "../libft_plus/libft.h"
 # include "../libft_plus/gnl/get_next_line_cub.h"
+# define STRING_LENGTH 100
 
 typedef struct	s_config
 {
 	int				resolution[2];
-	char			north_texture[100];
-	char			south_texture[100];
-	char			west_texture[100];
-	char			east_texture[100];
-	char			sprite_texture[100];
+	char			north_texture[STRING_LENGTH];
+	char			south_texture[STRING_LENGTH];
+	char			west_texture[STRING_LENGTH];
+	char			east_texture[STRING_LENGTH];
+	char			sprite_texture[STRING_LENGTH];
 	char			**file;
 	char			**map;
 	int				map_row;
@@ -80,6 +81,8 @@ int				free_map(char **map);
 int				ft_atoi_cub(const char *str, int *idx);
 
 int				getimg_xpm2(struct s_data *data, struct s_config *config,
+							int *i);
+int				getimg_xpm3(struct s_data *data, struct s_config *config,
 							int *i);
 int				getimg_xpm(struct s_data *data, struct s_config *config);
 #endif

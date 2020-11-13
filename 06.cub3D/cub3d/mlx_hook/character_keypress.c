@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 21:25:21 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/08 22:20:09 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/14 02:52:19 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	key_press(int keycode, void *param)
 
 int	is_wall(double x, double y, struct s_data *data)
 {
-	if (data->map[(int)x][(int)y] != 0)
+	if (data->map[(int)x][(int)y] == 1 || data->map[(int)x][(int)y] == 2)
 		return (1);
 	return (0);
 }
