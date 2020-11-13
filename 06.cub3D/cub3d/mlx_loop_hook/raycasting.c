@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 21:38:06 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/07 21:44:06 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/13 16:54:04 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ void	walls_raycasting(struct s_data *data)
 	x = 0;
 	while (x < w)
 	{
-		r.mapX = (int)data->obj.pos[X];
-		r.mapY = (int)data->obj.pos[Y];
-		r.cameraX = 2 * x / (double)w - 1;
-		r.rayDirX = data->obj.ray.dir[X] + data->obj.ray.plane[X] * r.cameraX;
-		r.rayDirY = data->obj.ray.dir[Y] + data->obj.ray.plane[Y] * r.cameraX;
+		r.map_x = (int)data->obj.pos[X];
+		r.map_y = (int)data->obj.pos[Y];
+		r.camerax = 2 * x / (double)w - 1;
+		r.raydir_x = data->obj.ray.dir[X] + data->obj.ray.plane[X] * r.camerax;
+		r.raydir_y = data->obj.ray.dir[Y] + data->obj.ray.plane[Y] * r.camerax;
 		set_deltadist(data, &r);
 		set_sidedist(data, &r);
 		until_hit_wall(data, &r);

@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   getdata_from_file.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/13 17:03:31 by yunslee           #+#    #+#             */
+/*   Updated: 2020/11/13 17:04:59 by yunslee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "non_mlx.h"
 
-int extract_configs(char **config_lines, t_config *configs)
+int	extract_configs(char **config_lines, t_config *configs)
 {
-	int i;
-	int j;
-	char *config_oneline;
-	int map_start;
-	
+	int		i;
+	int		j;
+	char	*config_oneline;
+	int		map_start;
+
 	i = 0;
 	j = 0;
 	while (config_lines[i] != NULL)
@@ -27,7 +39,7 @@ int extract_configs(char **config_lines, t_config *configs)
 	return (1);
 }
 
-int extract_config2(char *config_oneline, t_config *configs)
+int	extract_config2(char *config_oneline, t_config *configs)
 {
 	if (config_oneline[0] == 'W')
 	{
@@ -52,18 +64,17 @@ int extract_config2(char *config_oneline, t_config *configs)
 	return (1);
 }
 
-
-int extract_config1(char *config_oneline, t_config *configs)
+int	extract_config1(char *config_oneline, t_config *configs)
 {
 	if (config_oneline[0] == 'R')
 	{
 		if (extract_resolution(config_oneline, configs) == 0)
-			return 0;
+			return (0);
 	}
 	else if (config_oneline[0] == 'N')
 	{
 		if (extract_north_texture(config_oneline, configs) == 0)
-			return 0;
+			return (0);
 	}
 	else if (config_oneline[0] == 'S')
 	{

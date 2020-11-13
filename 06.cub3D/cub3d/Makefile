@@ -9,10 +9,11 @@ CFRAMEWORK = -framework OpenGL -framework Appkit
 SRCS = cub_default.c save_bmp.c error.c\
 		./mlx_hook/character_move.c ./mlx_hook/character_rotate.c ./mlx_hook/character_keypress.c \
 		./mlx_loop_hook/walls_raycasting.c ./mlx_loop_hook/sprites_raycasting.c ./mlx_loop_hook/raycasting.c ./mlx_loop_hook/sprites_arrange.c \
-		./non_mlx/getdata_from_file.c ./non_mlx/getdata_from_file_sub.c ./non_mlx/getdata_num.c ./non_mlx/getdata_num_sub.c ./non_mlx/getdata_nswes.c ./non_mlx/getdata_map.c ./non_mlx/map_valid.c ./non_mlx/getimg_xpm.c
+		./non_mlx/getdata_from_file.c ./non_mlx/getdata_from_file_sub.c ./non_mlx/getdata_num.c ./non_mlx/getdata_num_sub.c ./non_mlx/getdata_nswes.c ./non_mlx/getdata_map.c ./non_mlx/getdata_map_sub.c ./non_mlx/map_valid.c ./non_mlx/getimg_xpm.c
 OBJS = $(SRCS:.c=.o)
 
 all : $(NAME) ./libft_plus/libft_plus.a ./opengl/libmlx.a
+	gcc $(CFLAG) $(CMLX) $(CLIBFT_PLUS) $(CFRAMEWORK) $(CCUB3D) main.c -o cub3D
 
 $(NAME) : $(OBJS)
 	ar rc $(NAME) $(OBJS)

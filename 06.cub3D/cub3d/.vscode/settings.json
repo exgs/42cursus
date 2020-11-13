@@ -1,9 +1,0 @@
-{
-	"files.associations": {
-		"mlx_hook.h": "c",
-		"non_mlx.h": "c",
-		"sstream": "c",
-		"libft.h": "c",
-		"cub_default.h": "c"
-	}
-}

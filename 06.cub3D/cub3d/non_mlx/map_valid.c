@@ -6,13 +6,13 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 14:51:49 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/11 21:42:00 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/13 20:14:05 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "non_mlx.h"
 
-int map_validation(t_data *data)
+int	map_validation(t_data *data)
 {
 	char **map;
 
@@ -24,14 +24,14 @@ int map_validation(t_data *data)
 	return (1);
 }
 
-int left_right_valid(char **map, t_data *data)
+int	left_right_valid(char **map, t_data *data)
 {
-	int j; 
+	int j;
 	int i;
 
 	i = data->config->map_row;
 	j = 0;
-	while(j < (data->config->map_column))
+	while (j < (data->config->map_column))
 	{
 		if (map[0][j] != 1 && map[0][j] != 9)
 			return (0);
@@ -47,14 +47,14 @@ int left_right_valid(char **map, t_data *data)
 	return (1);
 }
 
-int top_bottom_valid(char **map, t_data *data)
+int	top_bottom_valid(char **map, t_data *data)
 {
 	int i;
 	int j;
 
 	i = 0;
 	j = data->config->map_column;
-	while(i < (data->config->map_row))
+	while (i < (data->config->map_row))
 	{
 		if (map[i][0] != 1 && map[i][0] != 9)
 			return (0);
@@ -70,7 +70,7 @@ int top_bottom_valid(char **map, t_data *data)
 	return (1);
 }
 
-int		valid_contaminant(char **map, t_data *data)
+int	valid_contaminant(char **map, t_data *data)
 {
 	int end_row;
 	int end_column;
@@ -78,16 +78,16 @@ int		valid_contaminant(char **map, t_data *data)
 	int j;
 
 	i = 1;
-	j = 1;
 	end_row = data->config->map_row - 1;
 	end_column = data->config->map_column - 1;
 	while (i < end_row)
 	{
+		j = 1;
 		while (j < end_column)
 		{
 			if ((map[i][j] != 1 && map[i][j] != 9))
 			{
-				if (map[i - 1][j] == 9 || map[i + 1][j] == 9 || 
+				if (map[i - 1][j] == 9 || map[i + 1][j] == 9 ||
 						map[i][j - 1] == 9 || map[i][j + 1] == 9)
 					return (0);
 			}
@@ -97,4 +97,3 @@ int		valid_contaminant(char **map, t_data *data)
 	}
 	return (1);
 }
-

@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 21:33:13 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/07 21:33:14 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/13 19:41:23 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ void	ray_rotating(int keycode, void *param)
 	int		a;
 
 	ray = param;
-	if (keycode == 123)
+	if (keycode == KEY_LEFT)
 	{
 		a = ray_matrix(-1, &ray->dir[X], &ray->dir[Y]);
 		a = ray_matrix(-1, &ray->plane[X], &ray->plane[Y]);
 	}
-	else if (keycode == 124)
+	else if (keycode == KEY_RIGHT)
 	{
 		a = ray_matrix(1, &ray->dir[X], &ray->dir[Y]);
 		a = ray_matrix(1, &ray->plane[X], &ray->plane[Y]);

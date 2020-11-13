@@ -1,4 +1,4 @@
-R 50000 50000
+R 5000 5000
 NO ./srcs/walls/greystone.xpm
 SO ./srcs/walls/redbrick.xpm
 WE ./srcs/walls/colorstone.xpm
@@ -8,6 +8,7 @@ S ./srcs/items/pillar.xpm
 F 25, 229, 134
 C 1, 181., 242
 
+//0,1,2 만 허용합니다.
 M
         1111111111111111111111111
         1000000000000000000000001

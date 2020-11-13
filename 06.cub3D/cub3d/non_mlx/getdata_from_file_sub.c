@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   getdata_from_file_sub.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/13 16:58:51 by yunslee           #+#    #+#             */
+/*   Updated: 2020/11/13 23:54:47 by yunslee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "non_mlx.h"
 
-int free_map(char **map)
+int		free_map(char **map)
 {
 	int i;
 
@@ -17,14 +29,14 @@ int free_map(char **map)
 	return (1);
 }
 
-int default_setting_config_data(t_config *config_data)
+int		default_setting_config_data(t_config *config_data)
 {
 	if (config_data == NULL)
 		return (0);
 	else
 	{
-		config_data->resolution[X] = -1;
-		config_data->resolution[Y] = -1;
+		config_data->resolution[X] = 1000;
+		config_data->resolution[Y] = 1000;
 		ft_bzero(config_data->north_texture, 100);
 		ft_bzero(config_data->south_texture, 100);
 		ft_bzero(config_data->west_texture, 100);
@@ -32,17 +44,20 @@ int default_setting_config_data(t_config *config_data)
 		ft_bzero(config_data->sprite_texture, 100);
 		config_data->map = NULL;
 		config_data->ceiling_color = 0;
-		config_data->floor_color = 0;
+		config_data->floor_color = 0xffffff;
 		return (1);
 	}
 }
 
-
-void print_config_data(t_config *configs)
+void	print_config_data(t_config *configs)
 {
-	int i = 0;
-	int j = 0;
-	char **map = configs->map;
+	int	i;
+	int	j;
+	char **map;
+	
+	i = 0;
+	i = 0;
+	map = configs->map;
 	printf("R %d %d\n", configs->resolution[X], configs->resolution[Y]);
 	printf("NO %s\n", configs->north_texture);
 	printf("SO %s\n", configs->south_texture);

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   getdata_num_sub.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/13 17:19:11 by yunslee           #+#    #+#             */
+/*   Updated: 2020/11/13 17:19:51 by yunslee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "non_mlx.h"
 
-int flush_string(char *str)
+int			flush_string(char *str)
 {
 	int i;
 
@@ -14,7 +26,8 @@ int flush_string(char *str)
 	{
 		if (str[i] < '0' || str[i] > '9')
 		{
-			if (str[i] == ',' || str[i] == '.' || str[i] == '/' || str[i] == ' ')
+			if (str[i] == ',' || str[i] == '.' ||
+					str[i] == '/' || str[i] == ' ')
 				str[i] = ' ';
 			else
 				return (0);

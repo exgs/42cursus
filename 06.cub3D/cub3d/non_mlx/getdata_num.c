@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   getdata_num.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/13 17:20:10 by yunslee           #+#    #+#             */
+/*   Updated: 2020/11/13 17:21:11 by yunslee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "non_mlx.h"
 
-int counting_num(char *str)
+int	counting_num(char *str)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	count = 0;
 	i = 0;
@@ -23,14 +35,13 @@ int counting_num(char *str)
 	return (count);
 }
 
-
-int extract_floor_color(char *str, t_config *configs)
+int	extract_floor_color(char *str, t_config *configs)
 {
-	int red;
-	int green;
-	int blue;
-	int idx;
-	int color_int;
+	int	red;
+	int	green;
+	int	blue;
+	int	idx;
+	int	color_int;
 
 	idx = 0;
 	color_int = 0;
@@ -50,14 +61,16 @@ int extract_floor_color(char *str, t_config *configs)
 	return (1);
 }
 
-int extract_ceiling_color(char *str, t_config *configs)
+int	extract_ceiling_color(char *str, t_config *configs)
 {
-	int red;
-	int green;
-	int blue;
-	int idx = 0;
-	int color_int = 0;
+	int	red;
+	int	green;
+	int	blue;
+	int	idx;
+	int	color_int;
 
+	idx = 0;
+	color_int = 0;
 	str = ft_strchr(str, ' ');
 	if (counting_num(str) != 3 || flush_string(str) == 0)
 		return (0);
@@ -74,7 +87,7 @@ int extract_ceiling_color(char *str, t_config *configs)
 	return (1);
 }
 
-int extract_resolution(char *str, t_config *configs)
+int	extract_resolution(char *str, t_config *configs)
 {
 	int idx;
 

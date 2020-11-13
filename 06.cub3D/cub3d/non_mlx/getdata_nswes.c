@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   getdata_nswes.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/13 17:18:14 by yunslee           #+#    #+#             */
+/*   Updated: 2020/11/13 17:18:54 by yunslee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "non_mlx.h"
 
-int extract_north_texture(char *str, t_config *configs)
+int	extract_north_texture(char *str, t_config *configs)
 {
 	if (ft_strchr(str, ' ') == NULL)
 		return (0);
@@ -14,7 +26,7 @@ int extract_north_texture(char *str, t_config *configs)
 		return (1);
 }
 
-int extract_south_texture(char *str, t_config *configs)
+int	extract_south_texture(char *str, t_config *configs)
 {
 	if (ft_strchr(str, ' ') == NULL)
 		return (0);
@@ -27,7 +39,8 @@ int extract_south_texture(char *str, t_config *configs)
 	else
 		return (1);
 }
-int extract_west_texture(char *str, t_config *configs)
+
+int	extract_west_texture(char *str, t_config *configs)
 {
 	if (ft_strchr(str, ' ') == NULL)
 		return (0);
@@ -41,7 +54,7 @@ int extract_west_texture(char *str, t_config *configs)
 		return (1);
 }
 
-int extract_east_texture(char *str, t_config *configs)
+int	extract_east_texture(char *str, t_config *configs)
 {
 	if (ft_strchr(str, ' ') == NULL)
 		return (0);
@@ -55,7 +68,7 @@ int extract_east_texture(char *str, t_config *configs)
 		return (1);
 }
 
-int extract_sprite_texture(char *str, t_config *configs)
+int	extract_sprite_texture(char *str, t_config *configs)
 {
 	if (ft_strchr(str, ' ') == NULL)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 21:39:10 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/08 19:53:33 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/13 16:37:35 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,23 @@ void	sort_order(struct s_pair *orders, int amount)
 void	sort_sprites(int *order, double *dist, int amount)
 {
 	t_pair	*sprites;
+	int		i;
 
+	i = 0;
 	sprites = (t_pair*)malloc(sizeof(t_pair) * amount);
-	for (int i = 0; i < amount; i++)
+	while (i < amount)
 	{
 		sprites[i].first = dist[i];
 		sprites[i].second = order[i];
+		i++;
 	}
 	sort_order(sprites, amount);
-	for (int i = 0; i < amount; i++)
+	i = 0;
+	while (i < amount)
 	{
 		dist[i] = sprites[amount - i - 1].first;
 		order[i] = sprites[amount - i - 1].second;
+		i++;
 	}
 	free(sprites);
 }
@@ -80,7 +85,8 @@ int		find_sprite(struct s_data *data, struct s_config *config)
 	return (count);
 }
 
-void		count_sprite(int i, struct s_data *data, struct s_config *config, int *count)
+void	count_sprite(int i, struct s_data *data, struct s_config *config,
+							int *count)
 {
 	int		j;
 	char	*str;
