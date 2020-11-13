@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 22:11:54 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/11 22:12:26 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/14 01:55:22 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,17 @@ int	main(int argc, char *argv[])
 	t_config	config;
 	t_data		data;
 
-	if (argc < 2)
-	{
-		ft_putstr_fd("Error : argc < 2\n", 1);
+	if (error_argument(argc, argv) == 0)
 		return (0);
-	}
 	data.filename = argv[1];
-	if (load_file_error(&data, &config) == 0)
+	if (error_load_file(&data, &config) == 0)
 		return (0);
 	data.mlx = mlx_init();
 	data.win = mlx_new_window(data.mlx,
 				data.win_width, data.win_height, "yunslee_cub3D");
-	if (xpm_error(&data, &config) == 0)
+	if (error_xpm(&data, &config) == 0)
 		return (0);
-	else if (argument_error(argc, argv, &data) == 0)
+	else if (error_savebmp(argc, argv, &data) == 0)
 		return (0);
 	mlx_hook(data.win, 2, 0, key_press, &data);
 	mlx_loop_hook(data.mlx, raycasting, &data);

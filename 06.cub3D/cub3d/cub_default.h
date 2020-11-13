@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 16:11:30 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/14 01:12:14 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/14 02:20:08 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "./mlx_hook/mlx_hook.h"
 # include "./mlx_loop_hook/mlx_loop_hook.h"
 # include <mlx.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <math.h>
 # define X 0
@@ -82,9 +81,9 @@ int				input_newimage2(t_data *data, void *new_img, int img_index);
 int				save_bmp(t_data *data);
 int				write_bmp_header(int fd, int filesize, t_data *data);
 int				write_bmp_data(int fd, t_data *data, int pad);
-int				load_file_error(t_data *data, struct s_config *config);
-int				xpm_error(t_data *data, struct s_config *config);
-int				argument_error(int argc, char *argv[], t_data *data);
-int				extension_error(char *filename, char *extension_name);
-int				extension_error(char *filename, char *extension_name);
+int				error_load_file(t_data *data, struct s_config *config);
+int				error_xpm(t_data *data, struct s_config *config);
+int				error_argument(int argc, char *argv[]);
+int				error_extension(char *filename, char *extension_name);
+int				error_savebmp(int argc, char *argv[], t_data *data);
 #endif

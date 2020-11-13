@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 22:31:47 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/13 17:03:05 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/14 01:30:07 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int				map_validation(struct s_data *data);
 int				top_bottom_valid(char **map, struct s_data *data);
 int				left_right_valid(char **map, struct s_data *data);
 int				valid_contaminant(char **map, struct s_data *data);
-void			print_config_data(t_config *configs);
 int				flush_string(char *str);
 int				free_map(char **map);
 

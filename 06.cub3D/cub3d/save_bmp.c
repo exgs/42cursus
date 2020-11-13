@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 22:12:35 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/11 22:14:19 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/14 02:15:18 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,22 @@ int			write_bmp_header(int fd, int filesize, t_data *data)
 	bmpfileheader[28] = (unsigned char)(24);
 	if (write(fd, bmpfileheader, 54) < 0)
 		return (0);
+	return (1);
+}
+
+int			error_savebmp(int argc, char *argv[], t_data *data)
+{
+	if (argc == 3)
+	{
+		if (ft_strncmp(argv[2], "--save", 6) == 0)
+		{
+			save_bmp(data);
+			ft_putstr_fd("Save bmp\n", 1);
+		}
+		else
+			ft_putstr_fd("Please type \"--save\"\n", 1);
+		shut_down(data);
+		return (0);
+	}
 	return (1);
 }

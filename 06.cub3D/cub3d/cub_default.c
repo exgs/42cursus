@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 22:15:00 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/11 22:22:16 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/14 01:29:53 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int				config_to_data(t_data *data, t_config *configs)
 		ft_putstr_fd("Error : \".cub\" file format doens't fit!\n", 1);
 		return (0);
 	}
-	print_config_data(configs);
 	get_free_all_linebyline(configs->file);
 	data->win_width = configs->resolution[X];
 	data->win_height = configs->resolution[Y];

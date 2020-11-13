@@ -6,13 +6,13 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 22:11:23 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/14 01:15:59 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/14 02:17:22 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_default.h"
 
-int	load_file_error(t_data *data, t_config *config)
+int	error_load_file(t_data *data, t_config *config)
 {
 	if (config_to_data(data, config) == 0)
 	{
@@ -28,11 +28,12 @@ int	load_file_error(t_data *data, t_config *config)
 	return (1);
 }
 
-int	xpm_error(t_data *data, t_config *config)
+int	error_xpm(t_data *data, t_config *config)
 {
-	if (xpm_extension_error(config) == 0)
+	if (error_xpm_extension(config) == 0)
 	{
 		ft_putstr_fd("Error : xpm_extension error\n", 1);
+		shut_down(data);
 		return (0);
 	}
 	else if (getimg_xpm(data, config) == 0)
@@ -44,27 +45,14 @@ int	xpm_error(t_data *data, t_config *config)
 	return (1);
 }
 
-int	argument_error(int argc, char *argv[], t_data *data)
+int	error_argument(int argc, char *argv[])
 {
 	if (argc != 2 && argc != 3)
 	{
 		ft_putstr_fd("Error : argc != 2 && argc != 3\n", 1);
-		shut_down(data);
 		return (0);
 	}
-	else if (argc == 3)
-	{
-		if (ft_strncmp(argv[2], "--save", 6) == 0)
-		{
-			save_bmp(data);
-			ft_putstr_fd("Save bmp\n", 1);
-		}
-		else
-			ft_putstr_fd("Please type \"--save\"\n", 1);
-		shut_down(data);
-		return (0);
-	}
-	if (extension_error(argv[1], ".cub") == 0)
+	else if (error_extension(argv[1], ".cub") == 0)
 	{
 		ft_putstr_fd("Error : cub_extension error\n", 1);
 		return (0);
@@ -72,7 +60,7 @@ int	argument_error(int argc, char *argv[], t_data *data)
 	return (1);
 }
 
-int	extension_error(char *filename, char *extension_name)
+int	error_extension(char *filename, char *extension_name)
 {
 	char	*filename_extension;
 	int		i;
@@ -88,24 +76,24 @@ int	extension_error(char *filename, char *extension_name)
 	return (1);
 }
 
-int	xpm_extension_error(struct s_config *config)
+int	error_xpm_extension(struct s_config *config)
 {
 	char *str;
 
 	str = config->east_texture;
-	if (extension_error(str, ".xpm") == 0)
+	if (error_extension(str, ".xpm") == 0)
 		return (0);
 	str = config->north_texture;
-	if (extension_error(str, ".xpm") == 0)
+	if (error_extension(str, ".xpm") == 0)
 		return (0);
 	str = config->south_texture;
-	if (extension_error(str, ".xpm") == 0)
+	if (error_extension(str, ".xpm") == 0)
 		return (0);
 	str = config->west_texture;
-	if (extension_error(str, ".xpm") == 0)
+	if (error_extension(str, ".xpm") == 0)
 		return (0);
 	str = config->sprite_texture;
-	if (extension_error(str, ".xpm") == 0)
+	if (error_extension(str, ".xpm") == 0)
 		return (0);
 	return (1);
 }
