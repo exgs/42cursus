@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 20:56:57 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/13 21:14:13 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/14 22:31:26 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	until_hit_wall(struct s_data *data, t_raycasting *r)
 			r->map_y += r->step_y;
 			r->side = 1;
 		}
-		if (data->map[(char)r->map_x][(char)r->map_y] == 1)
+		if (data->map[(int)r->map_x][(int)r->map_y] == 1 ||
+				data->map[(int)r->map_x][(int)r->map_y] == 9)
 			r->hit = 1;
 	}
 	return ;

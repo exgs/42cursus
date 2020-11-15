@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 17:09:55 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/14 06:48:40 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/14 19:49:19 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ int		extract_map_data(char **config_lines, t_config *configs, int map_start)
 	int		len;
 	char	**map;
 
-	if (configs->map == NULL)
-		return (0);
 	if (get_mapsize(config_lines, configs, map_start) == 0)
 		return (0);
 	max_row = configs->map_row;
@@ -36,7 +34,8 @@ int		extract_map_data(char **config_lines, t_config *configs, int map_start)
 	}
 	map[max_row] = NULL;
 	configs->map = map;
-	fill_map(config_lines, configs, map_start);
+	if (fill_map(config_lines, configs, map_start) == 0)
+		return (0);
 	return (1);
 }
 
@@ -59,20 +58,21 @@ int		get_mapsize(char **config_lines, t_config *configs, int map_start)
 		max_column++;
 		i++;
 	}
-	configs->map_row = max_row;
-	configs->map_column = max_column;
-	if (max_row <= 0 || max_column <= 0)
+	if (max_row < 3 || max_column < 3)
 	{
 		configs->map = NULL;
 		return (0);
 	}
+	configs->map_row = max_row;
+	configs->map_column = max_column;
 	return (1);
 }
 
-void	fill_map(char **config_lines, t_config *configs, int map_start)
+int		fill_map(char **config_lines, t_config *configs, int map_start)
 {
 	t_index	idx;
 
+	idx.nswd_cnt = 0;
 	idx.file_i = map_start;
 	idx.i = 0;
 	idx.j = 0;
@@ -86,7 +86,9 @@ void	fill_map(char **config_lines, t_config *configs, int map_start)
 		idx.file_i++;
 		idx.i++;
 	}
-	return ;
+	if (idx.nswd_cnt != 1)
+		return (0);
+	return (1);
 }
 
 void	fill_map_read(char *config_oneline, t_config *configs, t_index *idx)
@@ -105,6 +107,7 @@ void	fill_map_read(char *config_oneline, t_config *configs, t_index *idx)
 		{
 			configs->map[idx->j][idx->i] = 0;
 			set_init_posdir(str[idx->file_j], configs, idx);
+			idx->nswd_cnt++;
 		}
 		(idx->file_j) = (idx->file_j) + 1;
 		(idx->j) = (idx->j) + 1;

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub_default.h                                      :+:      :+:    :+:   */
+/*   cub_utility.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 16:11:30 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/14 03:07:10 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 11:50:23 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB_DEFAULT_H
-# define CUB_DEFAULT_H
+#ifndef CUB_UTILITY_H
+# define CUB_UTILITY_H
 # include "./non_mlx/non_mlx.h"
 # include "./mlx_hook/mlx_hook.h"
 # include "./mlx_loop_hook/mlx_loop_hook.h"

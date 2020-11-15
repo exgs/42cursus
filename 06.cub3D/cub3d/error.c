@@ -6,11 +6,11 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 22:11:23 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/14 06:33:57 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 11:54:04 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub_default.h"
+#include "cub_utility.h"
 
 int	error_load_file(t_data *data, t_config *config)
 {

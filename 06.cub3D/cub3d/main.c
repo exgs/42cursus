@@ -6,11 +6,11 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 22:11:54 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/14 01:55:22 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 11:54:06 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub_default.h"
+#include "cub_utility.h"
 
 int	main(int argc, char *argv[])
 {

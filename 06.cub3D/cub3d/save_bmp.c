@@ -6,11 +6,11 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 22:12:35 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/14 02:15:18 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 11:53:29 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub_default.h"
+#include "cub_utility.h"
 
 int			save_bmp(t_data *data)
 {

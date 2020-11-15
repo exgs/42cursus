@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 21:33:30 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/07 21:34:25 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 11:49:46 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define KEY_ESC 53
 # define KEY_LEFT 123
 # define KEY_RIGHT 124
-# include "../cub_default.h"
+# include "../cub_utility.h"
 
 struct s_data;
 struct s_pair;

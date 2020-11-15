@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 21:27:49 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/07 21:31:46 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 11:16:42 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	obj_moving(int keycode, struct s_data *param)
 	double		step_interval;
 
 	obj = &param->obj;
-	step_interval = 1.0;
+	step_interval = 0.5;
 	if (keycode == KEY_A)
 		move_left(param, step_interval);
 	else if (keycode == KEY_W)

@@ -6,13 +6,13 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 21:34:50 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/13 21:59:29 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 11:53:51 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MLX_LOOP_HOOK_H
 # define MLX_LOOP_HOOK_H
-# include "../cub_default.h"
+# include "../cub_utility.h"
 
 typedef struct	s_raycasting
 {
