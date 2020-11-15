@@ -6,11 +6,12 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 14:51:49 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/15 12:27:14 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 13:43:23 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "non_mlx.h"
+#include <stdio.h>
 
 int	map_validation(t_data *data)
 {
@@ -91,8 +92,11 @@ int	valid_contaminant(char **map, t_data *data)
 		{
 			if ((map[i][j] != 1 && map[i][j] != 9))
 			{
-				if (map[i - 1][j] == 9 || map[i + 1][j] == 9 ||
-						map[i][j - 1] == 9 || map[i][j + 1] == 9)
+				if (map[i - 1][j - 1] == 9 || map[i - 1][j] == 9 ||
+						map[i - 1][j + 1] == 9 ||
+					map[i][j - 1] == 9 || map[i][j + 1] == 9 ||
+						map[i + 1][j - 1] == 9 || map[i + 1][j] == 9 ||
+							map[i + 1][j + 1] == 9)
 					return (0);
 			}
 			j++;

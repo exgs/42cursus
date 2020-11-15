@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 16:11:30 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/15 11:50:23 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 13:45:03 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,5 @@ int				error_xpm(t_data *data, struct s_config *config);
 int				error_argument(int argc, char *argv[]);
 int				error_extension(char *filename, char *extension_name);
 int				error_savebmp(int argc, char *argv[], t_data *data);
+int				error_xpm_extension(struct s_config *config);
 #endif

@@ -1,0 +1,19 @@
+R 1000 1000
+NO ./srcs/walls/greystone.xpm
+SO ./srcs/walls/redbrick.xpm
+WE ./srcs/walls/colorstone.xpm
+EA 11, 23, 4
+
+S ./srcs/items/pillar.xpm
+F 128, 43, 0
+C ./srcs/walls/colorstone.xpm
+
+M
+1111111111111
+1200000000001
+1000000000011
+100000S000001
+1000000000011
+1000012100001
+1111111111111
+
