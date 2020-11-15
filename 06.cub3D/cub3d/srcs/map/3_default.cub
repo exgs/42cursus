@@ -1,4 +1,4 @@
-R 1000 1000
+R 641 481
 NO ./srcs/walls/greystone.xpm
 SO ./srcs/walls/redbrick.xpm
 WE ./srcs/walls/colorstone.xpm

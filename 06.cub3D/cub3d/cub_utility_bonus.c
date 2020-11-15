@@ -6,43 +6,11 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 22:15:00 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/15 12:49:25 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 15:42:47 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_utility.h"
-#include <stdio.h>
-
-static void print_config_data(t_config *configs)
-{
-	int i = 0;
-	int j = 0;
-	char **map = configs->map;
-	printf("R %d %d\n", configs->resolution[X], configs->resolution[Y]);
-	printf("NO %s\n", configs->north_texture);
-	printf("SO %s\n", configs->south_texture);
-	printf("WE %s\n", configs->west_texture);
-	printf("EA %s\n", configs->east_texture);
-	printf("\n");
-	printf("S %s\n", configs->sprite_texture);
-	printf("F %d\n", configs->floor_color);
-	printf("C %d\n", configs->ceiling_color);
-	printf("-----------map-----------\n");
-	if (map != NULL)
-	{
-		while (i < configs->map_column)
-		{
-			j = 0;
-			while (j < configs->map_row)
-			{
-				printf("%d ", map[j][i]);
-				j++;
-			}
-			printf("\n");
-			i++;
-		}
-	}
-}
 
 void			my_mlx_pixel_put(t_image *imgdata, int x, int y, int color)
 {

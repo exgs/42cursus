@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 16:11:30 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/15 13:45:03 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 16:49:44 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <math.h>
 # define X 0
 # define Y 1
-# define SPRITE_NUM 50
+# define SPRITE_NUM 10006
 # define IMGDATA_NUM 15
 
 # define TEXWIDTH 64
@@ -89,4 +89,6 @@ int				error_argument(int argc, char *argv[]);
 int				error_extension(char *filename, char *extension_name);
 int				error_savebmp(int argc, char *argv[], t_data *data);
 int				error_xpm_extension(struct s_config *config);
+
+void			print_config_data(struct s_config *configs);
 #endif

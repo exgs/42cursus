@@ -13,10 +13,11 @@ SRCS = cub_utility.c save_bmp.c error.c\
 		./non_mlx/getdata_from_file.c ./non_mlx/getdata_from_file_sub.c ./non_mlx/getdata_num.c ./non_mlx/getdata_num_sub.c ./non_mlx/getdata_nswes.c ./non_mlx/getdata_map.c ./non_mlx/getdata_map_sub.c ./non_mlx/map_valid.c ./non_mlx/getimg_xpm.c ./non_mlx/error_doublekey.c
 OBJS = $(SRCS:.c=.o)
 
-SRCS_BONUS = cub_utility.c save_bmp.c error.c\
+SRCS_BONUS = ./non_mlx/map_valid_bonus.c cub_utility_bonus.c cub_utility_sub_bonus.c \
+		cub_utility.c save_bmp.c error.c \
 		./mlx_hook/character_move.c ./mlx_hook/character_rotate.c ./mlx_hook/character_keypress.c \
 		./mlx_loop_hook/walls_raycasting.c ./mlx_loop_hook/sprites_raycasting.c ./mlx_loop_hook/raycasting.c ./mlx_loop_hook/sprites_arrange.c \
-		./non_mlx/getdata_from_file.c ./non_mlx/getdata_from_file_sub.c ./non_mlx/getdata_num.c ./non_mlx/getdata_num_sub.c ./non_mlx/getdata_nswes.c ./non_mlx/getdata_map.c ./non_mlx/getdata_map_sub.c ./non_mlx/map_valid_bonus.c ./non_mlx/getimg_xpm.c ./non_mlx/error_doublekey.c
+		./non_mlx/getdata_from_file.c ./non_mlx/getdata_from_file_sub.c ./non_mlx/getdata_num.c ./non_mlx/getdata_num_sub.c ./non_mlx/getdata_nswes.c ./non_mlx/getdata_map.c ./non_mlx/getdata_map_sub.c ./non_mlx/getimg_xpm.c ./non_mlx/error_doublekey.c
 OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
 all : $(NAME) ./libft_plus/libft_plus.a ./opengl/libmlx.a
