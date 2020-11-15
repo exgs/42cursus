@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 17:03:31 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/15 12:33:13 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 14:53:59 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ int	extract_configs_while(char **config_lines, t_config *configs)
 		{
 			i = i + 1;
 			if (extract_map_data(config_lines, configs, &i) == 0)
+			{
+				ft_putstr_fd("Error : extract_map_data\n", 1);
 				return (0);
+			}
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 17:19:11 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/13 17:19:51 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 15:03:21 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			flush_string(char *str)
 	i = 0;
 	if (str == NULL)
 	{
-		printf("string is NULL(flush)\n");
+		ft_putstr_fd("string is NULL(flush)\n", 1);
 		return (0);
 	}
 	while (str[i])

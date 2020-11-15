@@ -6,14 +6,13 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 19:19:03 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/14 17:38:42 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 15:02:07 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <stdio.h>
 # include <stdlib.h>
 
 typedef struct	s_list

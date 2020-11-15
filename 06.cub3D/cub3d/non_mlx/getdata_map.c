@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 17:09:55 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/15 12:35:46 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 14:53:15 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,10 @@ int		fill_map(char **config_lines, t_config *configs, int map_start)
 		idx.j = 0;
 		idx.file_j = 0;
 		if (fill_map_read(config_lines[idx.file_i], configs, &idx) == 0)
+		{
+			ft_putstr_fd("Error : fill_map_read\n", 1);
 			return (0);
+		}
 		idx.file_i++;
 		idx.i++;
 	}
@@ -111,7 +114,7 @@ int		fill_map_read(char *config_oneline, t_config *configs, t_index *idx)
 			set_init_posdir(str[idx->file_j], configs, idx);
 			idx->nswd_cnt++;
 		}
-		else
+		else if (str[idx->file_j] != ' ')
 			return (0);
 		(idx->file_j) = (idx->file_j) + 1;
 		(idx->j) = (idx->j) + 1;

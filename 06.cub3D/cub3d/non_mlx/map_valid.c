@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 14:51:49 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/15 13:43:23 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 14:56:38 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,18 +77,14 @@ int	top_bottom_valid(char **map, t_data *data)
 
 int	valid_contaminant(char **map, t_data *data)
 {
-	int end_row;
-	int end_column;
 	int i;
 	int j;
 
 	i = 1;
-	end_row = data->config->map_row - 1;
-	end_column = data->config->map_column - 1;
-	while (i < end_row)
+	while (i < data->config->map_row - 1)
 	{
 		j = 1;
-		while (j < end_column)
+		while (j < data->config->map_column - 1)
 		{
 			if ((map[i][j] != 1 && map[i][j] != 9))
 			{
