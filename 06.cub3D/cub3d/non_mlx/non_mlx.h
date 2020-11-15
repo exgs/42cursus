@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 22:31:47 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/15 11:53:44 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 12:29:35 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int				extract_floor_color(char *str, t_config *configs);
 int				extract_ceiling_color(char *str, t_config *configs);
 int				counting_num(char *str);
 int				extract_map_data(char **config_lines, t_config *configs,
-									int map_start);
+									int *map_start);
 int				extract_configs_while(char **config_lines, t_config *configs);
 int				get_mapsize(char **config_lines, t_config *configs,
 									int map_start);
@@ -71,7 +71,7 @@ int				fill_map_space(char *config_oneline, t_config *configs,
 int				fill_map(char **config_lines, t_config *configs,
 								int map_start);
 void			set_init_posdir(char dir, t_config *configs, t_index *idx);
-void			fill_map_read(char *config_oneline, t_config *configs,
+int				fill_map_read(char *config_oneline, t_config *configs,
 								t_index *idx);
 
 int				map_validation(struct s_data *data);

@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 14:51:49 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/15 11:47:37 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 12:27:14 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,8 @@ int	is_allowed_character(char **map, t_data *data)
 		j = 0;
 		while (j < data->config->map_column)
 		{
-			if (map[i][j] != 0 && map[i][j] != 1 && map[i][j] != 2)
+			if (map[i][j] != 0 && map[i][j] != 1 && map[i][j] != 2
+					&& map[i][j] != 9)
 				return (0);
 			j++;
 		}

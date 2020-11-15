@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 16:43:37 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/13 23:32:39 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 12:41:16 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	camera_matrix_setting(struct s_data *data, t_spritecasting *r, int i)
 	r->transform_y = r->invdet * (-data->obj.ray.plane[Y] * r->sprite_x +
 									data->obj.ray.plane[X] * r->sprite_y);
 	r->spritescreen_x = (int)((w / 2) * (1 + r->transform_x / r->transform_y));
-	r->spriteheight = (int)abs((h / (r->transform_y)));
+	r->spriteheight = (int)fabs((h / (r->transform_y)));
 	r->drawstart_y = -r->spriteheight / 2 + h / 2;
 	limit_draw_startend(data, r);
 }
@@ -73,7 +73,7 @@ void	limit_draw_startend(struct s_data *data, t_spritecasting *r)
 	r->drawend_y = r->spriteheight / 2 + h / 2;
 	if (r->drawend_y >= h)
 		r->drawend_y = h - 1;
-	r->spritewidth = (int)abs((h / (r->transform_y)));
+	r->spritewidth = (int)fabs((h / (r->transform_y)));
 	r->drawstart_x = -r->spritewidth / 2 + r->spritescreen_x;
 	if (r->drawstart_x < 0)
 		r->drawstart_x = 0;

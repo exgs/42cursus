@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 17:18:14 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/14 02:31:58 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 12:40:27 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	extract_sprite_texture(char *str, t_config *configs)
 		return (0);
 	ft_strlcpy(configs->sprite_texture, ft_strchr(str, ' ') + 1,
 				STRING_LENGTH);
-	if (configs->sprite_texture == NULL)
+	if (configs->sprite_texture[0] == '\0')
 	{
 		ft_putstr_fd("Error : S\n", 1);
 		return (0);

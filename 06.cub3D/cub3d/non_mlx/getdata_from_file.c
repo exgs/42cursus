@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 17:03:31 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/15 11:42:24 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/11/15 12:33:13 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	extract_configs_while(char **config_lines, t_config *configs)
 {
 	int		i;
 	char	*config_oneline;
-	int		map_start;
 
 	i = 0;
 	while (config_lines[i] != NULL)
@@ -45,10 +44,9 @@ int	extract_configs_while(char **config_lines, t_config *configs)
 			return (0);
 		if (config_lines[i][0] == 'M' && config_lines[i][1] == '\0')
 		{
-			map_start = i + 1;
-			if (extract_map_data(config_lines, configs, map_start) == 0)
+			i = i + 1;
+			if (extract_map_data(config_lines, configs, &i) == 0)
 				return (0);
-			return (1);
 		}
 		i++;
 	}
