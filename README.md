@@ -2,7 +2,7 @@
 
 - 목표 : 🚀탈출속도에 도달하자!🚀 
 
-  ![anigif](https://user-images.githubusercontent.com/56223639/89714751-fe8dea00-d9db-11ea-8894-d15f566430e7.gif)
+  ![anigif](https://user-images.githubusercontent.com/56223639/99209215-fe389280-2805-11eb-8946-53aecc195615.gif)
 
 - 공부 컨셉(1) (헨젤과 그레텔)
   
@@ -18,7 +18,7 @@
   |    netwhat    | 100%  |             ip, 공유기, DNS, netmask               | 5days |
   |   ft_printf   | 100%  |              귀납적추론, 코딩스킬                     | 9days |
   |   ft_server   | 100% | 새롭게 배우는 것 | 11days |
-  |     cub3d     |       |                                                  |              |
+  |     cub3d     | 103% | 맵 파싱할 때, 예외처리, DDA algorithm, 뒤집힌 좌표 | 45days |
   |    libasm     |       |                                                  |              |
 
 tistory : https://yunslee-42seoul.tistory.com/  
