@@ -73,7 +73,8 @@ char *ft_strchr(char *str, char c)
 char *ft_strjoin(char *head, char *tail)
 {
 	char *join;
-	int len;
+	int total_len;
+	int head_len;
 	int i;
 
 	if (head == NULL && tail == NULL)
@@ -83,14 +84,17 @@ char *ft_strjoin(char *head, char *tail)
 	else if (tail == NULL)
 		return (ft_strdup(head));
 	i = 0;
-	len = ft_strlen(head) + ft_strlen(tail);
-	join = malloc(sizeof(char) * (len + 1));
-	while (i < len)
+	total_len = ft_strlen(head) + ft_strlen(tail);
+	head_len = ft_strlen(head);
+	join = malloc(sizeof(char) * (total_len + 1));
+	while (i < total_len)
 	{
-		if (i < ft_strlen(head))
+		if (i < head_len)
 			join[i] = head[i];
 		else
-			join[i] = tail[i];
+			join[i] = tail[i - head_len];
+		i++;
 	}
+	join[i] = '\0';
 	return (join);
 }
