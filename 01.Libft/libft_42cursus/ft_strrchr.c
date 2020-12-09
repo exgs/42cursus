@@ -30,7 +30,8 @@ char			*ft_strrchr(const char *s, int c)
 	size_t			strlen;
 	char			*str;
 
-	str = (char *)s;
+	if (NULL == (str = (char *)s))
+		return (NULL);
 	strlen = ft_strlen(s);
 	if (c == 0)
 		return (str + strlen);

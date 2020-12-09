@@ -12,10 +12,12 @@
 
 #include <stdlib.h>
 
-size_t	ft_strlen(const char *s)
+int	ft_strlen(const char *s)
 {
 	unsigned int i;
 
+	if (s == NULL)
+		return (-1);
 	i = 0;
 	while (s[i])//s가 NULL일 때, 처리를 해주지 않아서 segfault뜨기 쉬움, 실제로 strlen(NULL)-> segfault.
 	{

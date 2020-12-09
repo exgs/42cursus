@@ -12,10 +12,12 @@
 
 #include <stdlib.h>
 
-static size_t	ft_strlen(const char *s)
+static int		ft_strlen(const char *s)
 {
 	unsigned int i;
 
+	if (s == NULL)
+		return (-1);
 	i = 0;
 	while (s[i])
 	{
