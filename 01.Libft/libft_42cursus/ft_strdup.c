@@ -31,7 +31,11 @@ char			*ft_strdup(const char *str)
 	unsigned int	str_len;
 
 	if (str == NULL)
-		return (malloc(1));
+	{
+		str_dup = malloc(1);
+		str_dup[0] = '\0';
+		return (str_dup);
+	}
 	str_len = ft_strlen(str);
 	str_dup = (char *)malloc(sizeof(char) * str_len + 1);
 	if (str_dup == 0)
