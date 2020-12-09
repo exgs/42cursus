@@ -24,29 +24,31 @@ static size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char			*ft_strjoin(char const *s1, char const *s2)
+char			*ft_strjoin(char const *head, char const *tail)
 {
-	unsigned int	i;
-	unsigned int	j;
-	char			*str_join;
+	char *join;
+	int total_len;
+	int head_len;
+	int i;
 
-	if (s1 == NULL || s2 == NULL)// XOR가 true인 상황에서 각 string원형을 return할지는 undefined behavior
+	if (head == NULL && tail == NULL)
 		return (NULL);
-	str_join = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (str_join == NULL)
-		return (NULL);
+	else if (head == NULL)
+		return (ft_strdup(tail));
+	else if (tail == NULL)
+		return (ft_strdup(head));
 	i = 0;
-	while (s1[i])
+	total_len = ft_strlen(head) + ft_strlen(tail);
+	head_len = ft_strlen(head);
+	join = malloc(sizeof(char) * (total_len + 1));
+	while (i < total_len)
 	{
-		str_join[i] = s1[i];
+		if (i < head_len)
+			join[i] = head[i];
+		else
+			join[i] = tail[i - head_len];
 		i++;
 	}
-	j = 0;
-	while (s2[j])
-	{
-		str_join[i + j] = s2[j];
-		j++;
-	}
-	str_join[i + j] = '\0';
-	return (str_join);
+	join[i] = '\0';
+	return (join);
 }
