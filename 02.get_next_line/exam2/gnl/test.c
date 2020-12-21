@@ -63,5 +63,6 @@ int get_next_line(int fd, char **line)
 	}
 	*line = ft_strdup(remain);
 	free(remain);
+	remain = NULL;
 	return (0);
 }

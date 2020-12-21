@@ -63,6 +63,8 @@ int get_next_line(int fd, char **line)
 			return (1);
 		ft_memset(buffer, 0, BUFFER_SIZE + 1);
 	}
-	*line = remain;
+	*line = ft_strdup(remain);
+	free(remain);
+	remain = NULL;
 	return (0);
 }
