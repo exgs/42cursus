@@ -17,16 +17,22 @@ void compare(int fd, char *str, int size)
 
 int main()
 {
+	printf("Case 1\n");
 	compare(1, "abcd\n", 5);
 	errno = 0;
+	printf("Case 2\n");
 	compare(-31, "abcd\n", 5);
 	errno = 0;
+	printf("Case 3\n");
 	compare(0, "abcd\n", 5);
 	errno = 0;
+	printf("Case 4\n");
 	compare(1, "abcd\n", 10);
 	errno = 0;
+	printf("Case 5\n");
 	compare(0, "abcd\n", 10);
 	errno = 0;
+	printf("Case 6\n");
 	compare(3, "abcd\n", 10);
 	return (1);
 }

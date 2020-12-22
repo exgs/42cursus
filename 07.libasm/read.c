@@ -5,6 +5,7 @@ void compare(int fd, int size)
 	char buffer[100] = {0, };
 	int ft; int real;
 
+	errno = 0;
 	ft = ft_read(fd, buffer, size);
 	printf("%s\n", buffer);
 	printf("ft : %d\n", ft);
@@ -12,6 +13,7 @@ void compare(int fd, int size)
 	printf("----------------------\n");
 	memset(buffer, 0, 100);
 
+	errno = 0;
 	real = read(fd, buffer, size);
 	printf("%s\n", buffer);
 	printf("real : %d\n", real);
@@ -22,9 +24,10 @@ void compare(int fd, int size)
 
 void compare_noprintf(int fd, int size)
 {
-	char buffer[100] = {0, };
+	char buffer[1000] = {0, };
 	int ft; int real;
-
+	
+	errno = 0;
 	ft = ft_read(fd, buffer, size);
 	// printf("%s\n", buffer);
 	printf("ft : %d\n", ft);
@@ -32,6 +35,7 @@ void compare_noprintf(int fd, int size)
 	printf("----------------------\n");
 	memset(buffer, 0, 100);
 
+	errno = 0;
 	real = read(fd, buffer, size);
 	// printf("%s\n", buffer);
 	printf("real : %d\n", real);
@@ -45,8 +49,10 @@ int main()
 	int fd;
 
 	fd = open("./test", O_RDONLY);
+	printf("Case 1\n");
 	compare(fd, 3);
 	close(fd);
+	printf("Case 2\n");
 	compare(fd, 3);
 	
 	printf("Exception 1\n");
@@ -58,6 +64,7 @@ int main()
 	char buffer[100] = {0, };
 	int ft; int real; int size;
 	size = 16;
+	errno = 0;
 	ft = ft_read(-1, buffer, size);
 	printf("%s\n", buffer);
 	printf("ft : %d\n", ft);
@@ -65,12 +72,14 @@ int main()
 	printf("----------------------\n");
 	memset(buffer, 0, 100);
 
+	errno = 0;
 	real = read(-1, buffer, size);
 	printf("%s\n", buffer);
 	printf("real : %d\n", real);
 	printf("errno : %d\n", errno);
 	printf("=============================\n");
 	
+	printf("Case 3\n");
 	fd = open("./test", O_RDONLY);
 	compare(fd, 0);
 	close(fd);
