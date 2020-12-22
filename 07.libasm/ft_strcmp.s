@@ -15,7 +15,7 @@ loop:
 	sub		rcx, rdx
 	cmp		rcx, 0
 	jne		return_value
-	inc		rbx ; flag change(i don't know why)
+	inc		rbx ; This command make flag changed(i don't know why)
 	cmp		rcx, 0
 	je		loop
 return_same:

@@ -1,7 +1,6 @@
 	global	_ft_strcpy
 	section .text
 _ft_strcpy:
-	push	rbx
 	mov		rbx, 0
 	cmp		rsi, 0
 	je		done
@@ -15,6 +14,5 @@ loop:
 	jne		loop
 done :
 	mov		rax, rdi
-	pop		rbx
 	ret
 

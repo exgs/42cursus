@@ -9,11 +9,8 @@ _ft_read:
 	
 error:
 	mov		rdi, rax
-	push	rax
-	mov		rax, 0
 	call	 ___error
 	mov		[rax], rdi
-	pop		rax
 	mov		rax, -1
 	ret
 	
@@ -23,3 +20,4 @@ error:
 	;pop rax
 	;mov [rdi], rax
 	;mov rax, -1
+	;ret
