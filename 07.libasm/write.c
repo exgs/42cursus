@@ -18,11 +18,15 @@ void compare(int fd, char *str, int size)
 int main()
 {
 	compare(1, "abcd\n", 5);
+	errno = 0;
 	compare(-31, "abcd\n", 5);
+	errno = 0;
 	compare(0, "abcd\n", 5);
-	
+	errno = 0;
 	compare(1, "abcd\n", 10);
+	errno = 0;
 	compare(0, "abcd\n", 10);
+	errno = 0;
 	compare(3, "abcd\n", 10);
 	return (1);
 }
