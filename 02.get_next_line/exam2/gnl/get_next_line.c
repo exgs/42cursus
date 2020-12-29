@@ -20,6 +20,8 @@ int change_newline_to_zero(char *remain)
 {
 	int i;
 
+	if (remain == NULL) //get_next_line 함수에서 처리하지 않고 여기서 처리해줘도됨
+		return (0);
 	i = 0;
 	while (remain[i])
 	{
