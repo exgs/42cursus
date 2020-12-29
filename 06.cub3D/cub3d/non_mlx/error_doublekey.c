@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_doublekey.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yunslee <yunslee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 17:35:00 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/14 19:50:42 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/12/29 18:57:32 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int	error_specifier_judge3(char *config_oneline, short *flag)
 		if (((*flag) & (1 << 8)) == (1 << 8))
 			return (0);
 		*flag = *flag + (1 << 8);
+		if (*flag + 1 != 1 << 9)
+			return (0);
 	}
 	return (1);
 }

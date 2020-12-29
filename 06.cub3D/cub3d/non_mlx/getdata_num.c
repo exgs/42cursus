@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getdata_num.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yunslee <yunslee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 17:20:10 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/14 06:25:26 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/12/29 18:27:13 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int	extract_floor_color(char *str, t_config *configs)
 	red = ft_atoi_cub(str, &idx);
 	green = ft_atoi_cub(str + idx, &idx);
 	blue = ft_atoi_cub(str + idx, &idx);
-	if (red < 0 || green < 0 || blue < 0)
+	if ((red < 0 || green < 0 || blue < 0) ||
+		(red > 255 || green > 255 || blue > 255))
 	{
 		ft_putstr_fd("Error : F\n", 1);
 		return (0);

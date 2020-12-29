@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_utility.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yunslee <yunslee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 16:11:30 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/15 16:49:44 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/12/29 18:15:11 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include "./non_mlx/non_mlx.h"
 # include "./mlx_hook/mlx_hook.h"
 # include "./mlx_loop_hook/mlx_loop_hook.h"
-# include <mlx.h>
+# include "./opengl/mlx.h"
 # include <stdlib.h>
 # include <math.h>
 # define X 0

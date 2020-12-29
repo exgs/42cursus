@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getdata_map_sub.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yunslee <yunslee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 17:13:41 by yunslee           #+#    #+#             */
-/*   Updated: 2020/11/15 12:43:19 by yunslee          ###   ########.fr       */
+/*   Updated: 2020/12/29 18:31:48 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ void	set_init_posdir(char dir, t_config *configs, t_index *idx)
 		configs->dir_init[X] = 0.0;
 		configs->dir_init[Y] = 1.0;
 	}
-	configs->pos_init[X] = idx->j + 0.5;
-	configs->pos_init[Y] = idx->i + 0.5;
+	configs->pos_init[X] = idx->j + 0.49;
+	configs->pos_init[Y] = idx->i + 0.49;
 }
