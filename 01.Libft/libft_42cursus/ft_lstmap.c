@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yunslee <yunslee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/09 01:32:50 by yunslee           #+#    #+#             */
-/*   Updated: 2020/04/16 02:14:55 by yunslee          ###   ########.fr       */
+/*   Updated: 2021/01/01 17:17:03 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	lst_reset(t_list **lst, void (*del)(void *))
 	while (lst != NULL)
 	{
 		*lst = (*lst)->next;
-		del(curr->content);
+		if (del != NULL)
+			del(curr->content);
 		free(curr);
 		curr = *lst;
 	}
