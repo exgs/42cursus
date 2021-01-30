@@ -2,15 +2,9 @@
 
 - 목표 : 🚀탈출속도에 도달하자!🚀 
 
-  ![anigif](https://user-images.githubusercontent.com/56223639/102971133-2077ab80-453c-11eb-8217-15e2de549109.gif)
+  ![anigif](https://user-images.githubusercontent.com/56223639/106367032-31a9a880-6383-11eb-99cb-392da0e57285.gif)
 
-- 공부 컨셉(1) (헨젤과 그레텔)
-  
-  1. 과제를 해결하면서, 다른 사람의 코드와 도움을 줍는다.
-  
-- 공부 컨셉(2) (콜롬버스)✅
-  1. 과제를 해결한 이후에, 다른 사람의 코드와 도움을 받는다.
-  
+- 공부 컨셉 (콜롬버스), (헨젤과 그레텔)
   |    Project    | Mark  |                     Keyword                      | closing date |
   | :-----------: | :---: | :----------------------------------------------: | ------------ |
   |     libft     | 115%  |               makefile, headerfile               |              |
@@ -19,7 +13,8 @@
   |   ft_printf   | 100%  |              귀납적추론, 코딩스킬                     | 9days |
   |   ft_server   | 100% | 새롭게 배우는 것 | 11days |
   |     cub3d     | 103% | 맵 파싱할 때, 예외처리, DDA algorithm, 뒤집힌 좌표 | 45days |
-  |    libasm     |       |                                                  |              |
+  |    libasm     | 100% | register, intel syntax,  C and Asm | 10days |
+  | minishell | 100% | 협업, child process, parsing, pipe | 45days |
 
 tistory : https://yunslee-42seoul.tistory.com/  
 github : https://github.com/exgs/42cursus
