@@ -10,18 +10,13 @@ int main()
     const char *msg[] = {"apple is red", "banana is yellow", "cherry is red"};
     char buffer[BUFFER_SIZE];
     int pipe_fd[2], nRead, i;
-	printf("fd[0] : %10d | fd[1] : %d\n", pipe_fd[0], pipe_fd[1]);
-    pid_t pid;
-    if(pipe(pipe_fd) == -1){
-        printf("fail to call pipe()\n");
-        exit(1);
-    }
-	printf("fd[0] : %10d | fd[1] : %d\n", pipe_fd[0], pipe_fd[1]);
-    if((pid = fork()) == -1){
-        printf("fail to call fork()\n");
-        exit(1);
-    }
 	int j;
+    pid_t pid;
+
+	printf("fd[0] : %10d | fd[1] : %d\n", pipe_fd[0], pipe_fd[1]);
+    pipe(pipe_fd);
+	printf("fd[0] : %10d | fd[1] : %d\n", pipe_fd[0], pipe_fd[1]);
+    pid = fork();
     // parent process
     if(pid > 0){
         // close input of pipe

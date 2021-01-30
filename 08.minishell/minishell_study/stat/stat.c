@@ -40,12 +40,14 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
+#include <errno.h>
+#include <string.h>
 
 int main(void)
 {
 	struct stat buf;
 	
-	stat("unix.txt", &buf);
+	printf("%d\n", stat("unix2.txt", &buf));
 
 	printf("Inode = %d\n", (int)buf.st_ino);
 	printf("Mode = %o\n", (unsigned int)buf.st_mode);
@@ -58,6 +60,10 @@ int main(void)
 	printf("Ctime = %d\n", (int)buf.st_ctime);
 	printf("Blksize = %d\n", (int)buf.st_blksize);
 	printf("Blocks = %d\n", (int)buf.st_blocks);
+	printf("--------------------\n");
+	printf("%d\n", errno);
+	printf("%s\n", strerror(errno));
+	perror("perror:");
 	return (0);
 }
 
