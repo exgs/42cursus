@@ -27,8 +27,8 @@ int main(int argc, char **argv)
     pthread_create(&thread2, NULL, thread, (void *) thr2);
     // wait for threads to finish
 	// system("ps");
-    // pthread_join(thread1, NULL);
-    // pthread_join(thread2,NULL);
-	usleep(100);
+    pthread_join(thread1, NULL);
+    pthread_join(thread2, NULL);
+	// usleep(100);
     return 0;
 }
