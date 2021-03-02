@@ -21,7 +21,8 @@ enum
 	EATING = 0,
 	SLEEPING,
 	THINKING,
-	TAKEN
+	TAKEN,
+	DEAD
 };
 
 typedef struct s_info
@@ -30,7 +31,7 @@ typedef struct s_info
 	int time_to_die;
 	int time_to_eat;
 	int time_to_sleep;
-	int number_of_times_each_philosopher_must_eat;
+	int meal_full;
 	unsigned long basetime;
 	bool anyone_dead;
 	pthread_mutex_t *forks;
@@ -64,7 +65,7 @@ t_info g_info; // 전역변수로 처리한 이유는 pthread_create가 변수�
 
 
 // philo-init-exit.c
-unsigned long get_basetime();
+unsigned long get_time();
 void print_info(t_info *info);
 int set_info_argv(t_info *info, int argc, char *argv[]);
 void mutex_fork_init(t_info *info);
@@ -73,9 +74,9 @@ int set_info(t_info *info);
 int set_philos(t_philo *philos, t_info *info);
 
 // philo_do.c
-void *monitoring(void* param);
-int spend_time(unsigned long ms);
-int print_status(unsigned char status, t_philo *philo, t_info *info);
+void *monitoring(t_philo* philo);
+int spend_time_of(int doing);
+int doing(unsigned char status, t_philo *philo);
 int eat(t_philo *philo, t_info *info);
 void *philo_do(t_philo *temp);
 #endif
