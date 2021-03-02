@@ -10,6 +10,8 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
 
 
 # define FD_IN 0 // STDIN_FILENO
