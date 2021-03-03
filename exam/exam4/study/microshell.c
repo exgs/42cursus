@@ -60,13 +60,14 @@ int main(int argc, char *argv[], char *envp[])
 		// printf("%d\n", j);
 		while (j < g_tokens_count) // 마지막에 ";" 가 온다면, 윗 코드와 더불어서 세그폴트나기 너무 좋음
 		{
-			t_token *token = &(g_tokens[j++]);
+			t_token *token = &(g_tokens[j]);
 			// printf("%s\n", token->data);
 			if (token->type != STRING)
 			{
 				this_program->type = token->type;
 				break;
 			}
+			j++;
 		}
 		int program_size = j - start; // ";"로 끝나는 경우도 g_programs_count가 늘어나지 않게 함. 그래서 뒤에 안 붙어도 될 것 같음
 		this_program->argv = malloc(sizeof(char *) * (program_size + 1));
@@ -78,20 +79,57 @@ int main(int argc, char *argv[], char *envp[])
 		this_program->path = this_program->argv[0];
 		// this_program->type = g_tokens[start + program_size] // 마지막엔 기호가 없는걸
 		// 게다가 ";" 로 끝나는 경우는 어떻게 해결해야하지?
+		j++;
 	}
 
 
-	for (size_t i = 0; i < g_programs_count; i++)
+	// for (size_t i = 0; i < g_programs_count; i++)
+	// {
+	// 	t_program *this = &g_programs[i];
+	// 	printf("path:%s\n", this->path);
+	// 	for (size_t z = 0; this->argv[z]; z++)
+	// 	{
+	// 		printf("argv[%d]: %s\n", z, this->argv[z]);
+	// 	}
+	// 	printf("type:%d\n", this->type);
+	// }
+	int pipe_fds[2] = { 0, 0 };
+	int fd_in = 0;
+
+	/* Execution. */
+	for (size_t i = 0; i < g_programs_count; ++i)
 	{
-		t_program *this = &g_programs[i];
-		printf("path:%s\n", this->path);
-		for (size_t z = 0; this->argv[z]; z++)
+		t_program *pr = &(g_programs[i]);
+
+		pipe(pipe_fds);
+
+		if ((pr->pid = fork()) == -1)
+			return (FALSE);
+		else if (pr->pid == 0)
 		{
-			printf("argv[%d]: %s\n", z, this->argv[z]);
+			dup2(fd_in, STDIN_FILENO);
+			if (pr->type == PIPE )
+				dup2(pipe_fds[1], STDOUT_FILENO);
+
+			close(pipe_fds[0]);
+
+			if (execve(pr->path, pr->argv, g_envp) == -1)
+				return (FALSE);
 		}
-		printf("type:%d\n", this->type);
+		else
+		{
+			if (pr->type == SEMICOLON || i == g_programs_count - 1)
+			{
+//				ft_putstr(FD_ERR, strcat(strcat(strdup("waiting: "), pr->path), "\n"));
+				waitpid(pr->pid, NULL, 0);
+				close(pipe_fds[0]);
+				fd_in = 0;
+			}
+			else
+				fd_in = pipe_fds[0];
+			close(pipe_fds[1]);
+		}
 	}
-	
 
 	return (1);
 }
