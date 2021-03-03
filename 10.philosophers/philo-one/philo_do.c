@@ -24,8 +24,10 @@ int print_doing(int status, t_philo *philo)
 	}
 	else if(status == THINKING)
 		printf("is thinking\n");
-	else if(status == TAKEN)
-		printf("has taken a fork\n");
+	else if(status == RIGHT_TAKEN)
+		printf("has taken a right fork\n");
+	else if(status == LEFT_TAKEN)
+		printf("has taken a left fork\n");
 	else if(status == DEAD)
 	{
 		printf("is dead\n");
@@ -71,9 +73,9 @@ int eat(t_philo *philo, t_info *info)
 	if (g_info.anyone_dead == TRUE)
 		return (END);
 	pthread_mutex_lock(&info->forks[philo->left_fork_num]);
-	doing(TAKEN, philo, get_relative_time());
+	doing(LEFT_TAKEN, philo, get_relative_time());
 	pthread_mutex_lock(&info->forks[philo->right_fork_num]);
-	doing(TAKEN, philo, get_relative_time());
+	doing(RIGHT_TAKEN, philo, get_relative_time());
 	doing(EATING, philo, get_relative_time());
 	spend_time_of(EATING);
 	pthread_mutex_unlock(&info->forks[philo->left_fork_num]);
