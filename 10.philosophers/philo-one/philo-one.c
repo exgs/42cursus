@@ -8,15 +8,13 @@ void *test(void *param)
 
 int start(t_philo *philos, t_info *info)
 {
-	unsigned long init_time;
 	int i;
 	
 	i = 0;
 	mutex_init(info);
 	while (i < g_philo_num)
 	{
-		init_time = get_relative_time();
-		philos[i].when_eat = init_time;
+		philos[i].when_eat = get_relative_time();
 		pthread_create(&philos[i].thread, NULL, philo_do, (void *)&philos[i]);
 		// pthread_create(&philos[i].thread, NULL, test, (void *)i); // 테스트 코드
 		// pthread_join(philos[i].thread, NULL); // 여기다가 넣어주면, 순서대로 철학자 한명씩 먹고자고생각하는게 됨. 나머지는 멍때리는 중

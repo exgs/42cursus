@@ -75,9 +75,10 @@ int eat(t_philo *philo, t_info *info)
 	pthread_mutex_lock(&info->forks[philo->right_fork_num]);
 	doing(TAKEN, philo, get_relative_time());
 	doing(EATING, philo, get_relative_time());
+	spend_time_of(EATING);
 	pthread_mutex_unlock(&info->forks[philo->left_fork_num]);
 	pthread_mutex_unlock(&info->forks[philo->right_fork_num]);
-	usleep(10); // 여기다 넣어줘야, 철학자가 죽을 확률이 내려감.
+	// usleep(10); // 여기다 넣어줘야, 철학자가 죽을 확률이 내려감.
 	return (CONTINUE);
 }
 

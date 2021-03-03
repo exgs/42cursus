@@ -43,7 +43,7 @@ typedef struct s_philo
 {
 	pthread_t thread;
 	int whoami;
-	int when_eat;
+	unsigned long when_eat;
 	int left_fork_num;
 	int right_fork_num;
 	int meal_num;
