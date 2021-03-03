@@ -16,7 +16,7 @@
 # define CONTINUE 1
 
 
-enum
+typedef enum
 {
 	EATING = 0,
 	SLEEPING,
@@ -24,7 +24,7 @@ enum
 	LEFT_TAKEN,
 	RIGHT_TAKEN,
 	DEAD
-};
+}	t_status;
 
 typedef struct s_info
 {
@@ -78,7 +78,7 @@ int set_philos(t_philo *philos, t_info *info);
 // philo_do.c
 void *monitoring(t_philo* philo);
 int spend_time_of(int doing);
-int doing(unsigned char status, t_philo *philo, unsigned long interval);
+int doing(t_status status, t_philo *philo, unsigned long interval);
 int eat(t_philo *philo, t_info *info);
 void *philo_do(t_philo *temp);
 #endif

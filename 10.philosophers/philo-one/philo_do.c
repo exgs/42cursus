@@ -1,17 +1,39 @@
 #include "philo.h"
 
-int spend_time_of(int doing)
+void accurate_sleep(unsigned long milisecond)
 {
-	int ms;
+	// int i = 0;
+	// while (i < 10)
+	// {
+	// 	usleep(milisecond * 100);
+	// 	i++;
+	// }
+	unsigned long	base;
+	unsigned long	cur;
 
-	if (EATING)
-		ms = g_info.time_to_eat;
-	if (SLEEPING)
-		ms = g_info.time_to_sleep;
-	usleep(ms * 1000);
+	base = get_absolute_time();
+	while (1)
+	{
+		cur = get_absolute_time();
+		if (milisecond < cur - base)
+			return ;
+		usleep(100);
+	}
 }
 
-int print_doing(int status, t_philo *philo)
+int spend_time_of(int doing)
+{
+	unsigned long milisecond;
+
+	if (EATING)
+		milisecond = g_info.time_to_eat;
+	if (SLEEPING)
+		milisecond = g_info.time_to_sleep;
+	accurate_sleep(milisecond);
+	// usleep(milisecond * 1000);
+}
+
+int print_doing(t_status status, t_philo *philo)
 {
 	if (status == EATING)
 	{
@@ -37,7 +59,7 @@ int print_doing(int status, t_philo *philo)
 	return (CONTINUE);
 }
 
-int doing(unsigned char status, t_philo *philo, unsigned long interval)
+int doing(t_status status, t_philo *philo, unsigned long interval)
 {
 	int ret;
 	pthread_mutex_lock(&g_info.print_mutex); // 뮤텍스 락을 여기다가 걸어줘야 내가 원하는 만큼만 나온다.
@@ -68,18 +90,51 @@ int doing(unsigned char status, t_philo *philo, unsigned long interval)
 	}
 }
 
-int eat(t_philo *philo, t_info *info)
+// 짝수번째 철학자의 경우
+void eat_even(t_philo *philo, t_info *info)
 {
-	if (g_info.anyone_dead == TRUE)
-		return (END);
 	pthread_mutex_lock(&info->forks[philo->left_fork_num]);
 	doing(LEFT_TAKEN, philo, get_relative_time());
 	pthread_mutex_lock(&info->forks[philo->right_fork_num]);
 	doing(RIGHT_TAKEN, philo, get_relative_time());
 	doing(EATING, philo, get_relative_time());
+	philo->when_eat = get_relative_time();
 	spend_time_of(EATING);
 	pthread_mutex_unlock(&info->forks[philo->left_fork_num]);
 	pthread_mutex_unlock(&info->forks[philo->right_fork_num]);
+}
+
+// 홀수번째 철학자의 경우
+void eat_odd(t_philo *philo, t_info *info)
+{
+	pthread_mutex_lock(&info->forks[philo->right_fork_num]);
+	doing(RIGHT_TAKEN, philo, get_relative_time());
+	pthread_mutex_lock(&info->forks[philo->left_fork_num]);
+	doing(LEFT_TAKEN, philo, get_relative_time());
+	doing(EATING, philo, get_relative_time());
+	philo->when_eat = get_relative_time();
+	spend_time_of(EATING);
+	pthread_mutex_unlock(&info->forks[philo->left_fork_num]);
+	pthread_mutex_unlock(&info->forks[philo->right_fork_num]);
+}
+
+int eat(t_philo *philo, t_info *info)
+{
+	if (g_info.anyone_dead == TRUE)
+		return (END);
+	if (philo->whoami % 2 == 0)
+		eat_even(philo, info);
+	if (philo->whoami % 2 == 1)
+		eat_odd(philo, info);
+	// pthread_mutex_lock(&info->forks[philo->left_fork_num]);
+	// doing(LEFT_TAKEN, philo, get_relative_time());
+	// pthread_mutex_lock(&info->forks[philo->right_fork_num]);
+	// doing(RIGHT_TAKEN, philo, get_relative_time());
+	// doing(EATING, philo, get_relative_time());
+	// philo->when_eat = get_relative_time();
+	// spend_time_of(EATING);
+	// pthread_mutex_unlock(&info->forks[philo->left_fork_num]);
+	// pthread_mutex_unlock(&info->forks[philo->right_fork_num]);
 	// usleep(10); // 여기다 넣어줘야, 철학자가 죽을 확률이 내려감.
 	return (CONTINUE);
 }
@@ -90,22 +145,25 @@ void *monitoring(t_philo *philo)
 
 	while (1)
 	{
-		// pthread_mutex_lock(&g_info.print_mutex);
-		// pthread_mutex_unlock(&g_info.print_mutex);
+		/*모니터링이라서 뮤텍스를 사용하면 안됨. 계속 판단해야돼*/
+
+		// 철학자 중 한명이라도 죽었을 때는 프로그램 종료
 		if (g_info.anyone_dead == TRUE)
 			break;
+		// 지금 모니터링하고 있는 철학자가 배부르게 먹었을 때는 쓰레드 종료
 		if (g_info.meal_full == philo->meal_num &&
 				g_info.meal_full != 0)
 			break;
+
+		// 철학자가 굶어 죽는 상황인지 계산
 		time = get_relative_time();
-		// printf("-----\n");
-		// printf("time-when_eat : %lu\n", time - philo->when_eat);
-		// printf("lifetime : %lu\n", g_info.time_to_die);
 		if (time - philo->when_eat > g_info.time_to_die)
 		{
 			doing(DEAD, philo, time); // 그래서 시간은 건네줘야함
+			g_info.anyone_dead = TRUE;
 			break;
 		}
+		accurate_sleep(10);
 	}
 }
 
@@ -113,8 +171,8 @@ void *monitoring(t_philo *philo)
 void *philo_do(t_philo *philo)
 {
 	/* monitoring()가 들어가야한다. */
-	// pthread_t thread;
-	// pthread_create(&thread, NULL, monitoring, philo); //쓰레드안에 쓰레드가 도는 건가 아니면, 프로세스에서 쓰레드의 갯수가 하나 추가된건가??
+	pthread_t thread;
+	pthread_create(&thread, NULL, monitoring, philo); //쓰레드안에 쓰레드가 도는 건가 아니면, 프로세스에서 쓰레드의 갯수가 하나 추가된건가??
 	// 모니터링에서는 자원들을 모니터링한 후에 공유자원의 값을 변경시켜줘야하지 않나?? 그러면 공유자원은 전역변수여야하는거 아니야??
 	// if (philo->whoami % 2 == 0)
 	// 	usleep(1);
@@ -128,6 +186,6 @@ void *philo_do(t_philo *philo)
 		if (doing(THINKING, philo, get_relative_time()) == END)
 			break;
 	}
-	// pthread_join(thread, NULL);
+	pthread_join(thread, NULL);
 	return (NULL);
 }
