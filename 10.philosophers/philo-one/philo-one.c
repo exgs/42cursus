@@ -15,7 +15,7 @@ int start(t_philo *philos, t_info *info)
 	mutex_init(info);
 	while (i < g_philo_num)
 	{
-		init_time = get_time() - g_info.basetime;
+		init_time = get_relative_time();
 		philos[i].when_eat = init_time;
 		pthread_create(&philos[i].thread, NULL, philo_do, (void *)&philos[i]);
 		// pthread_create(&philos[i].thread, NULL, test, (void *)i); // 테스트 코드

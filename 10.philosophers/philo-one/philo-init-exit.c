@@ -32,7 +32,7 @@ int set_info(t_info *info)
 {
 	info->forks = malloc(sizeof(pthread_mutex_t) * info->number_of_philosophers);
 	info->anyone_dead = FALSE;
-	info->basetime = get_time();
+	info->basetime = get_absolute_time();
 }
 
 int set_philos(t_philo *philos, t_info *info)
@@ -41,7 +41,7 @@ int set_philos(t_philo *philos, t_info *info)
 	{
 		unsigned long init_time;
 
-		init_time = get_time() - g_info.basetime;
+		init_time = get_relative_time();
 		philos[i].whoami = i;
 		philos[i].when_eat = init_time;
 		philos[i].left_fork_num = philos[i].whoami;
@@ -52,11 +52,24 @@ int set_philos(t_philo *philos, t_info *info)
 	}
 }
 
-unsigned long get_time()
+unsigned long get_absolute_time()
 {
 	struct timeval time;
+	unsigned long milisecond;
 	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+	milisecond = time.tv_sec * 1000 + time.tv_usec / 1000;
+	return (milisecond);
+}
+
+unsigned long get_relative_time()
+{
+	struct timeval time;
+	unsigned long milisecond;
+	unsigned long relative_milisecond;
+	gettimeofday(&time, NULL);
+	milisecond = time.tv_sec * 1000 + time.tv_usec / 1000;
+	relative_milisecond = milisecond - g_info.basetime;
+	return (relative_milisecond);
 }
 
 void print_info(t_info *info)
