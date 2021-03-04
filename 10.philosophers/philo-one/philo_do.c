@@ -97,6 +97,7 @@ void eat_even(t_philo *philo, t_info *info)
 	doing(LEFT_TAKEN, philo, get_relative_time());
 	pthread_mutex_lock(&info->forks[philo->right_fork_num]);
 	doing(RIGHT_TAKEN, philo, get_relative_time());
+	// printf("left: %d right: %d\n", philo->left_fork_num, philo->right_fork_num);
 	doing(EATING, philo, get_relative_time());
 	philo->when_eat = get_relative_time();
 	spend_time_of(EATING);
@@ -111,6 +112,7 @@ void eat_odd(t_philo *philo, t_info *info)
 	doing(RIGHT_TAKEN, philo, get_relative_time());
 	pthread_mutex_lock(&info->forks[philo->left_fork_num]);
 	doing(LEFT_TAKEN, philo, get_relative_time());
+	// printf("left: %d right: %d\n", philo->left_fork_num, philo->right_fork_num);
 	doing(EATING, philo, get_relative_time());
 	philo->when_eat = get_relative_time();
 	spend_time_of(EATING);

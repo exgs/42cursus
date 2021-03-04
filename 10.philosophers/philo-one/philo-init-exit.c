@@ -47,7 +47,7 @@ int set_philos(t_philo *philos, t_info *info)
 		philos[i].left_fork_num = philos[i].whoami;
 		philos[i].right_fork_num = philos[i].whoami - 1;
 		if (philos[i].right_fork_num == -1)
-			philos[i].right_fork_num = g_philo_num;
+			philos[i].right_fork_num = g_philo_num - 1;
 		philos[i].meal_num = 0;
 	}
 }
