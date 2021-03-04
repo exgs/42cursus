@@ -9,6 +9,33 @@ int g_programs_count = 1;
 t_program *g_programs = NULL;
 
 char ** g_envp;
+
+int		ft_cd(char *argv[])
+{
+	int	i;
+
+	i = 0;
+	while (argv[i])
+	{
+		// printf("%d, %s\n", i, argv[i]);
+		i++;
+	}
+	if (i != 2)
+	{
+		ft_putstr(2, "error: cd: bad arguments");
+		ft_putstr(2, "\n");
+		return (FALSE);
+	}
+	if (chdir(argv[1]) < 0)
+	{
+		ft_putstr(2, "error: cd: cannot change directory to ");
+		ft_putstr(2, argv[1]);
+		ft_putstr(2, "\n");
+		return (FALSE);
+	}
+	return (TRUE);
+}
+
 int main(int argc, char *argv[], char *envp[])
 {
 	if (argc == 1)
@@ -95,14 +122,20 @@ int main(int argc, char *argv[], char *envp[])
 	// }
 	int pipe_fds[2] = { 0, 0 };
 	int fd_in = 0;
-
+	int temp;
 	/* Execution. */
 	for (size_t i = 0; i < g_programs_count; ++i)
 	{
 		t_program *pr = &(g_programs[i]);
 
+		if (strcmp(pr->path, "cd") == 0)
+		{
+			if ((temp = ft_cd(pr->argv)) == FALSE)
+				return (FALSE);
+			if (temp == TRUE)
+				continue ;
+		}
 		pipe(pipe_fds);
-
 		if ((pr->pid = fork()) == -1)
 			return (FALSE);
 		else if (pr->pid == 0)
