@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 12:04:29 by ecaceres          #+#    #+#             */
-/*   Updated: 2021/03/02 20:59:31 by yunslee          ###   ########.fr       */
+/*   Updated: 2021/03/05 01:40:27 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,58 +123,58 @@ main(int argc, char **argv, char **envp)
 	}
 
 		/* Dump. */
+	// for (size_t i = 0; i < g_program_count; ++i)
+	// {
+	// 	t_program *pr = &(g_programs[i]);
+
+	// 	printf("\n\npath = %s\n", pr->path);
+	// 	printf("piped = %s\n", pr->piped ? "true" : "false");
+	// 	printf("semicoloned = %s\n", pr->semicoloned ? "true" : "false");
+	// 	for (size_t j = 0; pr->args[j]; ++j)
+	// 		printf("arg[%zu] = %s\n", j, pr->args[j]);
+	// }
+
+	int pipe_fds[2] = { 0, 0 };
+	int fd_in = 0;
+
+	/* Execution. */
 	for (size_t i = 0; i < g_program_count; ++i)
 	{
 		t_program *pr = &(g_programs[i]);
 
-		printf("\n\npath = %s\n", pr->path);
-		printf("piped = %s\n", pr->piped ? "true" : "false");
-		printf("semicoloned = %s\n", pr->semicoloned ? "true" : "false");
-		for (size_t j = 0; pr->args[j]; ++j)
-			printf("arg[%zu] = %s\n", j, pr->args[j]);
+		pipe(pipe_fds);
+
+		if ((pr->pid = fork()) == -1)
+			return (terminate_errno("fork"));
+		else if (pr->pid == 0)
+		{
+			dup2(fd_in, FD_IN);
+			if (pr->piped)
+				dup2(pipe_fds[1], FD_OUT);
+
+			close(pipe_fds[0]);
+
+			if (execve(pr->path, pr->args, g_envp) == -1)
+				return (terminate_errno("execve"));
+		}
+		else
+		{
+			if (pr->semicoloned || i == g_program_count - 1)
+			{
+//				ft_putstr(FD_ERR, strcat(strcat(strdup("waiting: "), pr->path), "\n"));
+				waitpid(pr->pid, NULL, 0);
+				close(pipe_fds[0]);
+				fd_in = 0;
+			}
+			else
+				fd_in = pipe_fds[0];
+			close(pipe_fds[1]);
+		}
 	}
 
-// 	int pipe_fds[2] = { 0, 0 };
-// 	int fd_in = 0;
-
-// 	/* Execution. */
-// 	for (size_t i = 0; i < g_program_count; ++i)
-// 	{
-// 		t_program *pr = &(g_programs[i]);
-
-// 		pipe(pipe_fds);
-
-// 		if ((pr->pid = fork()) == -1)
-// 			return (terminate_errno("fork"));
-// 		else if (pr->pid == 0)
-// 		{
-// 			dup2(fd_in, FD_IN);
-// 			if (pr->piped)
-// 				dup2(pipe_fds[1], FD_OUT);
-
-// 			close(pipe_fds[0]);
-
-// 			if (execve(pr->path, pr->args, g_envp) == -1)
-// 				return (terminate_errno("execve"));
-// 		}
-// 		else
-// 		{
-// 			if (pr->semicoloned || i == g_program_count - 1)
-// 			{
-// //				ft_putstr(FD_ERR, strcat(strcat(strdup("waiting: "), pr->path), "\n"));
-// 				waitpid(pr->pid, NULL, 0);
-// 				close(pipe_fds[0]);
-// 				fd_in = 0;
-// 			}
-// 			else
-// 				fd_in = pipe_fds[0];
-// 			close(pipe_fds[1]);
-// 		}
-// 	}
-
-// 	/* Just to be sure. */
-// 	for (size_t i = 0; i < g_program_count; ++i)
-// 		waitpid(g_programs[i].pid, NULL, 0);
+	/* Just to be sure. */
+	for (size_t i = 0; i < g_program_count; ++i)
+		waitpid(g_programs[i].pid, NULL, 0);
 
 	return (terminate(NULL, false));
 }

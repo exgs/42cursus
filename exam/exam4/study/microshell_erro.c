@@ -151,7 +151,7 @@ int main(int argc, char *argv[], char *envp[])
 	{
 		t_program *pr = &(g_programs[i]);
 
-		if (strcmp(pr->path, "cd") == 0)
+		if (pr->path != NULL && strcmp(pr->path, "cd") == 0)
 		{
 			if ((temp = ft_cd(pr->argv)) == FALSE)
 			{
