@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 12:06:31 by ecaceres          #+#    #+#             */
-/*   Updated: 2021/03/02 20:43:28 by yunslee          ###   ########.fr       */
+/*   Updated: 2021/03/05 22:54:46 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,3 @@ void
 ft_putstr(int fd, char *str)
 {
 	write(fd, str, ft_strlen(str));
-}

@@ -1,4 +1,4 @@
-#include "micro.h"
+#include "microshell.h"
 
 size_t ft_strlen(char *str)
 {
@@ -41,6 +41,8 @@ void free_all()
 	for (size_t i = 0; i < g_programs_count; i++)
 		free(g_programs[i].argv);	
 	free(g_programs);
+
+	// fd leak을 피하는 무적의 방법(?) 시도해보진 않음
 	// int i = 0;
 	// while (i)
 	// {

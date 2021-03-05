@@ -1,4 +1,6 @@
-#include <stdio.h>
+#ifndef MICROSHELL_H
+# define MICROSHELL_H
+#include <stdio.h> // 디버깅 할 때, 필요한 헤더파일
 #include <unistd.h> //open close fork pipe
 #include <sys/wait.h> //wait함수
 #include <stdlib.h> // malloc
@@ -40,3 +42,4 @@ void ft_putstr(int fd, char *str);
 void exit_fatal();
 void free_all();
 int ft_cd(char **argv);
+#endif

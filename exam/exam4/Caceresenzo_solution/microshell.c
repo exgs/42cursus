@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   resolution.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/08 12:04:29 by ecaceres          #+#    #+#             */
-/*   Updated: 2021/03/05 01:40:27 by yunslee          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "microshell.h"
 
 char **g_envp = NULL;
@@ -98,8 +86,6 @@ main(int argc, char **argv, char **envp)
 			size_t start = j++;
 
 			t_token *tok = NULL;
-			
-			// while (j < g_token_count)
 			while (j < g_token_count)
 			{
 				tok = &(g_tokens[j++]);
@@ -122,17 +108,17 @@ main(int argc, char **argv, char **envp)
 		}
 	}
 
-		/* Dump. */
-	// for (size_t i = 0; i < g_program_count; ++i)
-	// {
-	// 	t_program *pr = &(g_programs[i]);
-
-	// 	printf("\n\npath = %s\n", pr->path);
-	// 	printf("piped = %s\n", pr->piped ? "true" : "false");
-	// 	printf("semicoloned = %s\n", pr->semicoloned ? "true" : "false");
-	// 	for (size_t j = 0; pr->args[j]; ++j)
-	// 		printf("arg[%zu] = %s\n", j, pr->args[j]);
-	// }
+	//	/* Dump. */
+//	for (size_t i = 0; i < g_program_count; ++i)
+//	{
+//		t_program *pr = &(g_programs[i]);
+//
+//		printf("\n\npath = %s\n", pr->path);
+//		printf("piped = %s\n", pr->piped ? "true" : "false");
+//		printf("semicoloned = %s\n", pr->semicoloned ? "true" : "false");
+//		for (size_t j = 0; pr->args[j]; ++j)
+//			printf("arg[%zu] = %s\n", j, pr->args[j]);
+//	}
 
 	int pipe_fds[2] = { 0, 0 };
 	int fd_in = 0;
