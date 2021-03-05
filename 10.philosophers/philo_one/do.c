@@ -1,37 +1,6 @@
-#include "philo_two.h"
+#include "philo.h"
 
-void accurate_sleep(unsigned long milisecond)
-{
-	// int i = 0;
-	// while (i < 10)
-	// {
-	// 	usleep(milisecond * 100);
-	// 	i++;
-	// }
-	unsigned long	base;
-	unsigned long	cur;
 
-	base = get_absolute_time();
-	while (1)
-	{
-		cur = get_absolute_time();
-		if (milisecond < cur - base)
-			return ;
-		usleep(100);
-	}
-}
-
-int spend_time_of(t_status doing)
-{
-	unsigned long milisecond;
-
-	if (doing == EATING)
-		milisecond = g_info.time_to_eat;
-	if (doing == SLEEPING)
-		milisecond = g_info.time_to_sleep;
-	accurate_sleep(milisecond);
-	// usleep(milisecond * 1000);
-}
 
 int print_doing(t_status status, t_philo *philo)
 {
@@ -50,8 +19,6 @@ int print_doing(t_status status, t_philo *philo)
 		printf("has taken a right fork\n");
 	else if(status == LEFT_TAKEN)
 		printf("has taken a left fork\n");
-	else if(status == TAKEN)
-		printf("has taken a fork\n");
 	else if(status == DEAD)
 	{
 		printf("is dead\n");
@@ -64,47 +31,32 @@ int print_doing(t_status status, t_philo *philo)
 int doing(t_status status, t_philo *philo, unsigned long interval)
 {
 	int ret;
-	// printf("end?\n");
-	sem_wait(g_info.print_sema); // 뮤텍스 락을 여기다가 걸어줘야 내가 원하는 만큼만 나온다.
+	pthread_mutex_lock(&g_info.print_mutex); // 뮤텍스 락을 여기다가 걸어줘야 내가 원하는 만큼만 나온다.
 	// 그러지 않으면, if문에 대한 판단에 따른 선고 결과가 적용되기도 전에, if문에 더 들어옴
 	if (g_info.anyone_dead == TRUE)
 	{
-		sem_post(g_info.print_sema);
+		pthread_mutex_unlock(&g_info.print_mutex);
 		return (END);
 	}
 	if (g_info.meal_full != 0 &&
 			philo->meal_num >= g_info.meal_full)
 	{
 		printf("[%lu] %d번째 철학자 : 잘 먹고 빠지렵니다~\n", interval, philo->whoami + 1); // 이런 출력 부분도 꼬일 수 있으니 print_doing 않으로 넣는 것이 현명해보임.
-		sem_post(g_info.print_sema);
+		pthread_mutex_unlock(&g_info.print_mutex);
 		return (END);
 	}
 	printf("[%lu] %d번째 철학자 : ", interval, philo->whoami + 1); // 이런 출력 부분도 꼬일 수 있으니 print_doing 않으로 넣는 것이 현명해보임.
 	ret = print_doing(status, philo);
 	if (ret == CONTINUE)
 	{
-		sem_post(g_info.print_sema);
+		pthread_mutex_unlock(&g_info.print_mutex);
 		return (CONTINUE);
 	}
-	if (ret == END)
+	else if (ret == END)
 	{
-		sem_post(g_info.print_sema);
+		pthread_mutex_unlock(&g_info.print_mutex);
 		return (END);
 	}
-}
-
-int eat(t_philo *philo, t_info *info)
-{
-	if (g_info.anyone_dead == TRUE)
-		return (END);
-	sem_wait(info->forks);
-	doing(TAKEN, philo, get_relative_time());
-	doing(TAKEN, philo, get_relative_time());
-	doing(EATING, philo, get_relative_time());
-	philo->when_eat = get_relative_time();
-	spend_time_of(EATING);
-	sem_post(info->forks);
-	return (CONTINUE);
 }
 
 void *monitoring(t_philo *philo)
@@ -125,10 +77,11 @@ void *monitoring(t_philo *philo)
 
 		// 철학자가 굶어 죽는 상황인지 계산
 		time = get_relative_time();
+		// printf("philo[%d] time :%d philo->when_eat :%d\n", philo->whoami + 1 ,time, philo->when_eat);
 		if (time - philo->when_eat > g_info.time_to_die)
 		{
 			doing(DEAD, philo, time); // 그래서 시간은 건네줘야함
-			// g_info.anyone_dead = TRUE; print_doing() 에서 해줌.
+			g_info.anyone_dead = TRUE;
 			break;
 		}
 		accurate_sleep(10);
@@ -146,9 +99,7 @@ void *philo_do(t_philo *philo)
 	// 	usleep(1);
 	while (1)
 	{
-
-		// printf("--\n");
-		if (eat(philo, &g_info) == END)
+		if (eat(philo, &g_info) == END) // 내부에 doing가 내장되어있음
 			break;
 		if (doing(SLEEPING, philo, get_relative_time()) == END)
 			break ;

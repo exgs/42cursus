@@ -52,26 +52,7 @@ int set_philos(t_philo *philos, t_info *info)
 	}
 }
 
-unsigned long get_absolute_time()
-{
-	struct timeval time;
-	unsigned long milisecond;
-	gettimeofday(&time, NULL);
-	milisecond = time.tv_sec * 1000 + time.tv_usec / 1000;
-	return (milisecond);
-}
-
-unsigned long get_relative_time()
-{
-	struct timeval time;
-	unsigned long milisecond;
-	unsigned long relative_milisecond;
-	gettimeofday(&time, NULL);
-	milisecond = time.tv_sec * 1000 + time.tv_usec / 1000;
-	relative_milisecond = milisecond - g_info.basetime;
-	return (relative_milisecond);
-}
-
+//5개가 넘어가기때문에 삭제해야함
 void print_info(t_info *info)
 {
 	printf("%d\n", info->number_of_philosophers);

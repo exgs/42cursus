@@ -62,24 +62,34 @@ t_info g_info; // 전역변수로 처리한 이유는 pthread_create가 변수�
 // 게다가 쓰레드라서 프로세스처럼 독립적인 메모리가 아니다.
 
 
-// philo-one.c
+//main.c
+int start(t_philo *philos, t_info *info);
+int main(int argc, char *argv[]);
+void *test(void *param);
 
-
-// philo-init-exit.c
-unsigned long get_relative_time();
-unsigned long get_absolute_time();
-void print_info(t_info *info);
+//setting.c
 int set_info_argv(t_info *info, int argc, char *argv[]);
 void mutex_fork_init(t_info *info);
 void mutex_init(t_info *info);
+void print_info(t_info *info);
 int set_info(t_info *info);
 int set_philos(t_philo *philos, t_info *info);
 
-// philo_do.c
-void *monitoring(t_philo* philo);
-int spend_time_of(t_status doing);
-int doing(t_status status, t_philo *philo, unsigned long interval);
+//do_eat.c
 int eat(t_philo *philo, t_info *info);
+void eat_odd(t_philo *philo, t_info *info);
+void eat_even(t_philo *philo, t_info *info);
+
+//time.c
+unsigned long get_relative_time();
+unsigned long get_absolute_time();
+int spend_time_of(t_status doing);
+void accurate_sleep(unsigned long milisecond);
+
+//do.c
+void *monitoring(t_philo* philo);
+int doing(t_status status, t_philo *philo, unsigned long interval);
 void *philo_do(t_philo *temp);
+int print_doing(t_status status, t_philo *philo);
 #endif
 
