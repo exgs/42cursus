@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
 		printf("error\n");
 		return (-1);
 	}
+	print_info(&g_info);
 	set_info(&g_info);
 	g_philo_num = g_info.number_of_philosophers; // 나 편하자고 전역변수 설정
 	philos = malloc(sizeof(t_philo) * g_philo_num);

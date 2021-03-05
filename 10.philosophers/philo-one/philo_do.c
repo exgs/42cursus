@@ -10,7 +10,7 @@ void accurate_sleep(unsigned long milisecond)
 	// }
 	unsigned long	base;
 	unsigned long	cur;
-
+	// printf("milisecond %d\n", milisecond);
 	base = get_absolute_time();
 	while (1)
 	{
@@ -21,13 +21,13 @@ void accurate_sleep(unsigned long milisecond)
 	}
 }
 
-int spend_time_of(int doing)
+int spend_time_of(t_status doing)
 {
 	unsigned long milisecond;
 
-	if (EATING)
+	if (doing == EATING)
 		milisecond = g_info.time_to_eat;
-	if (SLEEPING)
+	if (doing == SLEEPING)
 		milisecond = g_info.time_to_sleep;
 	accurate_sleep(milisecond);
 	// usleep(milisecond * 1000);
@@ -72,18 +72,18 @@ int doing(t_status status, t_philo *philo, unsigned long interval)
 	if (g_info.meal_full != 0 &&
 			philo->meal_num >= g_info.meal_full)
 	{
-		printf("[%lu] %d번째 철학자 : 잘 먹고 빠지렵니다~\n", interval, philo->whoami + 1);
+		printf("[%lu] %d번째 철학자 : 잘 먹고 빠지렵니다~\n", interval, philo->whoami + 1); // 이런 출력 부분도 꼬일 수 있으니 print_doing 않으로 넣는 것이 현명해보임.
 		pthread_mutex_unlock(&g_info.print_mutex);
 		return (END);
 	}
-	printf("[%lu] %d번째 철학자 : ", interval, philo->whoami + 1);
+	printf("[%lu] %d번째 철학자 : ", interval, philo->whoami + 1); // 이런 출력 부분도 꼬일 수 있으니 print_doing 않으로 넣는 것이 현명해보임.
 	ret = print_doing(status, philo);
 	if (ret == CONTINUE)
 	{
 		pthread_mutex_unlock(&g_info.print_mutex);
 		return (CONTINUE);
 	}
-	if (ret == END)
+	else if (ret == END)
 	{
 		pthread_mutex_unlock(&g_info.print_mutex);
 		return (END);
@@ -98,8 +98,8 @@ void eat_even(t_philo *philo, t_info *info)
 	pthread_mutex_lock(&info->forks[philo->right_fork_num]);
 	doing(RIGHT_TAKEN, philo, get_relative_time());
 	// printf("left: %d right: %d\n", philo->left_fork_num, philo->right_fork_num);
-	doing(EATING, philo, get_relative_time());
 	philo->when_eat = get_relative_time();
+	doing(EATING, philo, get_relative_time());
 	spend_time_of(EATING);
 	pthread_mutex_unlock(&info->forks[philo->left_fork_num]);
 	pthread_mutex_unlock(&info->forks[philo->right_fork_num]);
@@ -113,8 +113,8 @@ void eat_odd(t_philo *philo, t_info *info)
 	pthread_mutex_lock(&info->forks[philo->left_fork_num]);
 	doing(LEFT_TAKEN, philo, get_relative_time());
 	// printf("left: %d right: %d\n", philo->left_fork_num, philo->right_fork_num);
-	doing(EATING, philo, get_relative_time());
 	philo->when_eat = get_relative_time();
+	doing(EATING, philo, get_relative_time());
 	spend_time_of(EATING);
 	pthread_mutex_unlock(&info->forks[philo->left_fork_num]);
 	pthread_mutex_unlock(&info->forks[philo->right_fork_num]);
@@ -159,6 +159,7 @@ void *monitoring(t_philo *philo)
 
 		// 철학자가 굶어 죽는 상황인지 계산
 		time = get_relative_time();
+		// printf("philo[%d] time :%d philo->when_eat :%d\n", philo->whoami + 1 ,time, philo->when_eat);
 		if (time - philo->when_eat > g_info.time_to_die)
 		{
 			doing(DEAD, philo, time); // 그래서 시간은 건네줘야함
