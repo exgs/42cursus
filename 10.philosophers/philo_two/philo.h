@@ -67,6 +67,7 @@ void mutex_init(t_info *info);
 void print_info(t_info *info);
 int set_info(t_info *info);
 int set_philos(t_philo *philos, t_info *info);
+int ft_atoi(const char *str);
 
 //do_eat.c
 int eat(t_philo *philo, t_info *info);
