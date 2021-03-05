@@ -33,6 +33,7 @@ int doing(t_status status, t_philo *philo, unsigned long interval)
 	int ret;
 	pthread_mutex_lock(&g_info.print_mutex); // 뮤텍스 락을 여기다가 걸어줘야 내가 원하는 만큼만 나온다.
 	// 그러지 않으면, if문에 대한 판단에 따른 선고 결과가 적용되기도 전에, if문에 더 들어옴
+	// interval = get_relative_time(); // mutex에 도착한 순서대로 하는게 맞는 걸까?? -> 출력으로만 보면 이게 더 맞는거 같아.
 	if (g_info.anyone_dead == TRUE)
 	{
 		pthread_mutex_unlock(&g_info.print_mutex);
@@ -40,12 +41,23 @@ int doing(t_status status, t_philo *philo, unsigned long interval)
 	}
 	if (g_info.meal_full != 0 && is_all_philos_full() == true)
 	{
-		printf("[%lu] %d번째 철학자 : 잘 먹었습니다~\n", interval, philo->whoami + 1); // 이런 출력 부분도 꼬일 수 있으니 print_doing 않으로 넣는 것이 현명해보임.
+		printf("[%lu] %d번째 철학자 : 잘 먹었습니다~\n", interval, philo->whoami + 1);
 		pthread_mutex_unlock(&g_info.print_mutex);
 		return (END);
 	}
-	printf("[%lu] %d번째 철학자 : ", interval, philo->whoami + 1); // 이런 출력 부분도 꼬일 수 있으니 print_doing 않으로 넣는 것이 현명해보임.
-	ret = print_doing(status, philo);
+	if (g_info.meal_full != 0 && g_info.meal_full <= philo->meal_num)
+	{
+		if (g_info.full_list[philo->whoami] != 1)
+			g_info.full_list[philo->whoami] = 1;
+	}
+	printf("[%lu] %d번째 철학자 : ", interval, philo->whoami + 1);
+	if (interval - philo->when_eat > g_info.time_to_die)
+	{
+		g_info.anyone_dead = TRUE;
+		print_doing(DEAD, philo); // 그래서 시간은 건네줘야함
+	}
+	else
+		ret = print_doing(status, philo);
 	if (ret == CONTINUE)
 	{
 		pthread_mutex_unlock(&g_info.print_mutex);
@@ -82,7 +94,7 @@ void *monitoring(void *param)
 	while (1)
 	{
 		/*모니터링이라서 뮤텍스를 사용하면 안됨. 계속 판단해야돼*/
-
+		//만약 한다면???
 		// 철학자 중 한명이라도 죽었을 때는 프로그램 종료
 		if (g_info.anyone_dead == TRUE)
 			break;
@@ -103,7 +115,7 @@ void *monitoring(void *param)
 			g_info.anyone_dead = TRUE;
 			break;
 		}
-		accurate_sleep(10);
+		// accurate_sleep(10);
 	}
 }
 
@@ -111,8 +123,9 @@ void *monitoring(void *param)
 void *philo_do(t_philo *philo)
 {
 	/* monitoring()가 들어가야한다. */
-	pthread_t thread;
-	pthread_create(&thread, NULL, monitoring, philo); //쓰레드안에 쓰레드가 도는 건가 아니면, 프로세스에서 쓰레드의 갯수가 하나 추가된건가??
+	//맹점1.
+	// pthread_t thread;
+	// pthread_create(&thread, NULL, monitoring, philo); //쓰레드안에 쓰레드가 도는 건가 아니면, 프로세스에서 쓰레드의 갯수가 하나 추가된건가??
 	// 모니터링에서는 자원들을 모니터링한 후에 공유자원의 값을 변경시켜줘야하지 않나?? 그러면 공유자원은 전역변수여야하는거 아니야??
 	// if (philo->whoami % 2 == 0)
 	// 	usleep(1);
@@ -126,6 +139,6 @@ void *philo_do(t_philo *philo)
 		if (doing(THINKING, philo, get_relative_time()) == END)
 			break;
 	}
-	pthread_join(thread, NULL);
+	// pthread_join(thread, NULL);
 	return (NULL);
 }

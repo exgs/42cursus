@@ -45,7 +45,7 @@ int doing(t_status status, t_philo *philo, unsigned long interval)
 		sem_post(g_info.print_sema);
 		return (END);
 	}
-	printf("[%lu] %d번째 철학자 : ", interval, philo->whoami + 1); // 이런 출력 부분도 꼬일 수 있으니 print_doing 않으로 넣는 것이 현명해보임.
+	printf("[%lu] %d번째 철학자 : ", interval, philo->whoami + 1);
 	ret = print_doing(status, philo);
 	if (ret == CONTINUE)
 	{

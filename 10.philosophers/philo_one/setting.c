@@ -5,7 +5,7 @@ int set_info_argv(t_info *info, int argc, char *argv[])
 {
 	if (!(argc == 5 || argc == 6))
 		return (-1);
-	if (2 > (info->number_of_philosophers = ft_atoi(argv[1])))
+	if (2 > (info->number_of_philosophers = ft_atoi(argv[1]))) // 철학자 수
 		return (-1);
 	if (0 >= (info->time_to_die = ft_atoi(argv[2])))// 철학자의 라이프타임
 		return (-1);

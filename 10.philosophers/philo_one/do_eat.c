@@ -35,9 +35,15 @@ int eat(t_philo *philo, t_info *info)
 	if (g_info.anyone_dead == TRUE)
 		return (END);
 	if (philo->whoami % 2 == 0)
+	{
+		accurate_sleep(1);
 		eat_even(philo, info);
+	}
 	if (philo->whoami % 2 == 1)
+	{
+
 		eat_odd(philo, info);
+	}
 	// pthread_mutex_lock(&info->forks[philo->left_fork_num]);
 	// doing(LEFT_TAKEN, philo, get_relative_time());
 	// pthread_mutex_lock(&info->forks[philo->right_fork_num]);
