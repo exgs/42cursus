@@ -39,10 +39,9 @@ int doing(t_status status, t_philo *philo, unsigned long interval)
 		sem_post(g_info.print_sema);
 		return (END);
 	}
-	if (g_info.meal_full != 0 &&
-			philo->meal_num >= g_info.meal_full)
+	if (g_info.meal_full != 0 && is_all_philos_full() == true)
 	{
-		printf("[%lu] %d번째 철학자 : 잘 먹고 빠지렵니다~\n", interval, philo->whoami + 1); // 이런 출력 부분도 꼬일 수 있으니 print_doing 않으로 넣는 것이 현명해보임.
+		printf("[%lu] %d번째 철학자 : 잘 먹고 빠지렵니다~\n", interval, philo->whoami + 1);
 		sem_post(g_info.print_sema);
 		return (END);
 	}
@@ -60,8 +59,25 @@ int doing(t_status status, t_philo *philo, unsigned long interval)
 	}
 }
 
-void *monitoring(t_philo *philo)
+bool is_all_philos_full()
 {
+	int i = 0;
+	int cnt = 0;
+	while (i < g_philo_num)
+	{
+		if (g_info.full_list[i] == 1)
+			cnt++;
+		i++;
+	}
+	if (cnt == g_philo_num)
+		return (true);
+	else
+		return (false);
+}
+
+void *monitoring(void *param)
+{
+	t_philo *philo = (t_philo *)param;
 	unsigned long time;
 
 	while (1)
@@ -72,10 +88,13 @@ void *monitoring(t_philo *philo)
 		if (g_info.anyone_dead == TRUE)
 			break;
 		// 지금 모니터링하고 있는 철학자가 배부르게 먹었을 때는 쓰레드 종료
-		if (g_info.meal_full == philo->meal_num &&
-				g_info.meal_full != 0)
-			break;
-
+		if (g_info.meal_full != 0 && is_all_philos_full() == true)
+			break ;
+		if (g_info.meal_full != 0 && g_info.meal_full <= philo->meal_num)
+		{
+			if (g_info.full_list[philo->whoami] != 1)
+				g_info.full_list[philo->whoami] = 1;
+		}
 		// 철학자가 굶어 죽는 상황인지 계산
 		time = get_relative_time();
 		if (time - philo->when_eat > g_info.time_to_die)

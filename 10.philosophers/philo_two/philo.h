@@ -36,6 +36,7 @@ typedef struct s_info
 	int meal_full;
 	unsigned long basetime;
 	bool anyone_dead;
+	char *full_list;
 	sem_t *forks;
 	sem_t *print_sema;
 }				t_info;
@@ -79,9 +80,10 @@ int spend_time_of(t_status doing);
 void accurate_sleep(unsigned long milisecond);
 
 //do.c
-void *monitoring(t_philo* philo);
+void *monitoring(void *param);
 int doing(t_status status, t_philo *philo, unsigned long interval);
 void *philo_do(t_philo *temp);
 int print_doing(t_status status, t_philo *philo);
+bool is_all_philos_full();
 #endif
 

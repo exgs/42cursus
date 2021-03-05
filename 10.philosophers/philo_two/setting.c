@@ -33,6 +33,9 @@ int set_info(t_info *info)
 {
 	info->anyone_dead = FALSE;
 	info->basetime = get_absolute_time();
+	if (info->meal_full != 0)
+		info->full_list = malloc(sizeof(char) * g_philo_num);
+	memset(info->full_list, 0, g_philo_num);
 }
 
 int set_philos(t_philo *philos, t_info *info)
