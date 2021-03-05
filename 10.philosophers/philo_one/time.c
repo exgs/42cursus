@@ -30,6 +30,7 @@ int spend_time_of(t_status doing)
 		milisecond = g_info.time_to_sleep;
 	accurate_sleep(milisecond);
 	// usleep(milisecond * 1000);
+	return (1);
 }
 
 void accurate_sleep(unsigned long milisecond)

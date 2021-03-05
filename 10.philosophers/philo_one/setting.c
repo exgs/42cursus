@@ -13,6 +13,7 @@ int set_info_argv(t_info *info, int argc, char *argv[])
 		info->meal_full = atoi(argv[5]); // 이정도 묵었으면 마이 묵었다.
 	else
 		info->meal_full = 0;
+	return (1);
 }
 
 void mutex_fork_init(t_info *info)
@@ -33,6 +34,10 @@ int set_info(t_info *info)
 	info->forks = malloc(sizeof(pthread_mutex_t) * info->number_of_philosophers);
 	info->anyone_dead = FALSE;
 	info->basetime = get_absolute_time();
+	if (info->meal_full != 0)
+		info->full_list = malloc(sizeof(char) * g_philo_num);
+	memset(info->full_list, 0, g_philo_num);
+	return (1);
 }
 
 int set_philos(t_philo *philos, t_info *info)
@@ -50,6 +55,7 @@ int set_philos(t_philo *philos, t_info *info)
 			philos[i].right_fork_num = g_philo_num - 1;
 		philos[i].meal_num = 0;
 	}
+	return (1);
 }
 
 //5개가 넘어가기때문에 삭제해야함

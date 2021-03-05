@@ -37,6 +37,7 @@ typedef struct s_info
 	bool anyone_dead;
 	pthread_mutex_t *forks;
 	pthread_mutex_t print_mutex;
+	char *full_list;
 }				t_info;
 
 
@@ -83,9 +84,10 @@ void accurate_sleep(unsigned long milisecond);
 
 //do.c
 int eat(t_philo *philo, t_info *info);
-void *monitoring(t_philo* philo);
+void *monitoring(void *param);
 int doing(t_status status, t_philo *philo, unsigned long interval);
 void *philo_do(t_philo *temp);
 int print_doing(t_status status, t_philo *philo);
+bool is_all_philos_full();
 #endif
 
