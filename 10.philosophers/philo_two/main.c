@@ -1,4 +1,4 @@
-#include "philo_two.h"
+#include "philo.h"
 
 void *test(void *param)	
 {

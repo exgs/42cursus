@@ -75,11 +75,6 @@ void print_info(t_info *info);
 int set_info(t_info *info);
 int set_philos(t_philo *philos, t_info *info);
 
-//do_eat.c
-int eat(t_philo *philo, t_info *info);
-void eat_odd(t_philo *philo, t_info *info);
-void eat_even(t_philo *philo, t_info *info);
-
 //time.c
 unsigned long get_relative_time();
 unsigned long get_absolute_time();
@@ -87,6 +82,7 @@ int spend_time_of(t_status doing);
 void accurate_sleep(unsigned long milisecond);
 
 //do.c
+int eat(t_philo *philo, t_info *info);
 void *monitoring(t_philo* philo);
 int doing(t_status status, t_philo *philo, unsigned long interval);
 void *philo_do(t_philo *temp);
