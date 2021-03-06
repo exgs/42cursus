@@ -36,12 +36,10 @@ int eat(t_philo *philo, t_info *info)
 		return (END);
 	if (philo->whoami % 2 == 0)
 	{
-		accurate_sleep(1);
 		eat_even(philo, info);
 	}
 	if (philo->whoami % 2 == 1)
 	{
-
 		eat_odd(philo, info);
 	}
 	// pthread_mutex_lock(&info->forks[philo->left_fork_num]);

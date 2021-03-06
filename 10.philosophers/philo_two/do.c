@@ -115,7 +115,7 @@ void *philo_do(t_philo *philo)
 	pthread_create(&thread, NULL, monitoring, philo); //쓰레드안에 쓰레드가 도는 건가 아니면, 프로세스에서 쓰레드의 갯수가 하나 추가된건가??
 	// 모니터링에서는 자원들을 모니터링한 후에 공유자원의 값을 변경시켜줘야하지 않나?? 그러면 공유자원은 전역변수여야하는거 아니야??
 	// if (philo->whoami % 2 == 0)
-	// 	usleep(1);
+		// accurate_sleep(1);
 	while (1)
 	{
 

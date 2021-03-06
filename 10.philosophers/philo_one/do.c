@@ -22,7 +22,7 @@ int print_doing(t_status status, t_philo *philo)
 	else if(status == DEAD)
 	{
 		printf("is dead\n");
-		g_info.anyone_dead = TRUE;
+		g_info.anyone_dead = TRUE; 
 		return (END);
 	}
 	return (CONTINUE);
@@ -45,19 +45,8 @@ int doing(t_status status, t_philo *philo, unsigned long interval)
 		pthread_mutex_unlock(&g_info.print_mutex);
 		return (END);
 	}
-	if (g_info.meal_full != 0 && g_info.meal_full <= philo->meal_num)
-	{
-		if (g_info.full_list[philo->whoami] != 1)
-			g_info.full_list[philo->whoami] = 1;
-	}
 	printf("[%lu] %d번째 철학자 : ", interval, philo->whoami + 1);
-	if (interval - philo->when_eat > g_info.time_to_die)
-	{
-		g_info.anyone_dead = TRUE;
-		print_doing(DEAD, philo); // 그래서 시간은 건네줘야함
-	}
-	else
-		ret = print_doing(status, philo);
+	ret = print_doing(status, philo);
 	if (ret == CONTINUE)
 	{
 		pthread_mutex_unlock(&g_info.print_mutex);
@@ -111,11 +100,12 @@ void *monitoring(void *param)
 		// printf("philo[%d] time :%d philo->when_eat :%d\n", philo->whoami + 1 ,time, philo->when_eat);
 		if (time - philo->when_eat > g_info.time_to_die)
 		{
+			printf("what?\n");
 			doing(DEAD, philo, time); // 그래서 시간은 건네줘야함
-			g_info.anyone_dead = TRUE;
+			// g_info.anyone_dead = TRUE; 없어도 print_doing에서 설정해준다.
 			break;
 		}
-		// accurate_sleep(10);
+		accurate_sleep(5); // 이거 설정안해주면, 모니터링 쓰레드를 써도 완전 이상한 시간에 밥먹고 그런다.
 	}
 }
 
@@ -124,11 +114,11 @@ void *philo_do(t_philo *philo)
 {
 	/* monitoring()가 들어가야한다. */
 	//맹점1.
-	// pthread_t thread;
-	// pthread_create(&thread, NULL, monitoring, philo); //쓰레드안에 쓰레드가 도는 건가 아니면, 프로세스에서 쓰레드의 갯수가 하나 추가된건가??
+	pthread_t thread;
+	pthread_create(&thread, NULL, monitoring, philo); //쓰레드안에 쓰레드가 도는 건가 아니면, 프로세스에서 쓰레드의 갯수가 하나 추가된건가??
 	// 모니터링에서는 자원들을 모니터링한 후에 공유자원의 값을 변경시켜줘야하지 않나?? 그러면 공유자원은 전역변수여야하는거 아니야??
-	// if (philo->whoami % 2 == 0)
-	// 	usleep(1);
+	if (philo->whoami % 2 == 1)
+		accurate_sleep(1);
 	while (1)
 	{
 		if (eat(philo, &g_info) == END) // 내부에 doing가 내장되어있음
@@ -139,6 +129,6 @@ void *philo_do(t_philo *philo)
 		if (doing(THINKING, philo, get_relative_time()) == END)
 			break;
 	}
-	// pthread_join(thread, NULL);
+	pthread_join(thread, NULL);
 	return (NULL);
 }
