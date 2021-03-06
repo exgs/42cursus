@@ -41,9 +41,16 @@ int main(int argc, char *argv[])
 	set_philos(philos, &g_info);
 	start(philos, &g_info);
 
+	free_all(philos);
 	sem_close(g_info.forks);
 	sem_unlink("forks");
 	sem_close(g_info.print_sema);
 	sem_unlink("print_sema");
 	return (0);
+}
+
+void free_all(t_philo *philos)
+{
+	free(philos);
+	free(g_info.full_list);
 }

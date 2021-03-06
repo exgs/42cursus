@@ -60,6 +60,7 @@ t_info g_info; // 전역변수로 처리한 이유는 pthread_create가 변수�
 int start(t_philo *philos, t_info *info);
 int main(int argc, char *argv[]);
 void *test(void *param);
+void free_all(t_philo *philos);
 
 //setting.c
 int set_info_argv(t_info *info, int argc, char *argv[]);

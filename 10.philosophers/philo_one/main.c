@@ -40,5 +40,13 @@ int main(int argc, char *argv[])
 	philos = malloc(sizeof(t_philo) * g_philo_num);
 	set_philos(philos, &g_info);
 	start(philos, &g_info);
+	free_all(philos);
 	return (0);
+}
+
+void free_all(t_philo *philos)
+{
+	free(philos);
+	free(g_info.forks);
+	free(g_info.full_list);
 }
