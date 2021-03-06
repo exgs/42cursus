@@ -37,6 +37,8 @@ int doing(t_status status, t_philo *philo, unsigned long interval)
 	if (g_info.anyone_dead == TRUE)
 	{
 		pthread_mutex_unlock(&g_info.print_mutex);
+		// free_all() // 간단하게는 이렇게 해도 됨
+		// exit(0); // 간단하게는 이렇게 해도 됨
 		return (END);
 	}
 	if (g_info.meal_full != 0 && is_all_philos_full() == true)
