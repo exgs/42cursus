@@ -85,7 +85,7 @@ int print_doing(t_status status, t_philo *philo);
 bool is_all_philos_full();
 
 //do_eat.c
-void eat_one_direction(t_philo *philo, t_info *info);
+int eat_one_direction(t_philo *philo, t_info *info);
 int eat(t_philo *philo, t_info *info);
 
 #endif

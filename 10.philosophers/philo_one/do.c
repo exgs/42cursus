@@ -43,6 +43,7 @@ int doing(t_status status, t_philo *philo, unsigned long interval)
 	{
 		printf("[%lu] %d번째 철학자 : 잘 먹었습니다~\n", interval, philo->whoami + 1);
 		pthread_mutex_unlock(&g_info.print_mutex);
+		// exit(0); 다른 쓰레드에 있는 잘 먹었습니다 가 출력되야할 것이 출력이 안됨
 		return (END);
 	}
 	printf("[%lu] %d번째 철학자 : ", interval, philo->whoami + 1);
@@ -100,7 +101,7 @@ void *monitoring(void *param)
 		// printf("philo[%d] time :%d philo->when_eat :%d\n", philo->whoami + 1 ,time, philo->when_eat);
 		if (time - philo->when_eat > g_info.time_to_die)
 		{
-			printf("what?\n");
+			// printf("what?\n");
 			doing(DEAD, philo, time); // 그래서 시간은 건네줘야함
 			// g_info.anyone_dead = TRUE; 없어도 print_doing에서 설정해준다.
 			break;
