@@ -66,9 +66,6 @@ int set_info(t_info *info);
 int set_philos(t_philo *philos, t_info *info);
 void print_info(t_info *info);
 
-//ft_atoi.c
-int			ft_atoi(const char *str);
-
 //time.c
 unsigned long get_relative_time();
 unsigned long get_absolute_time();
@@ -83,6 +80,9 @@ void *monitoring(void *param);
 void *philo_do(void *param);
 int eat(t_philo *philo, t_info *info);
 void sem_post_all(t_info *info);
+
+//ft_atoi.c
+int	ft_atoi(const char *str);
 
 //clear.c
 void clear_all(t_philo *philos);

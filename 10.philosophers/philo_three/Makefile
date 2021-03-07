@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 NAME = philo_three
-SRCS = do.c main.c setting.c time.c main.c \
+SRCS = do.c main.c setting.c time.c clear.c\
 		ft_atoi.c ft_itoa.c
 OBJS = $(SRCS:%.c=%.o)
 

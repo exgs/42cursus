@@ -57,24 +57,21 @@ t_info g_info; // 전역변수로 처리한 이유는 pthread_create가 변수�
 // 게다가 쓰레드라서 프로세스처럼 독립적인 메모리가 아니다.
 
 //main.c
-int start(t_philo *philos, t_info *info);
 int main(int argc, char *argv[]);
-void *test(void *param);
-void free_all(t_philo *philos);
-void kill_all(t_philo *philos);
+int start(t_philo *philos, t_info *info);
 void *process_monitoring(t_philo *philos);
+void full_list_close_all();
+void *check_full_people(void *param);
 
 //setting.c
 int set_info_argv(t_info *info, int argc, char *argv[]);
 void semaphore_fork_init(t_info *info);
 void semaphore_chosen_people_init(t_info *info);
 void semaphore_init(t_info *info);
-int set_info(t_info *info);
 int set_philos(t_philo *philos, t_info *info);
 void print_info(t_info *info);
+void kill_all(t_philo *philos);
 
-//ft_atoi.c
-int		ft_atoi(const char *str);
 
 //time.c
 unsigned long get_relative_time();
@@ -85,12 +82,23 @@ void accurate_sleep(unsigned long milisecond);
 //do.c
 int print_doing(t_status status, t_philo *philo);
 int doing(t_status status, t_philo *philo, unsigned long interval);
-bool is_all_philos_full();
 void *thread_monitoring(void *param);
 void *philo_do(void *param);
 int eat(t_philo *philo, t_info *info);
+void sem_post_all(t_info *info);
+
+//ft_atoi.c
+int		ft_atoi(const char *str);
 
 //ft_itoa.c
 int		ft_itoa_len(int v);
 char	*ft_itoa(int n);
+
+//clear.c
+void	clear_all(t_philo *philos);
+void	free_all(t_philo *philos);
+void	sem_clear_all();
+void	sem_close_all();
+void	sem_unlink_all();
+
 #endif

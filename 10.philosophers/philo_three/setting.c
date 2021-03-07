@@ -23,82 +23,17 @@ int set_info_argv(t_info *info, int argc, char *argv[])
 	return (1);
 }
 
-void semaphore_fork_init(t_info *info)
-{
-	if (SEM_FAILED == (info->forks = 
-				sem_open("/forks", O_CREAT | O_EXCL, 0755, g_philo_num / 2)))
-	{
-	}
-	sem_unlink("/forks");
-	perror("semaphore_fork_init : ");
-	if (SEM_FAILED == (info->forks = 
-				 sem_open("/forks", O_CREAT | O_EXCL, 0755, g_philo_num / 2)))
-
-	{
-		sem_unlink("/forks");
-		printf("1\n");
-		// exit(1);
-	}
-}
-
-void semaphore_chosen_people_init(t_info *info)
-{
-	if (SEM_FAILED == (info->chosen_people = 
-				sem_open("/chosen_people", O_CREAT | O_EXCL, 0755, g_philo_num/2)))
-	{
-		perror("chosen people : ");
-	}
-	sem_unlink("/chosen_people");
-	if (SEM_FAILED == (info->chosen_people = 
-				sem_open("/chosen_people", O_CREAT | O_EXCL, 0755, g_philo_num/2)))
-	{
-		sem_unlink("/chosen_people");
-		sem_unlink("/forks");
-		printf("1\n");
-	}
-}
-
-void semaphore_print_sema_init(t_info *info)
-{
-	if (SEM_FAILED == (info->print_sema =
-				sem_open("/print_sema", O_CREAT | O_EXCL, 0755, 1)))
-	{
-		perror("print_sema : ");
-	}
-	sem_unlink("/print_sema");
-	if (SEM_FAILED == (info->print_sema = 
-				sem_open("/print_sema", O_CREAT | O_EXCL , 0755, 1)))
-	{
-		sem_unlink("/chosen_people");
-		sem_unlink("/forks");
-		sem_unlink("/print_sema");
-		printf("1\n");
-	}
-}
-
 void semaphore_init(t_info *info)
 {
-	sem_unlink("/chosen_people");
-	sem_unlink("/forks");
-	sem_unlink("/print_sema");
-	sem_unlink("/anyone_dead");
-	sem_unlink("/full_list");
-	char *temp;
-	int i = 0;
-	while (i < g_philo_num)
-	{
-		temp = ft_itoa(i);
-		sem_unlink(temp);
-		free(temp);
-		i++;
-	}
+	sem_unlink_all();
 	info->forks = sem_open("/forks", O_CREAT | O_EXCL , 0755, g_philo_num);
 	info->chosen_people = sem_open("/chosen_people", O_CREAT | O_EXCL , 0755, g_philo_num / 2);
 	info->print_sema = sem_open("/print_sema", O_CREAT | O_EXCL , 0755, 1);
 	info->anyone_dead = sem_open("/anyone_dead", O_CREAT | O_EXCL , 0755, 1);
 	info->full_list = malloc(sizeof(sem_t *) * g_philo_num);
-	i = 0;
-	
+
+	char *temp;
+	int i = 0;
 	while (i < g_philo_num)
 	{
 		temp = ft_itoa(i);
@@ -106,15 +41,6 @@ void semaphore_init(t_info *info)
 		free(temp);
 		i++;
 	}
-
-	// semaphore_fork_init(info);
-	// semaphore_chosen_people_init(info);
-	// semaphore_print_sema_init(info);
-}
-
-int set_info(t_info *info)
-{
-	info->basetime = get_absolute_time();
 }
 
 int set_philos(t_philo *philos, t_info *info)
@@ -138,4 +64,11 @@ void print_info(t_info *info)
 	printf("%d\n", info->time_to_eat);
 	printf("%d\n", info->time_to_sleep);
 	printf("%d\n", info->meal_full);
+}
+
+void kill_all(t_philo *philos)
+{
+	int i = 0;
+	while (i < g_philo_num)
+		kill(philos[i++].pid, SIGKILL);
 }

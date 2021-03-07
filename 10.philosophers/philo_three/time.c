@@ -2,12 +2,6 @@
 
 void accurate_sleep(unsigned long milisecond)
 {
-	// int i = 0;
-	// while (i < 10)
-	// {
-	// 	usleep(milisecond * 100);
-	// 	i++;
-	// }
 	unsigned long	base;
 	unsigned long	cur;
 
@@ -30,7 +24,6 @@ int spend_time_of(t_status doing)
 	if (doing == SLEEPING)
 		milisecond = g_info.time_to_sleep;
 	accurate_sleep(milisecond);
-	// usleep(milisecond * 1000);
 }
 
 unsigned long get_absolute_time()
