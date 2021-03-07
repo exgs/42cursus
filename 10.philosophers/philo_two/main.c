@@ -45,12 +45,12 @@ int main(int argc, char *argv[])
 	start(philos, &g_info);
 
 	free_all(philos);
-	sem_close(g_info.forks);
-	sem_unlink("/forks");
-	sem_close(g_info.print_sema);
-	sem_unlink("/print_sema");
-	sem_close(g_info.chosen_people);
-	sem_unlink("/chosen_people");
+	// sem_close(g_info.forks);
+	// sem_unlink("/forks");
+	// sem_close(g_info.print_sema);
+	// sem_unlink("/print_sema");
+	// sem_close(g_info.chosen_people);
+	// sem_unlink("/chosen_people");
 	return (0);
 }
 

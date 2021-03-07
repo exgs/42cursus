@@ -41,7 +41,7 @@ int doing(t_status status, t_philo *philo, unsigned long interval)
 	}
 	if (g_info.meal_full != 0 && is_all_philos_full() == true)
 	{
-		printf("[%lu] %d번째 철학자 : 잘 먹고 빠지렵니다~\n", interval, philo->whoami + 1);
+		printf("[%lu] %d번째 철학자 : 잘 먹었습니다~\n", interval, philo->whoami + 1);
 		sem_post(g_info.print_sema);
 		return (END);
 	}
@@ -99,7 +99,7 @@ void *monitoring(void *param)
 			// g_info.anyone_dead = TRUE; print_doing() 에서 해줌.
 			break;
 		}
-		accurate_sleep(10);
+		accurate_sleep(5);
 	}
 }
 
