@@ -8,6 +8,7 @@
 # include <semaphore.h>
 # include <stdio.h>
 # include <stdbool.h>
+# include <signal.h>
 
 
 # define FALSE 0
@@ -35,8 +36,10 @@ typedef struct s_info
 	int time_to_sleep;
 	int meal_full;
 	unsigned long basetime;
-	bool anyone_dead;
-	char *full_list;
+	
+	sem_t *anyone_dead;
+	sem_t **full_list;
+
 	sem_t *forks;
 	sem_t *chosen_people;
 	sem_t *print_sema;
@@ -49,7 +52,7 @@ typedef struct s_philo
 	int whoami;
 	unsigned long when_eat;
 	int meal_num;
-	// unsigned char status;
+	pid_t pid;
 }	t_philo;
 
 int g_philo_num;
@@ -61,6 +64,8 @@ int start(t_philo *philos, t_info *info);
 int main(int argc, char *argv[]);
 void *test(void *param);
 void free_all(t_philo *philos);
+void kill_all(t_philo *philos);
+void *process_monitoring(t_philo *philos);
 
 //setting.c
 int set_info_argv(t_info *info, int argc, char *argv[]);
@@ -82,9 +87,13 @@ void accurate_sleep(unsigned long milisecond);
 int print_doing(t_status status, t_philo *philo);
 int doing(t_status status, t_philo *philo, unsigned long interval);
 bool is_all_philos_full();
-void *monitoring(void *param);
+void *thread_monitoring(void *param);
 void *philo_do(void *param);
 int eat(t_philo *philo, t_info *info);
+
+//ft_itoa.c
+int		ft_itoa_len(int v);
+char	*ft_itoa(int n);
 
 #endif
 

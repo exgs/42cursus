@@ -6,22 +6,82 @@ void *test(void *param)
 	return (void *)((long)param + 100);
 }
 
-int start(t_philo *philos, t_info *info)
+void kill_all(t_philo *philos)
 {
-	int i;
+	int i = 0;
+	while (i < g_philo_num)
+		kill(philos[i++].pid, SIGKILL);
+}
 
-	i = 0;
+
+void *check_full_people(void *param)
+{
+	t_philo *philos = (t_philo *)param;
+	int i = 0;
+	//초기화, 일딴 문 닫고 시작함
 	while (i < g_philo_num)
 	{
-		philos[i].when_eat = get_relative_time();
-		pthread_create(&philos[i].thread, NULL, philo_do, (void *)&philos[i]);
-		// pthread_create(&philos[i].thread, NULL, test, (void *)i); // 테스트 코드
-		// pthread_join(philos[i].thread, NULL); // 여기다가 넣어주면, 순서대로 철학자 한명씩 먹고자고생각하는게 됨. 나머지는 멍때리는 중
+		sem_wait(g_info.full_list[i]);
 		i++;
 	}
 	i = 0;
 	while (i < g_philo_num)
-		pthread_join(philos[i++].thread, NULL);
+	// 0번 부터 탐색을 시작한다는 점이 결국은 0번이 다 먹기를 기다려야 다음 사람을 탐색한다는 것이 조금 걸리긴 함.
+	{
+		sem_wait(g_info.full_list[i]);
+		sem_post(g_info.full_list[i]);
+		i++;
+	}
+	kill_all(philos);
+	exit(0);
+}
+
+
+void *process_monitoring(t_philo *philos)
+{
+	pthread_t full_people;
+	
+	pthread_create(&full_people, NULL, check_full_people, philos);
+	int i;
+	int status = 0;
+	while (1)
+	{
+		i = 0;
+		while (i < g_philo_num)
+		{
+			// sem_wait(g_info.anyone_dead);
+			if (philos[i].pid == waitpid(philos[i].pid, &status, WNOHANG))
+			{
+				kill_all(philos); // 자식프로세스 다 죽임
+				// sem_post(g_info.anyone_dead);
+				exit(0); // 부모프로세스 스스로도 종료
+			}
+			// sem_post(g_info.anyone_dead);
+			i++;
+		}
+		accurate_sleep(5);
+	}
+	// 무한루프 도느라 여기까지 오지도 못함.
+	pthread_join(full_people, NULL);
+}
+
+int start(t_philo *philos, t_info *info)
+{
+	int		i;
+	int		status;
+	pid_t	pid;
+	i = 0;
+	while (i < g_philo_num)
+	{
+		if ((philos[i].pid = fork()) == 0)
+			break;
+		i++;
+	}
+	if (i != g_philo_num)
+		philo_do(&philos[i]);
+	else
+		process_monitoring(philos);
+	return (CONTINUE);
 }
 
 int main(int argc, char *argv[])
@@ -45,12 +105,12 @@ int main(int argc, char *argv[])
 	start(philos, &g_info);
 
 	free_all(philos);
-	// sem_close(g_info.forks);
-	// sem_unlink("/forks");
-	// sem_close(g_info.print_sema);
-	// sem_unlink("/print_sema");
-	// sem_close(g_info.chosen_people);
-	// sem_unlink("/chosen_people");
+	sem_close(g_info.forks);
+	sem_unlink("/forks");
+	sem_close(g_info.print_sema);
+	sem_unlink("/print_sema");
+	sem_close(g_info.chosen_people);
+	sem_unlink("/chosen_people");
 	return (0);
 }
 

@@ -22,7 +22,8 @@ int print_doing(t_status status, t_philo *philo)
 	else if(status == DEAD)
 	{
 		printf("is dead\n");
-		g_info.anyone_dead = TRUE;
+		// g_info.anyone_dead = TRUE;
+		exit(0);
 		return (END);
 	}
 	return (CONTINUE);
@@ -34,20 +35,18 @@ int doing(t_status status, t_philo *philo, unsigned long interval)
 	// printf("end?\n");
 	sem_wait(g_info.print_sema); // 뮤텍스 락을 여기다가 걸어줘야 내가 원하는 만큼만 나온다.
 	// 그러지 않으면, if문에 대한 판단에 따른 선고 결과가 적용되기도 전에, if문에 더 들어옴
-	if (g_info.anyone_dead == TRUE)
-	{
-		sem_post(g_info.print_sema);
-		return (END);
-	}
-	if (g_info.meal_full != 0 && is_all_philos_full() == true)
-	{
-		printf("[%lu] %d번째 철학자 : 잘 먹었습니다~\n", interval, philo->whoami + 1);
-		sem_post(g_info.print_sema);
-		return (END);
-	}
+	// sem_wait(g_info.anyone_dead);
+	// if (g_info.anyone_dead == TRUE)
+	// {
+		// sem_post(g_info.print_sema);
+		// sem_post(g_info.anyone_dead);
+	// 	exit(0);
+	// 	return (END);
+	// }
 	printf("[%lu] %d번째 철학자 : ", interval, philo->whoami + 1);
 	ret = print_doing(status, philo);
 	sem_post(g_info.print_sema);
+	// sem_post(g_info.anyone_dead);
 	if (ret == CONTINUE)
 		return (CONTINUE);
 	if (ret == END)
@@ -70,11 +69,10 @@ bool is_all_philos_full()
 		return (false);
 }
 
-void *monitoring(void *param)
+void *thread_monitoring(void *param)
 {
 	t_philo *philo = (t_philo *)param;
 	unsigned long time;
-
 	while (1)
 	{
 		/*모니터링이라서 뮤텍스를 사용하면 안됨. 계속 판단해야돼*/
@@ -83,12 +81,11 @@ void *monitoring(void *param)
 		if (g_info.anyone_dead == TRUE)
 			break;
 		// 지금 모니터링하고 있는 철학자가 배부르게 먹었을 때는 쓰레드 종료
-		if (g_info.meal_full != 0 && is_all_philos_full() == true)
-			break ;
+		// if (g_info.meal_full != 0 && is_all_philos_full() == true)
+		// 	break ;
 		if (g_info.meal_full != 0 && g_info.meal_full <= philo->meal_num)
 		{
-			if (g_info.full_list[philo->whoami] != 1)
-				g_info.full_list[philo->whoami] = 1;
+			sem_post(g_info.full_list[philo->whoami]);
 		}
 		// 철학자가 굶어 죽는 상황인지 계산
 		time = get_relative_time();
@@ -96,6 +93,7 @@ void *monitoring(void *param)
 		{
 			// printf("%d\n", time);
 			doing(DEAD, philo, time); // 그래서 시간은 건네줘야함
+			// exit(0);
 			// g_info.anyone_dead = TRUE; print_doing() 에서 해줌.
 			break;
 		}
@@ -107,10 +105,10 @@ void *monitoring(void *param)
 void *philo_do(void *param)
 {
 	t_philo *philo = (t_philo *)param;
-	/* monitoring()가 들어가야한다. */
+	/* thread_monitoring()가 들어가야한다. */
 	pthread_t thread;
-	pthread_create(&thread, NULL, monitoring, philo); //쓰레드안에 쓰레드가 도는 건가 아니면, 프로세스에서 쓰레드의 갯수가 하나 추가된건가??
-	// 모니터링에서는 자원들을 모니터링한 후에 공유자원의 값을 변경시켜줘야하지 않나?? 그러면 공유자원은 전역변수여야하는거 아니야??
+	pthread_create(&thread, NULL, thread_monitoring, philo);
+	// 공유자원이 프로세스끼리는 공유하기힘듦. 여기서는 세마포어를 이용하는 편법을 이용하자
 	if (philo->whoami % 2 == 0)
 		accurate_sleep(1);
 	while (1)
