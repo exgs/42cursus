@@ -25,16 +25,39 @@ int set_info_argv(t_info *info, int argc, char *argv[])
 
 void semaphore_fork_init(t_info *info)
 {
-	if (0 == (info->forks = 
-				sem_open("forks", O_CREAT, 0755, g_philo_num / 2)))
-		exit(1);
+	if (SEM_FAILED == (info->forks = 
+				sem_open("/forks", O_CREAT | O_EXCL, 0755, g_philo_num/2)))
+	{
+		perror("semaphore_fork_init : ");
+		sem_unlink("/forks");
+		info->forks = sem_open("/forks", O_CREAT | O_EXCL, 0755, g_philo_num/2);
+		// printf("1\n");
+		// exit(1);
+	}
+}
+
+void semaphore_chosen_people_init(t_info *info)
+{
+	if (SEM_FAILED == (info->chosen_people = 
+				sem_open("/chosen_people", O_CREAT | O_EXCL, 0755, g_philo_num/2)))
+	{
+		perror("chosen people : ");
+
+		sem_unlink("/chosen_people");
+		info->chosen_people = sem_open("/chosen_people", O_CREAT | O_EXCL, 0755, g_philo_num/2);
+	}
 }
 
 void semaphore_init(t_info *info)
 {
 	semaphore_fork_init(info);
-	if (0 == (info->print_sema = sem_open("print_sema", O_CREAT, 0755, 1)))
-		exit(1);
+	semaphore_chosen_people_init(info);
+	if (SEM_FAILED == (info->print_sema = sem_open("/print_sema", O_CREAT | O_EXCL, 0755, 1)))
+	{
+		perror("semaphore_init : ");
+		sem_unlink("/print_sema");
+		info->print_sema = sem_open("/print_sema", O_CREAT | O_EXCL, 0755, 1);
+	}
 }
 
 int set_info(t_info *info)

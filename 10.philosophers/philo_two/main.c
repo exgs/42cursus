@@ -9,9 +9,8 @@ void *test(void *param)
 int start(t_philo *philos, t_info *info)
 {
 	int i;
-	
+
 	i = 0;
-	semaphore_init(info);
 	while (i < g_philo_num)
 	{
 		philos[i].when_eat = get_relative_time();
@@ -28,24 +27,30 @@ int start(t_philo *philos, t_info *info)
 int main(int argc, char *argv[])
 {
 	t_philo *philos;
-	sem_unlink("forks");
-	sem_unlink("print_sema");
+
+	sem_unlink("/forks");
+	sem_unlink("/print_sema");
+	sem_unlink("/chosen_people");
 	if (-1 == set_info_argv(&g_info, argc, argv))
 	{
 		printf("error\n");
 		return (-1);
 	}
 	set_info(&g_info);
+	print_info(&g_info);
 	g_philo_num = g_info.number_of_philosophers; // 나 편하자고 전역변수 설정
 	philos = malloc(sizeof(t_philo) * g_philo_num);
 	set_philos(philos, &g_info);
+	semaphore_init(&g_info);
 	start(philos, &g_info);
 
 	free_all(philos);
 	sem_close(g_info.forks);
-	sem_unlink("forks");
+	sem_unlink("/forks");
 	sem_close(g_info.print_sema);
-	sem_unlink("print_sema");
+	sem_unlink("/print_sema");
+	sem_close(g_info.chosen_people);
+	sem_unlink("/chosen_people");
 	return (0);
 }
 

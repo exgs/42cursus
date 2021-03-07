@@ -47,16 +47,11 @@ int doing(t_status status, t_philo *philo, unsigned long interval)
 	}
 	printf("[%lu] %d번째 철학자 : ", interval, philo->whoami + 1);
 	ret = print_doing(status, philo);
+	sem_post(g_info.print_sema);
 	if (ret == CONTINUE)
-	{
-		sem_post(g_info.print_sema);
 		return (CONTINUE);
-	}
 	if (ret == END)
-	{
-		sem_post(g_info.print_sema);
 		return (END);
-	}
 }
 
 bool is_all_philos_full()
@@ -99,6 +94,7 @@ void *monitoring(void *param)
 		time = get_relative_time();
 		if (time - philo->when_eat > g_info.time_to_die)
 		{
+			// printf("%d\n", time);
 			doing(DEAD, philo, time); // 그래서 시간은 건네줘야함
 			// g_info.anyone_dead = TRUE; print_doing() 에서 해줌.
 			break;
@@ -108,18 +104,17 @@ void *monitoring(void *param)
 }
 
 //한명의 철학자의 행동을 정의한 함수
-void *philo_do(t_philo *philo)
+void *philo_do(void *param)
 {
+	t_philo *philo = (t_philo *)param;
 	/* monitoring()가 들어가야한다. */
 	pthread_t thread;
 	pthread_create(&thread, NULL, monitoring, philo); //쓰레드안에 쓰레드가 도는 건가 아니면, 프로세스에서 쓰레드의 갯수가 하나 추가된건가??
 	// 모니터링에서는 자원들을 모니터링한 후에 공유자원의 값을 변경시켜줘야하지 않나?? 그러면 공유자원은 전역변수여야하는거 아니야??
-	// if (philo->whoami % 2 == 0)
-		// accurate_sleep(1);
+	if (philo->whoami % 2 == 0)
+		accurate_sleep(1);
 	while (1)
 	{
-
-		// printf("--\n");
 		if (eat(philo, &g_info) == END)
 			break;
 		if (doing(SLEEPING, philo, get_relative_time()) == END)
@@ -136,12 +131,33 @@ int eat(t_philo *philo, t_info *info)
 {
 	if (g_info.anyone_dead == TRUE)
 		return (END);
+	sem_wait(info->chosen_people);
 	sem_wait(info->forks);
-	doing(TAKEN, philo, get_relative_time());
-	doing(TAKEN, philo, get_relative_time());
-	doing(EATING, philo, get_relative_time());
+	if (END == doing(TAKEN, philo, get_relative_time()))
+	{
+		sem_post(info->forks);
+		sem_post(info->chosen_people);
+		return (END);
+	}
+	sem_wait(info->forks);
+	if (END == doing(TAKEN, philo, get_relative_time()))
+	{
+		sem_post(info->forks);
+		sem_post(info->forks);
+		sem_post(info->chosen_people);
+		return (END);
+	}
+	if (END == doing(EATING, philo, get_relative_time()))
+	{
+		sem_post(info->forks);
+		sem_post(info->forks);
+		sem_post(info->chosen_people);
+		return (END);
+	}
 	philo->when_eat = get_relative_time();
 	spend_time_of(EATING);
 	sem_post(info->forks);
+	sem_post(info->forks);
+	sem_post(info->chosen_people);
 	return (CONTINUE);
 }
