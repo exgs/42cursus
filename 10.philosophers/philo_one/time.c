@@ -35,6 +35,7 @@ int spend_time_of(t_status doing)
 
 void accurate_sleep(unsigned long milisecond)
 {
+	// 이 함수가 아래 함수와 같은 방식으로 오차를 줄인다고 잘못 생각했던 부분
 	// int i = 0;
 	// while (i < 10)
 	// {
@@ -43,14 +44,13 @@ void accurate_sleep(unsigned long milisecond)
 	// }
 	unsigned long	base;
 	unsigned long	cur;
-	// printf("milisecond %d\n", milisecond);
 	base = get_absolute_time();
 	while (1)
 	{
 		cur = get_absolute_time();
 		if (milisecond < cur - base)
 			return ;
-		//맹점2.
+		// 무한루프의 과부화 덜기(2)
 		usleep(500);
 	}
 }

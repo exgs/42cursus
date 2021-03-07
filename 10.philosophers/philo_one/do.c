@@ -1,7 +1,5 @@
 #include "philo.h"
 
-
-
 int print_doing(t_status status, t_philo *philo)
 {
 	if (status == EATING)
@@ -33,7 +31,6 @@ int doing(t_status status, t_philo *philo, unsigned long interval)
 	int ret;
 	pthread_mutex_lock(&g_info.print_mutex); // 뮤텍스 락을 여기다가 걸어줘야 내가 원하는 만큼만 나온다.
 	// 그러지 않으면, if문에 대한 판단에 따른 선고 결과가 적용되기도 전에, if문에 더 들어옴
-	// interval = get_relative_time(); // mutex에 도착한 순서대로 하는게 맞는 걸까?? -> 출력으로만 보면 이게 더 맞는거 같아.
 	if (g_info.anyone_dead == TRUE)
 	{
 		pthread_mutex_unlock(&g_info.print_mutex);
@@ -50,16 +47,11 @@ int doing(t_status status, t_philo *philo, unsigned long interval)
 	}
 	printf("[%lu] %d번째 철학자 : ", interval, philo->whoami + 1);
 	ret = print_doing(status, philo);
+	pthread_mutex_unlock(&g_info.print_mutex);
 	if (ret == CONTINUE)
-	{
-		pthread_mutex_unlock(&g_info.print_mutex);
 		return (CONTINUE);
-	}
 	else if (ret == END)
-	{
-		pthread_mutex_unlock(&g_info.print_mutex);
 		return (END);
-	}
 }
 
 bool is_all_philos_full()
@@ -83,14 +75,13 @@ void *monitoring(void *param)
 	t_philo *philo = (t_philo *)param;
 	unsigned long time;
 
+		/*모니터링이라서 뮤텍스를 사용하면 안됨. 계속 판단해야돼*/
 	while (1)
 	{
-		/*모니터링이라서 뮤텍스를 사용하면 안됨. 계속 판단해야돼*/
-		//만약 한다면???
-		// 철학자 중 한명이라도 죽었을 때는 프로그램 종료
+		// 철학자 중 한명이라도 죽었을 때는 모니터링 쓰레드 종료
 		if (g_info.anyone_dead == TRUE)
 			break;
-		// 지금 모니터링하고 있는 철학자가 모두 배부르게 먹었을 때는 쓰레드 종료
+		// 철학자가 모두 배부르게 먹었을 때는 모니터링 쓰레드 종료
 		if (g_info.meal_full != 0 && is_all_philos_full() == true)
 			break ;
 		if (g_info.meal_full != 0 && g_info.meal_full <= philo->meal_num)
@@ -98,33 +89,31 @@ void *monitoring(void *param)
 			if (g_info.full_list[philo->whoami] != 1)
 				g_info.full_list[philo->whoami] = 1;
 		}
-		// 철학자가 굶어 죽는 상황인지 계산
+		// 철학자의 라이프타임 계산
 		time = get_relative_time();
 		// printf("philo[%d] time :%d philo->when_eat :%d\n", philo->whoami + 1 ,time, philo->when_eat);
 		if (time - philo->when_eat > g_info.time_to_die)
 		{
-			// printf("what?\n");
-			doing(DEAD, philo, time); // 그래서 시간은 건네줘야함
+			doing(DEAD, philo, time); // 병렬적인 프로그램을 만들고 있기 때문에, mutex 밖에서 시간은 건네줘야함!
 			// g_info.anyone_dead = TRUE; 없어도 print_doing에서 설정해준다.
 			break;
 		}
-		accurate_sleep(5); // 이거 설정안해주면, 모니터링 쓰레드를 써도 완전 이상한 시간에 밥먹고 그런다.
+		accurate_sleep(5); // 무한루프의 과부화 덜기(3)
 	}
 }
 
 //한명의 철학자의 행동을 정의한 함수
 void *philo_do(t_philo *philo)
 {
-	/* monitoring()가 들어가야한다. */
 	//맹점1.
 	pthread_t thread;
-	pthread_create(&thread, NULL, monitoring, philo); //쓰레드안에 쓰레드가 도는 건가 아니면, 프로세스에서 쓰레드의 갯수가 하나 추가된건가??
-	// 모니터링에서는 자원들을 모니터링한 후에 공유자원의 값을 변경시켜줘야하지 않나?? 그러면 공유자원은 전역변수여야하는거 아니야??
+	pthread_create(&thread, NULL, monitoring, philo); //쓰레드안에 쓰레드가 돎. 철학자의 수 : n 이면, 2n 개 만큼 쓰레드가 도는중
+	// 모니터링함수에서는 공유자원의 값을 감시하고 변경해줄 수 있다. 따라서 공유자원은 쓰레드에서 모두 접근 가능한 전역변수여야 한다.
 	if (philo->whoami % 2 == 1)
 		accurate_sleep(1);
 	while (1)
 	{
-		if (eat(philo, &g_info) == END) // 내부에 doing가 내장되어있음
+		if (eat(philo, &g_info) == END) // eat 함수안에 doing()가 있음. 먹는 과정속에서 출력해야하는 값이 많아서...
 			break;
 		if (doing(SLEEPING, philo, get_relative_time()) == END)
 			break ;

@@ -49,12 +49,11 @@ typedef struct s_philo
 	int left_fork_num;
 	int right_fork_num;
 	int meal_num;
-	// unsigned char status;
 }	t_philo;
 
 int g_philo_num;
 t_info g_info; // 전역변수로 처리한 이유는 pthread_create가 변수를 하나밖에 넘겨주지 못하기 때문.
-// 게다가 쓰레드라서 프로세스처럼 독립적인 메모리가 아니다.
+// 쓰레드에서의 공유자원으로는 전역변수가 간편하다. 프로세스처럼 독립적인 메모리가 아니다.
 
 //main.c
 int start(t_philo *philos, t_info *info);

@@ -1,5 +1,6 @@
 #include "philo.h"
 
+//pthread_create에 3번째인자에 넣으면서 디버깅 할 용도
 void *test(void *param)	
 {
 	printf("hello : %d\n", (long)param);
