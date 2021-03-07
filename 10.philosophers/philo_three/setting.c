@@ -30,7 +30,7 @@ void semaphore_init(t_info *info)
 	info->chosen_people = sem_open("/chosen_people", O_CREAT | O_EXCL , 0755, g_philo_num / 2);
 	info->print_sema = sem_open("/print_sema", O_CREAT | O_EXCL , 0755, 1);
 	info->anyone_dead = sem_open("/anyone_dead", O_CREAT | O_EXCL , 0755, 1);
-	info->full_list = malloc(sizeof(sem_t *) * g_philo_num);
+	info->full_list = (sem_t **)malloc(sizeof(sem_t *) * g_philo_num);
 
 	char *temp;
 	int i = 0;

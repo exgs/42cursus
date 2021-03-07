@@ -24,12 +24,15 @@ void sem_close_all()
 	sem_close(g_info.print_sema);
 	sem_close(g_info.chosen_people);
 	sem_close(g_info.anyone_dead);
-	int i = 0;
-	while (i < g_philo_num)
-	{
-		sem_close(g_info.full_list[i]);
-		i++;
-	}
+	// close를 하면, 완전 이상해짐. 그리고 포인터의 주소값이 1,2,3,4 이런식임.
+	// 그래서 써주지 않으려함.
+	// int i = 0;
+	// while (i < g_philo_num)
+	// {
+	// 	printf("%p\n", g_info.full_list[i]);
+	// 	sem_close(g_info.full_list[i]);
+	// 	i++;
+	// }
 }
 
 void sem_unlink_all()
