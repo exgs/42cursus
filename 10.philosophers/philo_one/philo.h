@@ -9,12 +9,10 @@
 # include <stdio.h>
 # include <stdbool.h>
 
-
 # define FALSE 0
 # define TRUE 1
 # define END 0
 # define CONTINUE 1
-
 
 typedef enum
 {
@@ -39,7 +37,6 @@ typedef struct s_info
 	pthread_mutex_t print_mutex;
 	char *full_list;
 }				t_info;
-
 
 typedef struct s_philo
 {
@@ -68,6 +65,8 @@ void mutex_init(t_info *info);
 void print_info(t_info *info);
 int set_info(t_info *info);
 int set_philos(t_philo *philos, t_info *info);
+
+//ft_atoi.c
 int ft_atoi(const char *str);
 
 //time.c
@@ -87,6 +86,4 @@ bool is_all_philos_full();
 //do_eat.c
 int eat_one_direction(t_philo *philo, t_info *info);
 int eat(t_philo *philo, t_info *info);
-
 #endif
-

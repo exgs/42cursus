@@ -9,12 +9,10 @@
 # include <stdio.h>
 # include <stdbool.h>
 
-
 # define FALSE 0
 # define TRUE 1
 # define END 0
 # define CONTINUE 1
-
 
 typedef enum
 {
@@ -42,7 +40,6 @@ typedef struct s_info
 	sem_t *print_sema;
 }				t_info;
 
-
 typedef struct s_philo
 {
 	pthread_t thread;
@@ -68,6 +65,8 @@ void semaphore_init(t_info *info);
 int set_info(t_info *info);
 int set_philos(t_philo *philos, t_info *info);
 void print_info(t_info *info);
+
+//ft_atoi.c
 int			ft_atoi(const char *str);
 
 //time.c
@@ -92,4 +91,3 @@ void sem_clear_all();
 void sem_close_all();
 void sem_unlink_all();
 #endif
-

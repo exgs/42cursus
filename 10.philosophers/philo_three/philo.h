@@ -10,12 +10,10 @@
 # include <stdbool.h>
 # include <signal.h>
 
-
 # define FALSE 0
 # define TRUE 1
 # define END 0
 # define CONTINUE 1
-
 
 typedef enum
 {
@@ -44,7 +42,6 @@ typedef struct s_info
 	sem_t *chosen_people;
 	sem_t *print_sema;
 }				t_info;
-
 
 typedef struct s_philo
 {
@@ -75,7 +72,9 @@ void semaphore_init(t_info *info);
 int set_info(t_info *info);
 int set_philos(t_philo *philos, t_info *info);
 void print_info(t_info *info);
-int			ft_atoi(const char *str);
+
+//ft_atoi.c
+int		ft_atoi(const char *str);
 
 //time.c
 unsigned long get_relative_time();
@@ -94,6 +93,4 @@ int eat(t_philo *philo, t_info *info);
 //ft_itoa.c
 int		ft_itoa_len(int v);
 char	*ft_itoa(int n);
-
 #endif
-
