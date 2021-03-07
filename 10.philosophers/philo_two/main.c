@@ -1,5 +1,6 @@
 #include "philo.h"
 
+//pthread_create에 3번째인자에 넣으면서 디버깅 할 용도
 void *test(void *param)	
 {
 	printf("hello : %d\n", (long)param);
@@ -43,19 +44,6 @@ int main(int argc, char *argv[])
 	set_philos(philos, &g_info);
 	semaphore_init(&g_info);
 	start(philos, &g_info);
-
-	free_all(philos);
-	// sem_close(g_info.forks);
-	// sem_unlink("/forks");
-	// sem_close(g_info.print_sema);
-	// sem_unlink("/print_sema");
-	// sem_close(g_info.chosen_people);
-	// sem_unlink("/chosen_people");
+	clear_all(philos);
 	return (0);
-}
-
-void free_all(t_philo *philos)
-{
-	free(philos);
-	free(g_info.full_list);
 }

@@ -43,6 +43,7 @@ int doing(t_status status, t_philo *philo, unsigned long interval)
 	{
 		printf("[%lu] %d번째 철학자 : 잘 먹었습니다~\n", interval, philo->whoami + 1);
 		sem_post(g_info.print_sema);
+		// exit(0); 다른 쓰레드에 있는 잘 먹었습니다 가 출력되야할 것이 출력이 안됨
 		return (END);
 	}
 	printf("[%lu] %d번째 철학자 : ", interval, philo->whoami + 1);
@@ -75,14 +76,13 @@ void *monitoring(void *param)
 	t_philo *philo = (t_philo *)param;
 	unsigned long time;
 
+	/*모니터링이라서 뮤텍스를 사용하면 안됨. 계속 판단해야돼*/
 	while (1)
 	{
-		/*모니터링이라서 뮤텍스를 사용하면 안됨. 계속 판단해야돼*/
-
 		// 철학자 중 한명이라도 죽었을 때는 프로그램 종료
 		if (g_info.anyone_dead == TRUE)
 			break;
-		// 지금 모니터링하고 있는 철학자가 배부르게 먹었을 때는 쓰레드 종료
+		// 철학자가 모두 배부르게 먹었을 때는 모니터링 쓰레드 종료
 		if (g_info.meal_full != 0 && is_all_philos_full() == true)
 			break ;
 		if (g_info.meal_full != 0 && g_info.meal_full <= philo->meal_num)
@@ -90,16 +90,15 @@ void *monitoring(void *param)
 			if (g_info.full_list[philo->whoami] != 1)
 				g_info.full_list[philo->whoami] = 1;
 		}
-		// 철학자가 굶어 죽는 상황인지 계산
+		// 철학자의 라이프타임 계산
 		time = get_relative_time();
 		if (time - philo->when_eat > g_info.time_to_die)
 		{
-			// printf("%d\n", time);
-			doing(DEAD, philo, time); // 그래서 시간은 건네줘야함
-			// g_info.anyone_dead = TRUE; print_doing() 에서 해줌.
+			doing(DEAD, philo, time); // 병렬적인 프로그램을 만들고 있기 때문에, mutex 밖에서 시간은 건네줘야함!
+			// g_info.anyone_dead = TRUE; -> print_doing() 에서 해줌. 없어도 됨.
 			break;
 		}
-		accurate_sleep(5);
+		accurate_sleep(5); // 무한루프의 과부화 덜기(3)
 	}
 }
 
@@ -107,10 +106,9 @@ void *monitoring(void *param)
 void *philo_do(void *param)
 {
 	t_philo *philo = (t_philo *)param;
-	/* monitoring()가 들어가야한다. */
 	pthread_t thread;
-	pthread_create(&thread, NULL, monitoring, philo); //쓰레드안에 쓰레드가 도는 건가 아니면, 프로세스에서 쓰레드의 갯수가 하나 추가된건가??
-	// 모니터링에서는 자원들을 모니터링한 후에 공유자원의 값을 변경시켜줘야하지 않나?? 그러면 공유자원은 전역변수여야하는거 아니야??
+	pthread_create(&thread, NULL, monitoring, philo); //쓰레드안에 쓰레드가 돎. 철학자의 수 : n 이면, 2n 개 만큼 쓰레드가 도는중
+	// 모니터링함수에서는 공유자원의 값을 감시하고 변경해줄 수 있다. 따라서 공유자원은 쓰레드에서 모두 접근 가능한 전역변수여야 한다.
 	if (philo->whoami % 2 == 0)
 		accurate_sleep(1);
 	while (1)
@@ -127,6 +125,7 @@ void *philo_do(void *param)
 	return (NULL);
 }
 
+// philo_one에서 내가 먹으면 양옆에 있는 사람이 못 먹는 상황과 다르게 먹는 수만 맞으면 됨 -> 세마포어
 int eat(t_philo *philo, t_info *info)
 {
 	if (g_info.anyone_dead == TRUE)
@@ -142,22 +141,23 @@ int eat(t_philo *philo, t_info *info)
 	sem_wait(info->forks);
 	if (END == doing(TAKEN, philo, get_relative_time()))
 	{
-		sem_post(info->forks);
-		sem_post(info->forks);
-		sem_post(info->chosen_people);
+		sem_post_all(info);
 		return (END);
 	}
 	if (END == doing(EATING, philo, get_relative_time()))
 	{
-		sem_post(info->forks);
-		sem_post(info->forks);
-		sem_post(info->chosen_people);
+		sem_post_all(info);
 		return (END);
 	}
 	philo->when_eat = get_relative_time();
 	spend_time_of(EATING);
+	sem_post_all(info);
+	return (CONTINUE);
+}
+
+void sem_post_all(t_info *info)
+{
 	sem_post(info->forks);
 	sem_post(info->forks);
 	sem_post(info->chosen_people);
-	return (CONTINUE);
 }

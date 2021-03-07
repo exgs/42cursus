@@ -49,7 +49,6 @@ typedef struct s_philo
 	int whoami;
 	unsigned long when_eat;
 	int meal_num;
-	// unsigned char status;
 }	t_philo;
 
 int g_philo_num;
@@ -60,7 +59,6 @@ t_info g_info; // 전역변수로 처리한 이유는 pthread_create가 변수�
 int start(t_philo *philos, t_info *info);
 int main(int argc, char *argv[]);
 void *test(void *param);
-void free_all(t_philo *philos);
 
 //setting.c
 int set_info_argv(t_info *info, int argc, char *argv[]);
@@ -85,6 +83,13 @@ bool is_all_philos_full();
 void *monitoring(void *param);
 void *philo_do(void *param);
 int eat(t_philo *philo, t_info *info);
+void sem_post_all(t_info *info);
 
+//clear.c
+void clear_all(t_philo *philos);
+void free_all(t_philo *philos);
+void sem_clear_all();
+void sem_close_all();
+void sem_unlink_all();
 #endif
 

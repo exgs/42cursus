@@ -105,7 +105,6 @@ void *monitoring(void *param)
 //한명의 철학자의 행동을 정의한 함수
 void *philo_do(t_philo *philo)
 {
-	//맹점1.
 	pthread_t thread;
 	pthread_create(&thread, NULL, monitoring, philo); //쓰레드안에 쓰레드가 돎. 철학자의 수 : n 이면, 2n 개 만큼 쓰레드가 도는중
 	// 모니터링함수에서는 공유자원의 값을 감시하고 변경해줄 수 있다. 따라서 공유자원은 쓰레드에서 모두 접근 가능한 전역변수여야 한다.

@@ -23,6 +23,8 @@ int set_info_argv(t_info *info, int argc, char *argv[])
 	return (1);
 }
 
+// 포기한 내용. 원리를 모르겠음. 노션에는 남겨둠.
+/*
 void semaphore_fork_init(t_info *info)
 {
 	if (SEM_FAILED == (info->forks = 
@@ -75,12 +77,12 @@ void semaphore_print_sema_init(t_info *info)
 		printf("1\n");
 	}
 }
+*/
 
 void semaphore_init(t_info *info)
 {
-	sem_unlink("/chosen_people");
-	sem_unlink("/forks");
-	sem_unlink("/print_sema");
+	// 남아있는 세마포어 파일이 치명적인 영향을 줌. 그래서 미리 unlink 해줌.
+	sem_unlink_all();
 	info->forks = sem_open("/forks", O_CREAT | O_EXCL , 0755, g_philo_num);
 	info->chosen_people = sem_open("/chosen_people", O_CREAT | O_EXCL , 0755, g_philo_num/2);
 	info->print_sema = sem_open("/print_sema", O_CREAT | O_EXCL , 0755, 1);
