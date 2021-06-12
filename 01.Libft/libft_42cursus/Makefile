@@ -24,6 +24,15 @@ all : $(NAME)
 #$(OBJS) : $(SRCS)
 #	$(CC) $(CFLAGS) -c $(OBJS:%.o=%.c)
 
+# STUB dynamics library
+OBJS_ALL_DYNAMICS = $(SRCS:%.c=%.o)
+libft.so : $(OBJS_ALL_DYNAMICS)
+
+$(OBJS_ALL_DYNAMICS) : $(SRCS)
+	$(CC) $(CFLAGS) -fPIC -c $(SRCS)
+
+dynamics : libft.so
+	$(CC) -shared -fPIC $(OBJS_ALL_DYNAMICS) -o libft.so
 
 $(NAME) : $(OBJS)
 	ar rc $(NAME) $(OBJS)
