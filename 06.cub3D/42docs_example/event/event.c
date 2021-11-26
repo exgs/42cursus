@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   event.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/27 02:47:35 by yunslee           #+#    #+#             */
+/*   Updated: 2021/11/27 04:01:41 by yunslee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <mlx.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,6 +18,10 @@
 
 # define X 0
 # define Y 1
+
+# define LEFTMOUSE 1
+# define RIGHTMOUSE 2
+# define MIDDLEMOUSE 3
 
 typedef struct  s_data {
 	void		*mlx;
@@ -39,14 +55,25 @@ void	loop_hook(int a)
 	return ;
 }
 
-int mlx_exit(int keycode, void *param)
+int keyboard_press(int keycode, void *param)
 {
 	t_data *img = param;
-
-	printf("click\n");
+	printf("keyboard_press\n");
 	if(keycode == 0)
 	{
-		printf("a\n");
+		printf("A\n");
+	}
+	else if(keycode == 1)
+	{
+		printf("S\n");
+	}
+	else if(keycode == 2)
+	{
+		printf("D\n");
+	}
+	else if(keycode == 13)
+	{
+		printf("W\n");
 	}
 	else if (keycode == 10)
 	{
@@ -61,24 +88,25 @@ int mlx_exit(int keycode, void *param)
 	return (1);
 }
 
-int mouse_hook(int x, int y, void *param)
+// 마우스가 화면 밖으로 나가면 Bye, 화면 안으로 들어오면 Hi 출력
+int mouse_range(int x, int y, void *param)
 {
 	static char in_out = 0;
 	// printf("%d %d\n", x, y);
-	if ((x > 0 && x < 800) && (y > 0 && y < 800) && in_out == 0)
+	if ((x > 0 && x < 1000) && (y > 0 && y < 1000) && in_out == 0)
 	{
 		printf("hi\n");
 		in_out = 1;
 	}
-	else if ((!(x > 0 && x < 800) || !(y > 0 && y < 800)) && in_out == 1)
+	else if ((!(x > 0 && x < 1000) || !(y > 0 && y < 1000)) && in_out == 1)
 	{
 		printf("bye\n");
 		in_out = 0;
 	}
-	// printf("%p\n",param);
 	return (1);
 }
 
+// 마우스를 2초 동안 눌러보세요
 int mouse_release(int button, int x, int y, void* param)
 {
 	t_second *my_time = param;
@@ -86,15 +114,11 @@ int mouse_release(int button, int x, int y, void* param)
 	if (button == 1)
 	{
 		my_time->end = time(0);
-		// printf("%d\n", time(NULL));
-		// printf("time end ; %d\n", my_time->end);
 		if (my_time->end - my_time->start > 2)
 		{
 			printf("click my_time is 2 second over\n");
 		}
-		// printf("interval : %d\n", (int)(my_time->end - my_time->start));
 	}
-	// printf("button_release %d\n",button);
 	return (1);
 }
 
@@ -105,11 +129,9 @@ int mouse_press(int button, int x, int y, void* param)
 	if (button == 1)
 	{
 		my_time->start = time(0);
-		// printf("%d\n", time(0));
-		// printf("time start ; %d\n", my_time->start);
+		printf("time start ; %d\n", my_time->start);
 	}
-	// printf("button_press %d\n",button);
-	// printf("address : %d\n", param);
+	printf("Mouse Click keycode %d\n",button);
 	return (1);
 }
 
@@ -124,12 +146,21 @@ int	main(void)
     t_data  img;
 
 	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 800, 800, "Hello world!");
+	mlx_win = mlx_new_window(mlx, 1000, 1000, "Hello world!");
 	img.win = mlx_win;
 	img.mlx = mlx;
-	img.img = mlx_new_image(mlx, 800, 800);
+	img.img = mlx_new_image(mlx, 1000, 1000);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 									&img.endian);
+	// img.bits_per_pixel = 24;
+	// img.line_length = 1000 * img.bits_per_pixel / 8;
+	/* gnl의 두 번째인자에 문자열이 담기듯이 넣는 것이아니라 담겨져 나오는 값이다.
+	img.bits_per_pixel = 32;
+	img.line_length = 1000 * img.bits_per_pixel / 8;
+	img.endian = 0;
+	실제로 값이 잘 담겨나오는지 위에서 예상한 값과 비교해보자
+	*/
+	printf("%d %d %d\n", img.bits_per_pixel, img.line_length, img.endian);
 
 	int temp_x;
 	int temp_y;
@@ -137,7 +168,7 @@ int	main(void)
 	int scale = mov[Y];
 	pos[X] = 500; pos[Y] = 500;
 	mov[X] = 400; mov[Y] = 400;
-	//직각삼각형
+	// 직각삼각형
 	// while (mov[Y] > 0)
 	// {
 	// 	num = 0;
@@ -150,7 +181,7 @@ int	main(void)
 	// 	mov[Y]--;
 	// }
 
-	//피라미드 int형에서는 홀수만 가능
+	// //피라미드 int형에서는 홀수만 가능
 	int start_x = (mov[Y] - 1) / 2;
 	int i = 0;
 	int temp;
@@ -171,21 +202,20 @@ int	main(void)
 		mov[Y]--;
 	}
 
-	t_second play_time;
-	printf("---%p\n", &play_time);
-	printf("%d\n", CLOCKS_PER_SEC);
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+	t_second param; // 전달 하고자하는 매개변수
+	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0); // 캔버스에 그린 그림을 window에 그려줌(띄움)
+	
 	//keyboard_event
-	mlx_hook(img.win, 2, 0, mlx_exit, &img);
+	mlx_hook(img.win, 2, 0, keyboard_press, &img);
 
 	//mouse_event
-	mlx_hook(img.win, 4, 0, mouse_press, &play_time);
-	mlx_hook(img.win, 5, 0, mouse_release, &play_time);
-	mlx_hook(img.win, 6, 0, mouse_hook, &img);
+	// 두번째인자 2, 4, 5, 6에 대한 근거는 오른쪽 링크로 확인. https://harm-smits.github.io/42docs/libs/minilibx/events.html#x11-events
+	mlx_hook(img.win, 4, 0, mouse_press, &param);
+	mlx_hook(img.win, 5, 0, mouse_release, &param);
+	mlx_hook(img.win, 6, 0, mouse_range, &img);
 
-	// mlx_loop_hook(img.mlx, loop_hook, &play_time);
-	// mlx_hook(img.win, 25, 0, 0, &img);
-	printf("main : %p\n", &img);
-	// mlx_hook(img.win, 6, 0, mlx_mouse_hook, &img);
-	mlx_loop(mlx);
+	// Unity의 Update. mlx_hook에 걸려있는 이벤트 중 하나라도 실행되지않으면, 저절로 실행되는 이벤트를 설정함.
+	// mlx_loop_hook(img.mlx, loop_hook, &param);
+	
+	mlx_loop(mlx); // solong 그래픽 프로그램이 꺼지지 않도록 무한루프 돌게 함
 }
