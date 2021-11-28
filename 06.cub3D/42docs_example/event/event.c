@@ -6,7 +6,7 @@
 /*   By: yunslee <yunslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 02:47:35 by yunslee           #+#    #+#             */
-/*   Updated: 2021/11/27 04:01:41 by yunslee          ###   ########.fr       */
+/*   Updated: 2021/11/28 13:31:55 by yunslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,8 @@ int	main(void)
 	mlx_hook(img.win, 5, 0, mouse_release, &param);
 	mlx_hook(img.win, 6, 0, mouse_range, &img);
 
-	// Unity의 Update. mlx_hook에 걸려있는 이벤트 중 하나라도 실행되지않으면, 저절로 실행되는 이벤트를 설정함.
+	// Unity의 Update처럼 loop마다 계속해서 호출되도록 look_hook을 걸 수 있음 vs "mlx_loop_hook () 함수의 구문은 이전 구문과 동일하지만 이벤트가 발생하지 않으면 주어진 함수가 호출됩니다."
+	// 버튼을 누르는 이벤트가 frame 단위가 아닌 초 단위로 감지를 하기 때문에 다른 이벤트가 발생하더라도 계속해서 호출되는 것처럼 보이는 것
 	// mlx_loop_hook(img.mlx, loop_hook, &param);
 	
 	mlx_loop(mlx); // solong 그래픽 프로그램이 꺼지지 않도록 무한루프 돌게 함
