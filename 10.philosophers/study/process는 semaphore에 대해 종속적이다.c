@@ -3,6 +3,9 @@
 #include <string.h>
 #include <unistd.h>
 #include <semaphore.h>
+# include <stdlib.h>
+# include <sys/time.h>
+# include <stdbool.h>
 
 int g_value = 20;
 sem_t *hi;
@@ -19,31 +22,32 @@ void print_value(char *str, int *temp)
 
 int main()
 {
-	sem_unlink("hi");
-	hi = sem_open("/hi", O_CREAT , 0755, 1);
-	int *temp = &g_value;
+	printf("%d\n", sem_unlink("hi"));
+	hi = sem_open("hi", O_CREAT ,0, 1);
+	if (hi == NULL)
+		exit(1);
+	int *int_pointer = &g_value;
 	int a = 0;
 	pid_t pid;
-	if ((pid = fork()))
+	if ((pid = fork()) == 0)
 	{
-		sleep(3);
-		g_value++;
-		// sem_post(hi);
 		sem_wait(hi);
-		// sleep(2);
-		print_value("child", temp);
+		g_value = 10000;
+		print_value("child", int_pointer);
+		sleep(3);
+		#pragma region 순서가 뒤바뀌면 안됨
 		sem_post(hi);
 		exit(1);
+		#pragma endregion
 	}
 	else
 	{
-		sem_wait(hi);// sem_wait(hi);
-		waitpid(pid, 0, 0);
-		print_value("parent", temp);
-		// sem_post(hi);
+		usleep(1000); // 자식 부터 실행되도록하면, waitpid가 없어도 됨
+		// waitpid(pid, 0, 0);
+		sem_wait(hi);
+		print_value("parent", int_pointer);
+		sem_post(hi);
 	}
 	sem_close(hi);
 	return (0);
 }
-
-// 세마포어도 프로세스를 넘어다니지는 못함. 프로세스안에 있는 쓰레드를 관리하는 도구인듯
