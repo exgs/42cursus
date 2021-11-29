@@ -3,16 +3,12 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-int cnt=0;
-
 void	*th_func(void *name)
 {
-    int i;
-    //======== critical section =============
-    int cnt = 0;
-	// cnt = 0;
+	//======== critical section =============
+	int cnt = 0;
 	printf("cnt는 공유자원인가요? : %p\n", &cnt);
-    for (i = 0; i <5; i++)
+    for (int i = 0; i <5; i++)
     {
         printf("[%s] cnt: %d\n", name, ++cnt);
         usleep(1);

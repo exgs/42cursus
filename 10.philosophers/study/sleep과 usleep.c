@@ -15,11 +15,16 @@ int main()
 	for (size_t i = 0; i < count; i++)
 	{
 		gettimeofday(&mytime, NULL);
-		printf("%d\n", mytime.tv_sec);
+		#pragma region sleep
+		// printf("%ld\n", mytime.tv_sec);
+		// sleep(1); // 최소한 1초는 잔다. 더 잘 수도 있음
+		#pragma endregion
+
+		#pragma region usleep
 		printf("%d\n", mytime.tv_usec);
-		sleep(1); // 최소한 1초는 잔다. 더 잘 수도 있음
+		usleep(100000);
+		#pragma endregion
 	}
-	
-	printf("start\n");
+	printf("end\n");
 	return (0);
 }

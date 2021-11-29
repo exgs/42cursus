@@ -13,7 +13,7 @@ pthread_mutex_unlock: Release a mutex that you previously locked.
 
 // A shared mutex
 pthread_mutex_t mutex;
-double target;
+int target;
 
 void* opponent(void *arg)
 {
@@ -21,7 +21,7 @@ void* opponent(void *arg)
     {
         // Lock the mutex
         pthread_mutex_lock(&mutex);
-        target -= target * 2 + tan(target);
+        target--;
         // Unlock the mutex
         pthread_mutex_unlock(&mutex);
     }
@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 {
     pthread_t other;
 
-    target = 5.0;
+    target = 0;
 
     // Initialize the mutex
     if(pthread_mutex_init(&mutex, NULL))
@@ -49,12 +49,12 @@ int main(int argc, char **argv)
     }
 
 
-    for(int i = 0; i < ITERATIONS; ++i)
-    {
-        pthread_mutex_lock(&mutex);
-        target += target * 2 + tan(target);
-        pthread_mutex_unlock(&mutex);
-    }
+    // for(int i = 0; i < ITERATIONS; ++i)
+    // {
+    //     pthread_mutex_lock(&mutex);
+    //     target++;
+    //     pthread_mutex_unlock(&mutex);
+    // }
 
     if(pthread_join(other, NULL))
     {
@@ -65,7 +65,7 @@ int main(int argc, char **argv)
     // Clean up the mutex
     pthread_mutex_destroy(&mutex);
 
-    printf("Result: %f\n", target);
+    printf("Result: %d\n", target);
 
     return 0;
 }
